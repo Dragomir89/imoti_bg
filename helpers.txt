@@ -1,0 +1,4 @@
+при логин първо правим заявка до '/auth/google'
+избираме си акаунт след което гuгъл ни редиректва към /auth/google/callback
+и този код  passport.authenticate('google') ни редиректва към callback-a на new GoogleStrategy 
+където получаваме токен

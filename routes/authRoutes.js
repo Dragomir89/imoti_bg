@@ -7,16 +7,22 @@ module.exports = (app)=>{
         scope:['profile', 'email']
     }))
 
-    app.get('/auth/google/callback', passport.authenticate('google'))
+    app.get(
+        '/auth/google/callback', 
+        passport.authenticate('google'),
+        (req,res) =>{
+            res.redirect('/first')
+        }
+    )
 
     app.get('/api/logout',(req, res) => {
         req.logout();
         let content = req.user ? req.user : {message: "you are loggout"}
-        res.send(content)
+        res.redirect('/')
     })
 
     app.get('/api/current_user', (req, res) => {
-        let content = req.user ? req.user : {message: "there is no logged user"}
+        let content = req.user ? req.user : null
         // req.session // here is the session
         res.send(content)
     })
