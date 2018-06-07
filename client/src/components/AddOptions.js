@@ -33,15 +33,20 @@ class AddOptions extends Component {
             
             return
         }
+        console.log('CLICK SAVE BTN: ')
+        console.log(this.props.state.addOptionsReducer)
+        //return
+        let snedObj = {}
+        snedObj.propertyType = this.props.state.addOptionsReducer.propertyType
+        snedObj.constructionType = this.props.state.addOptionsReducer.constructionType
+        snedObj.state = this.props.state.addOptionsReducer.state
+        snedObj.neighborhood = this.props.state.addOptionsReducer.neighborhood
         
-        this.props.postData(this.props.state.addOptionsReducer)
+        this.props.postData(snedObj)
         
     }
 
-    handleClickClean(e){
-        e.preventDefault()
-        this.props.getSomeData()
-    }
+    
 
     handleChange(event){
         const name = event.target.name

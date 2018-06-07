@@ -22,7 +22,7 @@ export default function(state = null, action){
 
         case types.ADD_DETAILS:
             console.log('ADD_DETAILS action.type')
-            return {addOption : action.payload}
+            return {addedOptions : action.payload}
         default:
             return state;
     }

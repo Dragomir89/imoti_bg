@@ -36,6 +36,7 @@ module.exports = (app) =>{
 
 
     app.post('/api/add-details', (req,res)=>{
+        console.log("========================================================================")
         console.log('add-details POST BODY: ')
         console.log(req.body)
         let data = req.body
@@ -58,6 +59,7 @@ module.exports = (app) =>{
         false
 
         Promise.all(promiseArr).then(function(values){
+            console.log("RESPONSE: ")
             console.log(values)
             res.send(values)
         })
