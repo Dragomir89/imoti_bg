@@ -10,6 +10,7 @@ require('./moduls/ConstructionType')
 require('./moduls/PropertyType')
 require('./moduls/State')
 require('./moduls/Offer')
+require('./moduls/Neighborhood')
 
 
 require('./services/passport')

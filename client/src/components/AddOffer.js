@@ -29,7 +29,7 @@ class AddOffer extends Component{
         // this.setState({[name]: value})
         
         let changeData = this.props.state.myReducer
-        console.log(changeData)
+        //console.log(changeData)
         changeData.formValues[name] = value
 
         this.props.changeSelectData(changeData)
@@ -62,12 +62,14 @@ class AddOffer extends Component{
                     </div>)
             }
         }
+    
         let constructionTypesOptions = this.props.state.myReducer ? this.props.state.myReducer.offerDetails.constructionTypes : []
-        let propertyTypesOptions = this.props.state.myReducer ? this.props.state.myReducer.offerDetails.propertyTypes : []
-        let statesOptions = this.props.state.myReducer ? this.props.state.myReducer.offerDetails.states : []
+        let propertyTypesOptions = this.props.state.myReducer     ? this.props.state.myReducer.offerDetails.propertyTypes : []
+        let statesOptions = this.props.state.myReducer            ? this.props.state.myReducer.offerDetails.states : []
+        let neighborhoodOptions = this.props.state.myReducer      ? this.props.state.myReducer.offerDetails.neighborhoods : []
+        
         let formValues = this.props.state.myReducer ? this.props.state.myReducer.formValues : {}
-
-
+       
         return(
             <div>
                 <form>
@@ -92,6 +94,12 @@ class AddOffer extends Component{
                             val={formValues.states} 
                             options={statesOptions}/> 
 
+                        <Select name={'neighborhoods'} 
+                            label='Квартал' 
+                            changeFn={ this.handleChange } 
+                            val={formValues.neighborhood}
+                            options={neighborhoodOptions}/>
+
                     </div>
                     <div className="col-sm-4">
                     
@@ -115,20 +123,10 @@ class AddOffer extends Component{
                         
                         <Input name='floor' 
                             label='Етаж' 
-                            type='text'
+                            type='number'
                             val={formValues.floor}
                             changeFn={this.handleChange}/>
                         
-                    </div>
-                    <div className="col-sm-4">
-                        
-                        <Input name='phoneNumber' 
-                            label='Тлефон' 
-                            type='text'
-                            val={formValues.phoneNumber}
-                            changeFn={this.handleChange}/>
-
-
                         <Input name='price' 
                             label='Цена' 
                             type='number'
@@ -139,15 +137,40 @@ class AddOffer extends Component{
                             label='Адрес' 
                             type='text'
                             val={formValues.address}
-                            changeFn={this.handleChange}/>    
-
+                            changeFn={this.handleChange}/>
+                    </div>
+                    <div className="col-sm-4">
+                        
+                            
                         <Input name='info' 
                             label='Долълнително Инфо' 
                             type='text'
                             val={formValues.info}
                             changeFn={this.handleChange}/>
 
+                        <Input name='propertyOwnerName' 
+                            label='Име на Собственик' 
+                            type='text'
+                            val={formValues.propertyOwnerName}
+                            changeFn={this.handleChange}/>
+                        
+                        <Input name='phoneNumber' 
+                            label='Тлефон Главен' 
+                            type='text'
+                            val={formValues.phoneNumber}
+                            changeFn={this.handleChange}/>
+                            
+                        <Input name='phoneNumber2' 
+                            label='Тлефон 2' 
+                            type='text'
+                            val={formValues.phoneNumber2}
+                            changeFn={this.handleChange}/>
 
+                        <Input name='phoneNumber3' 
+                            label='Тлефон 3' 
+                            type='text'
+                            val={formValues.phoneNumber3}
+                            changeFn={this.handleChange}/>
                     </div>
                 </div>
 
@@ -165,7 +188,7 @@ function mapDispatchToProps(dispatch){
             dispatch(myActions.getDetails(params))
         },
         changeSelectData:(params)=>{
-            dispatch(myActions.chnageSelectDetails(params))
+            dispatch(myActions.chnageSelectDetailsOffer(params))
         },
         postForm:(params)=>{
             dispatch(myActions.postOfferForm(params))

@@ -36,7 +36,7 @@ export default {
             })   
         }
     },
-    chnageSelectDetails: (params) =>{
+    chnageSelectDetailsOffer: (params) =>{
         return (dispatch) =>{
             return dispatch({
                 type: types.CHANGE_OFFER_OPTIONS, 
@@ -44,9 +44,19 @@ export default {
             })
         }
     },
+    chnageSelectDetailsOptions: (params) =>{
+        return (dispatch) =>{
+            return dispatch({
+                type: types.CHANGE_DETAILS_OPTIONS, 
+                payload:params
+            })
+        }
+    },
     postOfferForm: (params)=>{
         return (dispatch) => {
-
+            params.addedOn = new Date()
+            console.log('added On: ')
+            console.log(params.addedOn)
             let options = { 
                 method: 'post',
                 url: '/api/post-offer',

@@ -4,6 +4,7 @@ const User = mongoose.model('users')
 const ConstructionType = mongoose.model('constructionTypes')
 const PropertyType = mongoose.model('propertyTypes')
 const States = mongoose.model('states')
+const Neighborhood = mongoose.model('neighborhoods')
 
 function getAllOffers(params) {
     return User.find({})
@@ -21,13 +22,18 @@ function addNewDetails(params){
     }
     if(params.propertyType){
         
-        let newPropertyType = new PropertyType({value:params.propertyType})
-        return newPropertyType
+            let newPropertyType = new PropertyType({value:params.propertyType})
+            return newPropertyType
     }
     if(params.state){
     
         let newStates = new States({value:params.state})
         return newStates
+    }
+    if(params.neighborhood){
+    
+        let newNighborhood = new Neighborhood({value:params.neighborhood})
+        return newNighborhood
     }
 
 

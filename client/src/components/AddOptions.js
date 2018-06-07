@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
- import myActions from '../actions/myActions'
+import myActions from '../actions/myActions'
 //import * as myActions from '../actions/myActions'  
+import Input from './formComponents/Input'
 
 
 class AddOptions extends Component {
@@ -11,36 +12,30 @@ class AddOptions extends Component {
         console.log('ADD OPTIONS STATE')
         console.log(props.state)
         
-        this.state = {}
-
+       
         this.handleChange = this.handleChange.bind(this)
         this.handleClick  = this.handleClick.bind(this)
     }
    
+
+    componentDidMount(){
+        this.props.state.addOptionsReducer = this.props.state.addOptionsReducer ? 
+        this.props.state.addOptionsReducer : {} 
+    }
+
     handleClick(event) {
         event.preventDefault()
-        const sendObj ={}
-        if(this.state.constructionType){
+
+        console.log(this.props.state.addOptionsReducer)
+        if(Object.keys(this.props.state.addOptionsReducer).length === 0 
+            && 
+            this.props.state.addOptionsReducer.constructor === Object){
             
-            sendObj.constructionType = this.state.constructionType
-            this.props.postSomeData(sendObj)
-            this.setState({constructionType:''})
-            return
-        }else if(this.state.propertyType){
-            console.log('send data -> ', sendObj)
-            sendObj.propertyType = this.state.propertyType
-            this.props.postSomeData(sendObj)
-            this.setState({propertyType:''})
-            return
-        }else if(this.state.state){
-        
-            sendObj.state = this.state.state
-            this.props.postSomeData(sendObj)
-            this.setState({state:''})
-            return
-        }else{
             return
         }
+        
+        this.props.postData(this.props.state.addOptionsReducer)
+        
     }
 
     handleClickClean(e){
@@ -51,50 +46,58 @@ class AddOptions extends Component {
     handleChange(event){
         const name = event.target.name
         const value = event.target.value
-        this.setState({[name]: value})
+
+        let changeData = this.props.state.addOptionsReducer
+        changeData[name] = value
+
+        this.props.changeSelectData(changeData)
     }
 
 
     render(){
         //console.log('components/AddOptions  myActions:', myActions)
-       
+        console.log('ADD OPTIONS STATE')
+        console.log(this.props.state)
+        let addOptionsReducer = this.props.state.addOptionsReducer
+
+        let propertyTypeVal =     addOptionsReducer ? addOptionsReducer.propertyType : ''
+        let constructionTypeVal = addOptionsReducer ? addOptionsReducer.constructionType : ''
+        let stateVal =            addOptionsReducer ? addOptionsReducer.state : ''
+        let neighborhoodVal =     addOptionsReducer ? addOptionsReducer.neighborhood : ''
+
         return(
             <form>
-                <div className="form-group">
-                    <label 
-                        htmlFor="propertyType">Вид Имот</label>
-                        <input 
-                            onChange={this.handleChange}
-                            type="text" 
-                            className="form-control" 
-                            id="propertyType"
-                            name="propertyType" 
-                            placeholder="Вид Имот"/>
-                </div>
-                <div className="form-group">
-                    <label 
-                        htmlFor="constructionType">Вид Строителство</label>
-                        <input 
-                            onChange={this.handleChange}
-                            type="text" 
-                            className="form-control" 
-                            name="constructionType" 
-                            id="constructionType" 
-                            placeholder="Вид Строителство"/>
-                </div>
-                <div className="form-group">
-                    <label 
-                        htmlFor="state">Състояние</label>
-                        <input 
-                            onChange={this.handleChange}
-                            type="text" 
-                            className="form-control" 
-                            id="state" 
-                            name="state" 
-                            placeholder="Състояние"/>
-                </div>
-                <button onClick={this.handleClick.bind(this)} className="btn btn-success">Запази</button>
-                <button onClick={this.handleClickClean.bind(this)} className="btn btn-info">Изчисти</button>
+                <Input
+                    name='constructionType' 
+                    label="Вид Строителство" 
+                    type='text'
+                    val={constructionTypeVal}
+                    changeFn={this.handleChange}/>
+               
+                <Input
+                    name='propertyType' 
+                    label='Вид Имот' 
+                    type='text'
+                    val={propertyTypeVal}
+                    changeFn={this.handleChange}/>
+                
+               <Input
+                    name='state' 
+                    label="Състояние" 
+                    type='text'
+                    val={stateVal}
+                    changeFn={this.handleChange}/>
+
+                <Input
+                    name='neighborhood' 
+                    label="Квартал" 
+                    type='text'
+                    val={neighborhoodVal}
+                    changeFn={this.handleChange}/>
+
+
+                <button onClick={this.handleClick.bind(this)} className="btn btn-info">Запази</button>
+                
             </form>
           )
       }
@@ -105,11 +108,11 @@ class AddOptions extends Component {
 
 function mapDispatchToProps(dispatch){
     return{
-        postSomeData: (params)=>{
-            dispatch(myActions.addDetailsPost(params))
+        changeSelectData: (params)=>{
+            dispatch(myActions.chnageSelectDetailsOptions(params))
         },
-        getSomeData:(params)=>{
-            dispatch(myActions.getDetails(params))
+        postData: (params)=>{
+            dispatch(myActions.addDetailsPost(params))
         }
     }
 }

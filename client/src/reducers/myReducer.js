@@ -7,9 +7,7 @@ export default function(state = null, action){
     //console.log('reducers/myReducer  action:', action)
     
     switch (action.type) {
-        case types.ADD_DETAILS:
-            console.log('ADD_DETAILS action.type')
-        return {addOption : action.payload}
+        
         //return action.payload || false // return false if the user is not login
         case types.GET_OFFER_OPTIONS:
             console.log('GET_OFFER_OPTIONS action.type' )
@@ -23,14 +21,18 @@ export default function(state = null, action){
                     constructionTypes: data.constructionTypes[0]._id,
                     propertyTypes: data.propertyTypes[0]._id,
                     states: data.states[0]._id,
+                    neighborhood: data.neighborhoods[0]._id,
                     address:'',
                     area:'',
                     description:'',
                     info:'',
                     number:'',
                     phoneNumber:'',
+                    phoneNumber2:'',
+                    phoneNumber3:'',
                     price:'',
-                    floor: '-1'
+                    floor: '-1',
+                    propertyOwnerName: ''
                 }
             }
 
@@ -57,12 +59,15 @@ export default function(state = null, action){
                     constructionTypes: action.payload.constructionTypes[0]._id,
                     propertyTypes: action.payload.propertyTypes[0]._id,
                     states: action.payload.states[0]._id,
+                    neighborhood: action.payload.neighborhoods[0]._id,
                     address:'',
                     area:'',
                     description:'',
                     info:'',
                     number:'',
                     phoneNumber:'',
+                    phoneNumber2:'',
+                    phoneNumber3:'',
                     price:'',
                     floor: '-1'
                 }

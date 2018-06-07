@@ -5,6 +5,7 @@ const User = mongoose.model('users')
 const ConstructionType = mongoose.model('constructionTypes')
 const PropertyType = mongoose.model('propertyTypes')
 const States = mongoose.model('states')
+const Neighborhood = mongoose.model('neighborhoods')
 
 
 
@@ -35,28 +36,52 @@ module.exports = (app) =>{
 
 
     app.post('/api/add-details', (req,res)=>{
-        console.log('POST BODY: ')
+        console.log('add-details POST BODY: ')
         console.log(req.body)
+        let data = req.body
+        let promiseArr = []
 
-        offersCtrl.addNewDetails(req.body).save((err)=>{
-            
-            let returnObj = {err:err}
-            res.send(returnObj)
+        data.constructionType ? 
+        promiseArr.push(new ConstructionType({value:data.constructionType}).save()) :
+        false
+        
+        data.constructionType ? 
+        promiseArr.push(new PropertyType({value:data.propertyType}).save()) :
+        false
+
+        data.constructionType ? 
+        promiseArr.push(new States({value:data.state}).save()) :
+        false
+
+        data.constructionType ? 
+        promiseArr.push(new Neighborhood({value:data.neighborhood}).save()) :
+        false
+
+        Promise.all(promiseArr).then(function(values){
+            console.log(values)
+            res.send(values)
         })
     })
 
     app.get('/api/test-test', (req,res)=>{
+
         let sendData = req.body
         let returnObj = {}
 
         var promise1 = ConstructionType.find({})
         var promise2 = PropertyType.find({})
         var promise3 = States.find({})
+        var promise4 = Neighborhood.find({})
 
-        Promise.all([promise1, promise2, promise3]).then(function(values) {
+        Promise.all([promise1, promise2, promise3, promise4]).then(function(values) {
+
             returnObj.constructionTypes = values[0]
             returnObj.propertyTypes = values[1]
             returnObj.states = values[2]
+            returnObj.neighborhoods = values[3]
+
+            console.log('SHOW RETURN OBJECT')
+            console.log(returnObj)
             res.send(returnObj)
         });
         
@@ -70,18 +95,31 @@ module.exports = (app) =>{
         let returnObj = {}
         returnObj.success = true;
 
+        let phoneNumbers = [];
+
+        sendData.phoneNumber  ? phoneNumbers.push(sendData.phoneNumber)  : false
+        sendData.phoneNumber2 ? phoneNumbers.push(sendData.phoneNumber2) : false
+        sendData.phoneNumber3 ? phoneNumbers.push(sendData.phoneNumber3) : false
+
         let newOffer = new Offer({
             constructionTypeId: sendData.constructionTypes,
             propertyTypeId: sendData.propertyTypes,
             state: sendData.states,
+            neighborhoodId: sendData.neighborhood,
+
             number: sendData.number,
+            
             area: sendData.area,
             description: sendData.description,
             phoneNumber: sendData.phoneNumber,
+            phoneNumbers: phoneNumbers,
             price: sendData.price,
             address: sendData.address,
             floor: sendData.floor,
-            info: sendData.info
+            info: sendData.info,
+            propertyOwnerName: sendData.propertyOwnerName,
+            addedOn: sendData.addedOn,
+            addedFrom: req.user
         })
 
             newOffer.save().then((offer)=>{
@@ -93,17 +131,17 @@ module.exports = (app) =>{
                 var promise1 = ConstructionType.find({})
                 var promise2 = PropertyType.find({})
                 var promise3 = States.find({})
+                var promise4 = Neighborhood.find({})
+                
         
-                Promise.all([promise1, promise2, promise3]).then(function(values) {
+                Promise.all([promise1, promise2, promise3, promise4]).then(function(values) {
                     returnObj.constructionTypes = values[0]
                     returnObj.propertyTypes = values[1]
                     returnObj.states = values[2]
+                    returnObj.neighborhoods = values[3]
                     res.send(returnObj)
                 })
                   
-        
-            }).catch(err=>{
-                res.send({error: true,err})
             })
     })
 

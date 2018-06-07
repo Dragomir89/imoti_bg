@@ -13,22 +13,28 @@ const HomePage = ()=>{
 }
 
 class App extends Component {
+    constructor(props){
+        super(props)
 
+    }
     componentDidMount(){
         console.log('App.js props', this.props)
         this.props.fetchUser()
     }
 
     render(){
+        console.log('APP COMPONENT STATE!')
+        console.log(this.props)
         return(
             <div>
                 <BrowserRouter>
-                  
+
                     <div className='container'>
-                    <Header/>
-                        <Route path="/" exact component={HomePage} />
+                        <Header/>
+                       
+                        <Route path="/"            exact component={HomePage} />
                         <Route path="/add-details" exact component={AddOptions} />
-                        <Route path="/add-offer" exact component={AddOffer} />
+                        <Route path="/add-offer"   exact component={AddOffer} />
                     </div>
                 </BrowserRouter>
             </div>
@@ -36,4 +42,17 @@ class App extends Component {
     }
 }
 
-export default connect(null, actions)(App)
+//export default connect(null, actions)(App)
+
+
+// function mapDispatchToProps(dispatch){
+//     return null
+// }
+function mapStateToProps(state){
+    return{
+        state: state
+    }
+}
+
+
+export default connect(mapStateToProps, actions)(App)
