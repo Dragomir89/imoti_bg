@@ -45,15 +45,15 @@ module.exports = (app) =>{
         promiseArr.push(new ConstructionType({value:data.constructionType}).save()) :
         false
         
-        data.constructionType ? 
+        data.propertyType ? 
         promiseArr.push(new PropertyType({value:data.propertyType}).save()) :
         false
 
-        data.constructionType ? 
+        data.state ? 
         promiseArr.push(new States({value:data.state}).save()) :
         false
 
-        data.constructionType ? 
+        data.neighborhood ? 
         promiseArr.push(new Neighborhood({value:data.neighborhood}).save()) :
         false
 
