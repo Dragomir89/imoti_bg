@@ -33,12 +33,12 @@ class Header extends Component{
               <div className="navbar-header">
                 <Link 
                   className="navbar-brand" 
-                  to={this.props.auth ? '/first' : '/'}
+                  to={this.props.auth ? '/' : '/'}
                 >Imoti-BG</Link>
               </div>
               <ul className="nav navbar-nav">
               {/* className="active" */}
-                <li ><Link to='/add-details'>Home</Link></li>
+              
                 <li><Link to='/add-details'>Добави опции</Link></li>
                 <li><Link to='/add-offer'>Добави оферта</Link></li>
               </ul>
