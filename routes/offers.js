@@ -94,7 +94,7 @@ module.exports = (app) =>{
         console.log('/api/post-offer')
         console.log(req.body)
         let sendData = req.body
-        let userId = req.user ? req.user._id : 'xxx'
+        let userId = req.user ? req.user._id : null
 
         let returnObj = {}
         returnObj.success = true;
