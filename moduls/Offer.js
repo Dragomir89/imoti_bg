@@ -18,7 +18,8 @@ const offerSchema = new Schema({
     propertyTypeId:     { type: ObjectId, required: true },
     state:              { type: ObjectId, required: true },
     neighborhoodId:     { type: ObjectId, required: true },
-    addedOn:            { type: Date }
+    addedOn:            { type: Date },
+    addedFrom:          { type: ObjectId }
 
 })
 

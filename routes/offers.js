@@ -94,6 +94,8 @@ module.exports = (app) =>{
         console.log('/api/post-offer')
         console.log(req.body)
         let sendData = req.body
+        let userId = req.user ? req.user._id : 'xxx'
+
         let returnObj = {}
         returnObj.success = true;
 
@@ -121,7 +123,7 @@ module.exports = (app) =>{
             info: sendData.info,
             propertyOwnerName: sendData.propertyOwnerName,
             addedOn: sendData.addedOn,
-            addedFrom: req.user
+            addedFrom: userId
         })
 
             newOffer.save().then((offer)=>{
