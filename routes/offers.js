@@ -167,7 +167,7 @@ module.exports = (app) =>{
 
     app.get('/api/get-offers/:page', (req,res)=>{
 
-        var newData = {'neighborhoodId':'5b1a81797561bd1310b9b245'};
+        var newData = {'neighborhoodId':'5b1930664bb5d800041f468b'};
         
         Offer.update({}, newData, {multi: true}, function(err, doc){
             if (err) return res.send(500, { error: err });
