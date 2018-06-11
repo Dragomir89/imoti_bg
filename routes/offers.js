@@ -12,11 +12,7 @@ const Neighborhood = mongoose.model('neighborhoods')
 
 module.exports = (app) =>{
     app.get('/api/offers', (req, res)=>{
-        console.log('TUK');
-        if(!req.user){
-            res.send({"pedal": "EBI SE "})
-            return
-        }
+        
 
         offersCtrl.getAllOffers().then((offers)=>{
             console.log(offers)
@@ -92,6 +88,12 @@ module.exports = (app) =>{
 
     app.post('/api/post-offer',(req, res)=>{
         console.log('/api/post-offer')
+
+        
+
+
+        
+
         console.log(req.body)
         let sendData = req.body
         let userId = req.user ? req.user._id : null
@@ -146,6 +148,10 @@ module.exports = (app) =>{
                     res.send(returnObj)
                 })
                   
+            }).catch((err)=>{
+                console.log('SAVE ERROR ! => ')
+                console.log(err)
+                res.send({error: err})
             })
     })
 
@@ -156,6 +162,51 @@ module.exports = (app) =>{
         offersCtrl.addNewDetails(req.body).save((data)=>{
             console.log('SUCCESS REQUEST')
             res.send({element:'data'})
+        })
+    })
+
+    app.get('/api/get-offers/:page', (req,res)=>{
+
+        var newData = {'neighborhoodId':'5b1a81797561bd1310b9b245'};
+        
+        Offer.update({}, newData, {multi: true}, function(err, doc){
+            if (err) return res.send(500, { error: err });
+            return res.send("succesfully saved");
+        });
+        return
+        let page =  Number(req.params.page)
+        console.log('page = ' + page)
+        let offersPerPage = 7
+
+        let skipVal = offersPerPage * (page - 1) < 0 ? 0 : offersPerPage * (page - 1)  
+        console.log('skip value = ' + skipVal)
+        Offer.find()
+            .skip(skipVal)
+            .limit(offersPerPage)
+            .populate("propertyTypeId")
+            .populate("constructionTypeId")
+            .populate("state")
+            .populate("neighborhoodId")
+            .then((offers)=>{
+
+                Offer.count({}, function(err, countOffers) {
+                    countOffers = Number(countOffers)
+                    let lastPageNbr = countOffers / offersPerPage
+                    if(!Number.isInteger(lastPageNbr)){
+                        lastPageNbr = Math.floor(lastPageNbr) + 1
+                    }
+
+
+                    res.send({
+                        offers,
+                        page,
+                        countOffers,
+                        offersPerPage,
+                        lastPageNbr
+                    })
+               });
+
+                // res.send({offers: offers,page:page})
         })
     })
 }

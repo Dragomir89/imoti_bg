@@ -41,6 +41,7 @@ class Header extends Component{
               
                 <li><Link to='/add-details'>Добави опции</Link></li>
                 <li><Link to='/add-offer'>Добави оферта</Link></li>
+                <li><Link to='/show-offers/1'>Оферти</Link></li>
               </ul>
               {this.renderContent()}
             </div>

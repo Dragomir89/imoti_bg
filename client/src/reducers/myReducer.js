@@ -1,5 +1,5 @@
 import types from '../actions/types'
-// import {connect} from 'react-redux'
+import myActions from '../actions/myActions'
 
 
 
@@ -14,6 +14,10 @@ export default function(state = null, action){
    
             let data = action.payload
             console.log(data)
+
+            if(data.error){
+                myActions.getDetails()
+            }
 
             return {
                 offerDetails:data,

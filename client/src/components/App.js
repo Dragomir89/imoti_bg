@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as actions from '../actions'  
-
+// import {browserHistory} from 'react-router';
 
 import Header from './Header'
 import AddOptions from './AddOptions'
 import AddOffer from './AddOffer';
+import ShowOffers from './ShowOffers'
+
 
 const HomePage = ()=>{
     return(<h1>HOME PAGE</h1>)
@@ -17,14 +19,22 @@ class App extends Component {
         super(props)
 
     }
+
+
     componentDidMount(){
-        console.log('App.js props', this.props)
+    //     this.unlisten = browserHistory.listen( location =>  {
+    //         console.log('route changes');
+
+    //    });
+
+
+        // console.log('App.js props', this.props)
         this.props.fetchUser()
     }
 
     render(){
-        console.log('APP COMPONENT STATE!')
-        console.log(this.props)
+        // console.log('APP COMPONENT STATE!')
+        // console.log(this.props)
         return(
             <div>
                 <BrowserRouter>
@@ -32,9 +42,10 @@ class App extends Component {
                     <div className='container'>
                         <Header/>
                        
-                        <Route path="/"            exact component={HomePage} />
-                        <Route path="/add-details" exact component={AddOptions} />
-                        <Route path="/add-offer"   exact component={AddOffer} />
+                        <Route path="/"                  exact component={HomePage} />
+                        <Route path="/add-details"       exact component={AddOptions} />
+                        <Route path="/add-offer"         exact component={AddOffer} />
+                        <Route path="/show-offers/:page" exact component={ShowOffers} />
                     </div>
                 </BrowserRouter>
             </div>

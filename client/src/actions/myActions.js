@@ -55,8 +55,6 @@ export default {
     postOfferForm: (params)=>{
         return (dispatch) => {
             params.addedOn = new Date()
-            console.log('added On: ')
-            console.log(params.addedOn)
             let options = { 
                 method: 'post',
                 url: '/api/post-offer',
@@ -67,6 +65,18 @@ export default {
                 console.log('/api/post-offer server res: ', res)
                 return dispatch({
                     type: types.POST_OFFER_FORM, 
+                    payload:res.data
+                })
+            })
+        }
+    },
+    getOffers: (params)=>{
+        // console.log('ACTION PARAMS ',params)
+        return (dispatch)=>{
+            axios.get('/api/get-offers/' + params.page).then((res)=>{
+                console.log('/api/get-offers', res)
+                return dispatch({
+                    type: types.GET_OFFERS, 
                     payload:res.data
                 })
             })
