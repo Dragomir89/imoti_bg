@@ -110,7 +110,7 @@ class ShowOffers extends Component {
                         <nav aria-label="Page navigation example">
                             <ul className="pagination">
                                 <li className="page-item">
-                                <Link className="page-link prefpage" to={'/show-offers/1'} aria-label="Previous">
+                                <Link className="page-link prefpage" to={'/show-offers/' + prevPage} aria-label="Previous">
                                     <span aria-hidden="true" className='prefpage'>&laquo;</span>
                                     <span className="sr-only prefpage">Previous</span>
                                 </Link>
