@@ -167,13 +167,13 @@ module.exports = (app) =>{
 
     app.get('/api/get-offers/:page', (req,res)=>{
 
-        var newData = {'neighborhoodId':'5b1930664bb5d800041f468b'};
+        // var newData = {'neighborhoodId':'5b1930664bb5d800041f468b'};
         
-        Offer.update({}, newData, {multi: true}, function(err, doc){
-            if (err) return res.send(500, { error: err });
-            return res.send("succesfully saved");
-        });
-        return
+        // Offer.update({}, newData, {multi: true}, function(err, doc){
+        //     if (err) return res.send(500, { error: err });
+        //     return res.send("succesfully saved");
+        // });
+        // return
         let page =  Number(req.params.page)
         console.log('page = ' + page)
         let offersPerPage = 7
