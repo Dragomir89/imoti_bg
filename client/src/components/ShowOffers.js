@@ -84,7 +84,7 @@ class ShowOffers extends Component {
 
             return (
                 <div>
-                    <h3>Брой на оферти: {countOffers}</h3>
+                    {/* <h3>Брой на оферти: {countOffers}</h3> */}
                     <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
