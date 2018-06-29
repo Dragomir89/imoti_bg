@@ -111,7 +111,7 @@ module.exports = (app) =>{
             constructionTypeId: sendData.constructionTypes,
             propertyTypeId: sendData.propertyTypes,
             state: sendData.states,
-            neighborhoodId: sendData.neighborhood,
+            neighborhoodId: sendData.neighborhoods,
 
             number: sendData.number,
             
