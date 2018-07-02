@@ -58,7 +58,7 @@ class AddOffer extends Component{
             if(this.props.state.myReducer.error){
                 return(
                     <div>
-                        <h1>{this.props.state.myReducer.err.errmsg}</h1>
+                        <h1>{this.props.state.myReducer.error.errmsg}</h1>
                     </div>)
             }
         }
