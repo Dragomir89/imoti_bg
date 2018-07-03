@@ -58,7 +58,8 @@ class AddOffer extends Component{
             if(this.props.state.myReducer.error){
                 return(
                     <div>
-                        <h1>{this.props.state.myReducer.error.errmsg}</h1>
+                        <h1>{this.props.state.myReducer.error.message}</h1>
+                        <h2>Натисни F5, провери дали ти се е качила офертата и ако не работи ми звънни</h2>
                     </div>)
             }
         }
@@ -97,7 +98,7 @@ class AddOffer extends Component{
                         <Select name={'neighborhoods'} 
                             label='Квартал' 
                             changeFn={ this.handleChange } 
-                            val={formValues.neighborhood}
+                            val={formValues.neighborhoods}
                             options={neighborhoodOptions}/>
 
                     </div>
