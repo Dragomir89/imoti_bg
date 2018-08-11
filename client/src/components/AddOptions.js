@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import myActions from '../actions/myActions'
-//import * as myActions from '../actions/myActions'  
 import Input from './formComponents/Input'
 
 
@@ -9,95 +8,67 @@ class AddOptions extends Component {
 
     constructor(props){
         super(props)
-        console.log('ADD OPTIONS STATE')
-        console.log(props.state)
         
-       
+        this.state = {
+            constructionType: '',
+            propertyType: '',
+            state: '',
+            neighborhood: ''
+        }
+
         this.handleChange = this.handleChange.bind(this)
         this.handleClick  = this.handleClick.bind(this)
     }
    
 
-    componentDidMount(){
-        this.props.state.addOptionsReducer = this.props.state.addOptionsReducer ? 
-        this.props.state.addOptionsReducer : {} 
-    }
-
     handleClick(event) {
         event.preventDefault()
-
-        console.log(this.props.state.addOptionsReducer)
-        if(Object.keys(this.props.state.addOptionsReducer).length === 0 
-            && 
-            this.props.state.addOptionsReducer.constructor === Object){
-            
-            return
-        }
-        console.log('CLICK SAVE BTN: ')
-        console.log(this.props.state.addOptionsReducer)
-        //return
-        let snedObj = {}
-        snedObj.propertyType = this.props.state.addOptionsReducer.propertyType
-        snedObj.constructionType = this.props.state.addOptionsReducer.constructionType
-        snedObj.state = this.props.state.addOptionsReducer.state
-        snedObj.neighborhood = this.props.state.addOptionsReducer.neighborhood
-        
-        this.props.postData(snedObj)
-        
+        this.props.postData(this.state)
     }
-
-    
 
     handleChange(event){
         const name = event.target.name
         const value = event.target.value
-
-        let changeData = this.props.state.addOptionsReducer
-        changeData[name] = value
-
-        this.props.changeSelectData(changeData)
+        this.setState({[name]: value})
     }
 
+    componentWillReceiveProps(nextProps){
+        const props = nextProps.addOptionsReducer
+
+        if(props.hasRequest){
+            props.success ? this.setState(props.emptyProps) : this.setState({error: 'some error'})
+        }
+    }
 
     render(){
-        //console.log('components/AddOptions  myActions:', myActions)
-        console.log('ADD OPTIONS STATE')
-        console.log(this.props.state)
-        let addOptionsReducer = this.props.state.addOptionsReducer
-
-        let propertyTypeVal =     addOptionsReducer ? addOptionsReducer.propertyType : ''
-        let constructionTypeVal = addOptionsReducer ? addOptionsReducer.constructionType : ''
-        let stateVal =            addOptionsReducer ? addOptionsReducer.state : ''
-        let neighborhoodVal =     addOptionsReducer ? addOptionsReducer.neighborhood : ''
-
         return(
             <form>
                 <Input
                     name='constructionType' 
                     label="Вид Строителство" 
                     type='text'
-                    val={constructionTypeVal}
+                    val={this.state.constructionType}
                     changeFn={this.handleChange}/>
                
                 <Input
                     name='propertyType' 
                     label='Вид Имот' 
                     type='text'
-                    val={propertyTypeVal}
+                    val={this.state.propertyType}
                     changeFn={this.handleChange}/>
                 
                <Input
                     name='state' 
                     label="Състояние" 
                     type='text'
-                    val={stateVal}
+                    val={this.state.state}
                     changeFn={this.handleChange}/>
 
                 <Input
                     name='neighborhood' 
                     label="Квартал" 
                     type='text'
-                    val={neighborhoodVal}
+                    val={this.state.neighborhood}
                     changeFn={this.handleChange}/>
 
 
@@ -108,8 +79,6 @@ class AddOptions extends Component {
       }
 
 }
-
-//export default AddOptions
 
 function mapDispatchToProps(dispatch){
     return{
@@ -123,9 +92,8 @@ function mapDispatchToProps(dispatch){
 }
 function mapStateToProps(state){
     return{
-        state: state
+        addOptionsReducer: state.addOptionsReducer
     }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddOptions)

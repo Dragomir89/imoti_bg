@@ -1,7 +1,7 @@
 import types from '../actions/types'
 
 
-export default function(state = null, action){
+export default function(state = {}, action){
     
     switch (action.type) {
 
@@ -22,7 +22,13 @@ export default function(state = null, action){
 
         case types.ADD_DETAILS:
             console.log('ADD_DETAILS action.type')
-            return {addedOptions : action.payload}
+            console.log(action.payload)
+            return {
+                addedOptions : action.payload,
+                success: true,
+                hasRequest: true,
+                emptyProps: {constructionType: '', propertyType: '', state: '', neighborhood: ''}
+            }
         default:
             return state;
     }
