@@ -8,34 +8,28 @@ class ShowOffers extends Component {
     constructor(props){
         super(props)
         
+        this.state = {}
     }
 
     componentDidMount(){
         
         const page = this.props.match.params.page ? this.props.match.params.page : 1 
-      
-        
         this.props.getData({page:page})
-        
     }
 
     componentDidUpdate(){
-        if(!this.props.state.showOffersReducer){
+        if(!this.props.state){
             return
         }
 
         console.log('componentDidUpdate')
-        console.log(this.props.state.showOffersReducer)
+        console.log(this.props.state)
         let paramsPage = Number(this.props.match.params.page)
-        let statePage = Number(this.props.state.showOffersReducer.page)
+        let statePage = Number(this.props.state.page)
 
         console.log(paramsPage , statePage)
-
         
-
-
-        
-        if(paramsPage != statePage){
+        if(Number(paramsPage) !== Number(statePage)){
             console.log('new page = ' + paramsPage)
             this.props.getData({page:paramsPage})
         }
@@ -46,7 +40,7 @@ class ShowOffers extends Component {
     hasPage(page){
         
         const offersPerPage = 6
-        const countOffers = this.props.state.showOffersReducer.countOffers
+        const countOffers = this.props.state.countOffers
 
         const currentOffersCount = page * offersPerPage
 
@@ -68,13 +62,13 @@ class ShowOffers extends Component {
 
         let countOffers = 0;
         let offers = []
-        if(this.props.state.showOffersReducer){
-            offers      = this.props.state.showOffersReducer.offers
-            countOffers = this.props.state.showOffersReducer.countOffers
-            let nexPage = this.props.state.showOffersReducer.page + 1
-            nexPage     = nexPage > this.props.state.showOffersReducer.lastPageNbr ? 
-            this.props.state.showOffersReducer.lastPageNbr : nexPage
-            let prevPage = this.props.state.showOffersReducer.page - 1
+        if(this.props.state){
+            offers      = this.props.state.offers
+            countOffers = this.props.state.countOffers
+            let nexPage = this.props.state.page + 1
+            nexPage     = nexPage > this.props.state.lastPageNbr ? 
+            this.props.state.lastPageNbr : nexPage
+            let prevPage = this.props.state.page - 1
             prevPage    = prevPage < 1 ? 1 : prevPage 
 
 
@@ -94,13 +88,14 @@ class ShowOffers extends Component {
                             <th>Номер на оферта</th>
                             <th>Квартал</th>
                             <th>Площ</th>
-                            <th>Главен телефон</th>
+                            {/* <th>Главен телефон</th> */}
                             <th>Цена</th>
                             <th>Адрес</th>
                             <th>Етаж</th>
-                            <th>Собственик</th>
-                            <th>Описание</th>
-                            <th>Допълнителна информация</th>
+                            {/* <th>Собственик</th> */}
+                            {/* <th>Описание</th> */}
+                            {/* <th>Допълнителна информация</th> */}
+                            <th>Още</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -150,8 +145,10 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
+    console.log( ' mapStateToProps - >')
+    console.log(state.showOffersReducer)
     return{
-        state: state
+        state: state.showOffersReducer
     }
 }
 

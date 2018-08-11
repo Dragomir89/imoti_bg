@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 
 const Tr =(props)=>{
 
@@ -7,16 +9,17 @@ const Tr =(props)=>{
         area, 
         constructionTypeId, 
         floor, 
-        info, 
+        // info, 
         number, 
-        phoneNumber, 
-        phoneNumbers, 
+        // phoneNumber, 
+        // phoneNumbers, 
         price, 
-        propertyOwnerName, 
+        // propertyOwnerName, 
         propertyTypeId, 
         state,
-        description,
-        neighborhoodId
+        // description,
+        neighborhoodId,
+        _id
     } = props.offer
 
     
@@ -34,13 +37,14 @@ const Tr =(props)=>{
             <td>{neighborhoodId.value}</td>
             
             <td>{area}</td>
-            <td>{phoneNumber}</td>
+            {/* <td>{phoneNumber}</td> */}
             <td>{price}</td>
             <td>{address}</td>
             <td>{floor}</td>
-            <td>{propertyOwnerName}</td>
-            <td>{description}</td>
-            <td>{info}</td>
+            {/* <td>{propertyOwnerName}</td> */}
+            {/* <td>{description}</td> */}
+            {/* <td>{info}</td> */}
+            <td><Link to={'/offer-details/'+ _id}>Виж Детайли</Link></td>
         </tr>
     )
 }

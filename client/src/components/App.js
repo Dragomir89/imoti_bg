@@ -8,6 +8,7 @@ import Header from './Header'
 import AddOptions from './AddOptions'
 import AddOffer from './AddOffer';
 import ShowOffers from './ShowOffers'
+import OfferDetails from './OfferDetails'
 
 
 const HomePage = ()=>{
@@ -17,6 +18,8 @@ const HomePage = ()=>{
 class App extends Component {
     constructor(props){
         super(props)
+
+        this.state = {}
 
     }
 
@@ -46,6 +49,7 @@ class App extends Component {
                         <Route path="/add-details"       exact component={AddOptions} />
                         <Route path="/add-offer"         exact component={AddOffer} />
                         <Route path="/show-offers/:page" exact component={ShowOffers} />
+                        <Route path="/offer-details/:id" exact component={OfferDetails} />
                     </div>
                 </BrowserRouter>
             </div>

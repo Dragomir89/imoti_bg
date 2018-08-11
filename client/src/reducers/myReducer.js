@@ -1,23 +1,15 @@
 import types from '../actions/types'
-import myActions from '../actions/myActions'
+// import myActions from '../actions/myActions'
 
 
-
-export default function(state = null, action){
-    //console.log('reducers/myReducer  action:', action)
+export default (state = {}, action) => {
     
     switch (action.type) {
         
-        //return action.payload || false // return false if the user is not login
         case types.GET_OFFER_OPTIONS:
-            console.log('GET_OFFER_OPTIONS action.type' )
-   
+            console.log('GET_OFFER_OPTIONS action.type' )   
             let data = action.payload
             console.log(data)
-
-            if(data.error){
-                myActions.getDetails()
-            }
 
             return {
                 offerDetails:data,
@@ -39,7 +31,7 @@ export default function(state = null, action){
                     propertyOwnerName: ''
                 }
             }
-
+        
         case types.CHANGE_OFFER_OPTIONS:
 
             console.log('action.type CHANGE_OFFER_OPTIONS')

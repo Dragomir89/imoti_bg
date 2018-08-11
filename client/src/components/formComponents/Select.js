@@ -16,7 +16,7 @@ const Select = (props)=>{
                 className="form-control form-control-sm">
                 
                 {collection.map((e)=>{
-                    if (e._id == props.val){
+                    if (e._id === props.val){
                         //console.log('Selected value: ')
                         //console.log('id: ' +  e._id + ' value: ' + e.value)
                         return (

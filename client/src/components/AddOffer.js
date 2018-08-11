@@ -3,7 +3,7 @@ import Select from './formComponents/Select'
 import Input from './formComponents/Input'
 import { connect } from 'react-redux'
 import myActions from '../actions/myActions'
-import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from 'constants';
+// import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from 'constants';
 
 
 class AddOffer extends Component{
@@ -11,11 +11,30 @@ class AddOffer extends Component{
         super(props)
         
         this.state = {
-            propertyTypes:'',
-            constructionTypes: ''
+            offerDetails: {
+                propertyTypes:[],
+                constructionTypes: [],
+                states: [],
+                neighborhoods: []
+            },
+            formValues: {
+                constructionTypes: '',
+                propertyTypes: '',
+                states: '',
+                neighborhoods: '',
+                address:'',
+                area:'',
+                description:'',
+                info:'',
+                number:'',
+                phoneNumber:'',
+                phoneNumber2:'',
+                phoneNumber3:'',
+                price:'',
+                floor: '-1',
+                propertyOwnerName: ''
+            }
         }
-        console.log('ADD OFFER STATE')
-        console.log(props.state)
 
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -28,7 +47,7 @@ class AddOffer extends Component{
         console.log(name,value)
         // this.setState({[name]: value})
         
-        let changeData = this.props.state.myReducer
+        let changeData = this.props.myReducer
         //console.log(changeData)
         changeData.formValues[name] = value
 
@@ -38,11 +57,14 @@ class AddOffer extends Component{
 
     handleClick(e){
         e.preventDefault()
-        console.log(this.props.state.myReducer.formValues)
-        this.props.postForm(this.props.state.myReducer.formValues)
+        console.log(this.props.myReducer.formValues)
+        this.props.postForm(this.props.myReducer.formValues)
              
     }
 
+    componentWillReceiveProps(nextProps){
+        this.setState(nextProps.myReducer)
+    }
 
     componentDidMount(){
         this.props.getSomeData()
@@ -50,27 +72,20 @@ class AddOffer extends Component{
 
     
     render() {
-        console.log('ADD OFFER RENDER STATE')
-        // console.log(this.props.state.myReducer)
-        console.log(this.props.state)
 
-        if(this.props.state.myReducer){
-            if(this.props.state.myReducer.error){
-                return(
-                    <div>
-                        <h1>{this.props.state.myReducer.error.message}</h1>
-                        <h2>Натисни F5, провери дали ти се е качила офертата и ако не работи ми звънни</h2>
-                    </div>)
-            }
-        }
+        // if(this.props.myReducer){
+        //     if(this.props.myReducer.error){
+        //         return(
+        //             <div>
+        //                 <h1>{this.props.myReducer.error.message}</h1>
+        //                 <h2>Натисни F5, провери дали ти се е качила офертата и ако не работи ми звънни</h2>
+        //             </div>)
+        //     }
+        // }
     
-        let constructionTypesOptions = this.props.state.myReducer ? this.props.state.myReducer.offerDetails.constructionTypes : []
-        let propertyTypesOptions = this.props.state.myReducer     ? this.props.state.myReducer.offerDetails.propertyTypes : []
-        let statesOptions = this.props.state.myReducer            ? this.props.state.myReducer.offerDetails.states : []
-        let neighborhoodOptions = this.props.state.myReducer      ? this.props.state.myReducer.offerDetails.neighborhoods : []
         
-        let formValues = this.props.state.myReducer ? this.props.state.myReducer.formValues : {}
-       
+        let {offerDetails, formValues} = this.state
+
         return(
             <div>
                 <form>
@@ -81,25 +96,29 @@ class AddOffer extends Component{
                             label='Вид Строителство' 
                             changeFn={ this.handleChange } 
                             val={formValues.constructionTypes}
-                            options={constructionTypesOptions}/>
+                            options={offerDetails.constructionTypes}
+                        />
                 
                         <Select name={'propertyTypes'} 
                             label='Вид Имот' 
                             changeFn={ this.handleChange } 
                             val={formValues.propertyTypes}
-                            options={propertyTypesOptions}/>
+                            options={offerDetails.propertyTypes}
+                        />
 
                         <Select name={'states'} 
                             label='Състояние'
                             changeFn={ this.handleChange } 
                             val={formValues.states} 
-                            options={statesOptions}/> 
+                            options={offerDetails.states}
+                        /> 
 
                         <Select name={'neighborhoods'} 
                             label='Квартал' 
                             changeFn={ this.handleChange } 
                             val={formValues.neighborhoods}
-                            options={neighborhoodOptions}/>
+                            options={offerDetails.neighborhoods}
+                        />
 
                     </div>
                     <div className="col-sm-4">
@@ -197,8 +216,9 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
+
     return{
-        state: state
+        myReducer: state.myReducer
     }
 }
 
