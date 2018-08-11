@@ -42,16 +42,8 @@ class AddOffer extends Component{
     handleChange(event){
         const name = event.target.name
         const value = event.target.value
-        // console.log(this.state)
         
         this.setState({[name]: value})
-        
-        // let changeData = this.props.myReducer
-        //console.log(changeData)
-        // changeData.formValues[name] = value
-
-        // this.props.changeSelectData(changeData)
-
     }
 
     handleClick(e){

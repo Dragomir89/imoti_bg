@@ -1,6 +1,6 @@
 import axios from 'axios'
 import types from './types'
-// import { request } from 'http';
+import toastr from 'toastr'
 
 export default {
     addDetailsPost : (params) => {
@@ -52,6 +52,7 @@ export default {
             })
         }
     },
+
     postOfferForm: (params)=>{
         return (dispatch) => {
             params.addedOn = new Date()
@@ -63,11 +64,28 @@ export default {
   
             axios(options).then((res)=>{
                 console.log('/api/post-offer server res: ', res)
+                console.log(res.data)
+                
+                if(res.data.error){
+                    toastr.error(res.data.error.message)    
+
+                    res.data.error.message.indexOf('Number is required') ? 
+                    toastr.error('Номера на офертата е задължителен !') : null
+                    toastr.error('Офертата не беше добавена !')
+
+                }else {
+                    toastr.success('Офертата беше добавена')
+                    return
+                }
+
                 return dispatch({
                     type: types.POST_OFFER_FORM, 
                     payload:res.data
                 })
-            })
+            }).catch(function (error) {
+                toastr.error('Възникна проблем с на сървъра')
+                console.log(error);
+              })
         }
     },
     getOffers: (params)=>{

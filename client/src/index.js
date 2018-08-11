@@ -8,9 +8,9 @@ import reduxThunk from 'redux-thunk'
 import App from './components/App'
 import reducers from './reducers'
 
+import '../node_modules/toastr/build/toastr.min.css'
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk))
-
 
 
 ReactDOM.render(
