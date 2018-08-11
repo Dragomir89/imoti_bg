@@ -42,7 +42,7 @@ class AddOffer extends Component{
     handleChange(event){
         const name = event.target.name
         const value = event.target.value
-        console.log(this.state)
+        // console.log(this.state)
         
         this.setState({[name]: value})
         
@@ -56,6 +56,7 @@ class AddOffer extends Component{
 
     handleClick(e){
         e.preventDefault()
+        console.log('click')
         console.log(this.state)
         this.props.postForm(this.state)
              
@@ -82,8 +83,7 @@ class AddOffer extends Component{
         //     }
         // }
     
-        console.log("STATE")
-        console.log(this.state)
+
         return(
             <div>
                 <form>
