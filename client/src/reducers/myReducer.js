@@ -11,25 +11,26 @@ export default (state = {}, action) => {
             let data = action.payload
             console.log(data)
 
+            var { constructionTypes, neighborhoods, propertyTypes, states} = data
             return {
-                offerDetails:data,
-                formValues: {
-                    constructionTypes: data.constructionTypes[0]._id,
-                    propertyTypes: data.propertyTypes[0]._id,
-                    states: data.states[0]._id,
-                    neighborhoods: data.neighborhoods[0]._id,
-                    address:'',
-                    area:'',
-                    description:'',
-                    info:'',
-                    number:'',
-                    phoneNumber:'',
-                    phoneNumber2:'',
-                    phoneNumber3:'',
-                    price:'',
-                    floor: '-1',
-                    propertyOwnerName: ''
-                }
+                constructionTypes,
+                neighborhoods,
+                propertyTypes,
+                states,
+                constructionType: action.payload.constructionTypes[0]._id,
+                propertyType: action.payload.propertyTypes[0]._id,
+                state: action.payload.states[0]._id,
+                neighborhood: action.payload.neighborhoods[0]._id,
+                address:'',
+                area:'',
+                description:'',
+                info:'',
+                number:'',
+                phoneNumber:'',
+                phoneNumber2:'',
+                phoneNumber3:'',
+                price:'',
+                floor: '-1'
             }
         
         case types.CHANGE_OFFER_OPTIONS:
@@ -49,13 +50,17 @@ export default (state = {}, action) => {
             if(res.error){
                 return res
             }
+            var { constructionTypes, neighborhoods, propertyTypes, states} = res
             return {
-                offerDetails:action.payload,
-                formValues: {
-                    constructionTypes: action.payload.constructionTypes[0]._id,
-                    propertyTypes: action.payload.propertyTypes[0]._id,
-                    states: action.payload.states[0]._id,
-                    neighborhoods: action.payload.neighborhoods[0]._id,
+                 
+                    constructionTypes,
+                    neighborhoods,
+                    propertyTypes,
+                    states,
+                    constructionType: action.payload.constructionTypes[0]._id,
+                    propertyType: action.payload.propertyTypes[0]._id,
+                    state: action.payload.states[0]._id,
+                    neighborhood: action.payload.neighborhoods[0]._id,
                     address:'',
                     area:'',
                     description:'',
@@ -66,7 +71,6 @@ export default (state = {}, action) => {
                     phoneNumber3:'',
                     price:'',
                     floor: '-1'
-                }
             }
         
         default:

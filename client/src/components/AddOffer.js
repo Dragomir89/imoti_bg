@@ -3,6 +3,7 @@ import Select from './formComponents/Select'
 import Input from './formComponents/Input'
 import { connect } from 'react-redux'
 import myActions from '../actions/myActions'
+// import { runInThisContext } from 'vm';
 // import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from 'constants';
 
 
@@ -11,30 +12,27 @@ class AddOffer extends Component{
         super(props)
         
         this.state = {
-            offerDetails: {
-                propertyTypes:[],
-                constructionTypes: [],
-                states: [],
-                neighborhoods: []
-            },
-            formValues: {
-                constructionTypes: '',
-                propertyTypes: '',
-                states: '',
-                neighborhoods: '',
-                address:'',
-                area:'',
-                description:'',
-                info:'',
-                number:'',
-                phoneNumber:'',
-                phoneNumber2:'',
-                phoneNumber3:'',
-                price:'',
-                floor: '-1',
-                propertyOwnerName: ''
-            }
+            propertyTypes:[],
+            constructionTypes: [],
+            states: [],
+            neighborhoods: [],
+            constructionType: '',
+            propertyType: '',
+            state: '',
+            neighborhood: '',
+            address:'',
+            area:'',
+            description:'',
+            info:'',
+            number:'',
+            phoneNumber:'',
+            phoneNumber2:'',
+            phoneNumber3:'',
+            price:'',
+            floor: '-1',
+            propertyOwnerName: ''
         }
+    
 
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -44,21 +42,22 @@ class AddOffer extends Component{
     handleChange(event){
         const name = event.target.name
         const value = event.target.value
-        console.log(name,value)
-        // this.setState({[name]: value})
+        console.log(this.state)
         
-        let changeData = this.props.myReducer
+        this.setState({[name]: value})
+        
+        // let changeData = this.props.myReducer
         //console.log(changeData)
-        changeData.formValues[name] = value
+        // changeData.formValues[name] = value
 
-        this.props.changeSelectData(changeData)
+        // this.props.changeSelectData(changeData)
 
     }
 
     handleClick(e){
         e.preventDefault()
-        console.log(this.props.myReducer.formValues)
-        this.props.postForm(this.props.myReducer.formValues)
+        console.log(this.state)
+        this.props.postForm(this.state)
              
     }
 
@@ -83,41 +82,40 @@ class AddOffer extends Component{
         //     }
         // }
     
-        
-        let {offerDetails, formValues} = this.state
-
+        console.log("STATE")
+        console.log(this.state)
         return(
             <div>
                 <form>
                 <div className="row">
                     <div className="col-sm-4">
 
-                        <Select name={'constructionTypes'} 
+                        <Select name={'constructionType'} 
                             label='Вид Строителство' 
                             changeFn={ this.handleChange } 
-                            val={formValues.constructionTypes}
-                            options={offerDetails.constructionTypes}
+                            val={this.state.constructionType}
+                            options={this.state.constructionTypes}
                         />
                 
-                        <Select name={'propertyTypes'} 
+                        <Select name={'propertyType'} 
                             label='Вид Имот' 
                             changeFn={ this.handleChange } 
-                            val={formValues.propertyTypes}
-                            options={offerDetails.propertyTypes}
+                            val={this.state.propertyType}
+                            options={this.state.propertyTypes}
                         />
 
-                        <Select name={'states'} 
+                        <Select name={'state'} 
                             label='Състояние'
                             changeFn={ this.handleChange } 
-                            val={formValues.states} 
-                            options={offerDetails.states}
+                            val={this.state.state} 
+                            options={this.state.states}
                         /> 
 
-                        <Select name={'neighborhoods'} 
+                        <Select name={'neighborhood'} 
                             label='Квартал' 
                             changeFn={ this.handleChange } 
-                            val={formValues.neighborhoods}
-                            options={offerDetails.neighborhoods}
+                            val={this.state.neighborhood}
+                            options={this.state.neighborhoods}
                         />
 
                     </div>
@@ -126,37 +124,37 @@ class AddOffer extends Component{
                         <Input name='number' 
                             label='Номер На Оферта' 
                             type='number'
-                            val={formValues.number}
+                            val={this.state.number}
                             changeFn={this.handleChange}/>
 
                         <Input name='area' 
                             label='Квадратура' 
                             type='number'
-                            val={formValues.area}
+                            val={this.state.area}
                             changeFn={this.handleChange}/>
 
                         <Input name='description' 
                             label='Описание' 
                             type='text'
-                            val={formValues.description}
+                            val={this.state.description}
                             changeFn={this.handleChange}/>
                         
                         <Input name='floor' 
                             label='Етаж' 
                             type='number'
-                            val={formValues.floor}
+                            val={this.state.floor}
                             changeFn={this.handleChange}/>
                         
                         <Input name='price' 
                             label='Цена' 
                             type='number'
-                            val={formValues.price}
+                            val={this.state.price}
                             changeFn={this.handleChange}/>
 
                         <Input name='address' 
                             label='Адрес' 
                             type='text'
-                            val={formValues.address}
+                            val={this.state.address}
                             changeFn={this.handleChange}/>
                     </div>
                     <div className="col-sm-4">
@@ -165,31 +163,31 @@ class AddOffer extends Component{
                         <Input name='info' 
                             label='Долълнително Инфо' 
                             type='text'
-                            val={formValues.info}
+                            val={this.state.info}
                             changeFn={this.handleChange}/>
 
                         <Input name='propertyOwnerName' 
                             label='Име на Собственик' 
                             type='text'
-                            val={formValues.propertyOwnerName}
+                            val={this.state.propertyOwnerName}
                             changeFn={this.handleChange}/>
                         
                         <Input name='phoneNumber' 
                             label='Тлефон Главен' 
                             type='text'
-                            val={formValues.phoneNumber}
+                            val={this.state.phoneNumber}
                             changeFn={this.handleChange}/>
                             
                         <Input name='phoneNumber2' 
                             label='Тлефон 2' 
                             type='text'
-                            val={formValues.phoneNumber2}
+                            val={this.state.phoneNumber2}
                             changeFn={this.handleChange}/>
 
                         <Input name='phoneNumber3' 
                             label='Тлефон 3' 
                             type='text'
-                            val={formValues.phoneNumber3}
+                            val={this.state.phoneNumber3}
                             changeFn={this.handleChange}/>
                     </div>
                 </div>
@@ -216,7 +214,8 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
-
+    console.log('mapStateToProps')
+    console.log(state.myReducer)
     return{
         myReducer: state.myReducer
     }

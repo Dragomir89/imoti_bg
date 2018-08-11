@@ -90,10 +90,6 @@ module.exports = (app) =>{
         console.log('/api/post-offer')
 
         
-
-
-        
-
         console.log(req.body)
         let sendData = req.body
         let userId = req.user ? req.user._id : null
@@ -108,10 +104,10 @@ module.exports = (app) =>{
         sendData.phoneNumber3 ? phoneNumbers.push(sendData.phoneNumber3) : false
 
         let newOffer = new Offer({
-            constructionTypeId: sendData.constructionTypes,
-            propertyTypeId: sendData.propertyTypes,
-            state: sendData.states,
-            neighborhoodId: sendData.neighborhoods,
+            constructionTypeId: sendData.constructionType,
+            propertyTypeId: sendData.propertyType,
+            state: sendData.state,
+            neighborhoodId: sendData.neighborhood,
 
             number: sendData.number,
             
