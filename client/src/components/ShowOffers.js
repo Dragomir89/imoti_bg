@@ -3,6 +3,7 @@ import myActions from '../actions/myActions'
 import { connect } from 'react-redux'
 import Tr from './tableComponents/Tr'
 import { Link } from 'react-router-dom'
+import OffersFilters from './OffersFilters'
 
 class ShowOffers extends Component {
     constructor(props){
@@ -22,15 +23,10 @@ class ShowOffers extends Component {
             return
         }
 
-        console.log('componentDidUpdate')
-        console.log(this.props.state)
         let paramsPage = Number(this.props.match.params.page)
         let statePage = Number(this.props.state.page)
 
-        console.log(paramsPage , statePage)
-        
         if(Number(paramsPage) !== Number(statePage)){
-            console.log('new page = ' + paramsPage)
             this.props.getData({page:paramsPage})
         }
 
@@ -57,8 +53,6 @@ class ShowOffers extends Component {
     }
 
     render(){
-        // console.log('SHOW OFFERS  state')
-        // console.log(this.props.state)
 
         let countOffers = 0;
         let offers = []
@@ -77,8 +71,9 @@ class ShowOffers extends Component {
             })
 
             return (
-                <div>
-                    <h3>Брой на оферти: {countOffers}</h3>
+                <div className='row'>
+                    <div className='col-md-3'><h3>Брой на оферти: {countOffers}</h3></div>
+                    <div className='col-md-9'><OffersFilters/></div>
                     <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -145,8 +140,6 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
-    console.log( ' mapStateToProps - >')
-    console.log(state.showOffersReducer)
     return{
         state: state.showOffersReducer
     }
