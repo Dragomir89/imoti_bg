@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import myActions from '../actions/myActions'
 // import { runInThisContext } from 'vm';
 // import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from 'constants';
-
+import Dropdowns from './formComponents/Dropdowns'
 
 class AddOffer extends Component{
     constructor(props){
@@ -48,21 +48,19 @@ class AddOffer extends Component{
 
     handleClick(e){
         e.preventDefault()
-        console.log('click')
-        console.log(this.state)
         this.props.postForm(this.state)
              
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState(nextProps.myReducer)
+        const { constructionTypes, neighborhoods, propertyTypes, states} = nextProps.myReducer
+        this.setState({constructionTypes, neighborhoods, propertyTypes, states})
     }
 
     componentDidMount(){
         this.props.getSomeData()
     }
 
-    
     render() {
 
         // if(this.props.myReducer){
@@ -80,39 +78,11 @@ class AddOffer extends Component{
             <div>
                 <form>
                 <div className="row">
-                    <div className="col-sm-4">
-
-                        <Select name={'constructionType'} 
-                            label='Вид Строителство' 
-                            changeFn={ this.handleChange } 
-                            val={this.state.constructionType}
-                            options={this.state.constructionTypes}
-                        />
-                
-                        <Select name={'propertyType'} 
-                            label='Вид Имот' 
-                            changeFn={ this.handleChange } 
-                            val={this.state.propertyType}
-                            options={this.state.propertyTypes}
-                        />
-
-                        <Select name={'state'} 
-                            label='Състояние'
-                            changeFn={ this.handleChange } 
-                            val={this.state.state} 
-                            options={this.state.states}
-                        /> 
-
-                        <Select name={'neighborhood'} 
-                            label='Квартал' 
-                            changeFn={ this.handleChange } 
-                            val={this.state.neighborhood}
-                            options={this.state.neighborhoods}
-                        />
-
+                    <div className="col-md-12">
+                        <Dropdowns changeHandler={this.handleChange}/>
                     </div>
-                    <div className="col-sm-4">
                     
+                    <div className="col-sm-4">
                         <Input name='number' 
                             label='Номер На Оферта' 
                             type='number'
@@ -137,21 +107,21 @@ class AddOffer extends Component{
                             val={this.state.floor}
                             changeFn={this.handleChange}/>
                         
+                    </div>
+                    
+                    <div className="col-sm-4">
                         <Input name='price' 
                             label='Цена' 
                             type='number'
                             val={this.state.price}
                             changeFn={this.handleChange}/>
-
+            
                         <Input name='address' 
                             label='Адрес' 
                             type='text'
                             val={this.state.address}
                             changeFn={this.handleChange}/>
-                    </div>
-                    <div className="col-sm-4">
-                        
-                            
+
                         <Input name='info' 
                             label='Долълнително Инфо' 
                             type='text'
@@ -163,7 +133,9 @@ class AddOffer extends Component{
                             type='text'
                             val={this.state.propertyOwnerName}
                             changeFn={this.handleChange}/>
-                        
+
+                    </div>
+                    <div className="col-sm-4">                        
                         <Input name='phoneNumber' 
                             label='Тлефон Главен' 
                             type='text'
@@ -206,8 +178,7 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
-    console.log('mapStateToProps')
-    console.log(state.myReducer)
+    
     return{
         myReducer: state.myReducer
     }

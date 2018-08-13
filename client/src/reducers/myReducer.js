@@ -16,22 +16,7 @@ export default (state = {}, action) => {
                 constructionTypes,
                 neighborhoods,
                 propertyTypes,
-                states,
-                constructionType: action.payload.constructionTypes[0]._id,
-                propertyType: action.payload.propertyTypes[0]._id,
-                state: action.payload.states[0]._id,
-                neighborhood: action.payload.neighborhoods[0]._id,
-                address:'',
-                area:'',
-                description:'',
-                info:'',
-                propertyOwnerName:'',
-                number:'',
-                phoneNumber:'',
-                phoneNumber2:'',
-                phoneNumber3:'',
-                price:'',
-                floor: '-1'
+                states
             }
         
         case types.CHANGE_OFFER_OPTIONS:

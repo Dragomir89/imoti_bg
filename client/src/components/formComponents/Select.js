@@ -15,19 +15,7 @@ const Select = (props)=>{
                 className="form-control form-control-sm">
                 {defaultOption}
                 {collection.map((e)=>{
-                    if (e._id === props.val){
-                        //console.log('Selected value: ')
-                        //console.log('id: ' +  e._id + ' value: ' + e.value)
-                        // return (
-                        //     <option 
-                        //         key={e._id || e} 
-                        //         defaultValue//="selected" 
-                        //         value={e._id}>
-                        //             {e.value || e}
-                        //     </option>)
-                    }    
-                    return (<option key={e._id}  value={e._id} >{e.value}</option>)
-                    
+                    return (<option key={e._id}  value={e._id} >{e.value}</option>)    
                 })}
             </select>
         </div>

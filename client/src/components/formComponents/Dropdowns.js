@@ -24,7 +24,6 @@ class Dropdowns extends Component{
                 <Select name='constructionType' 
                     label='Строителство' 
                     changeFn={ this.props.changeHandler } 
-                    val={this.props.constructionType}
                     options={this.props.constructionTypes}
                 />
             </div>
@@ -33,7 +32,6 @@ class Dropdowns extends Component{
                 <Select name={'propertyType'} 
                     label='Вид Имот' 
                     changeFn={ this.props.changeHandler } 
-                    val={this.props.propertyType}
                     options={this.props.propertyTypes}
                 />
             </div>
@@ -41,7 +39,6 @@ class Dropdowns extends Component{
                 <Select name={'state'} 
                     label='Състояние'
                     changeFn={ this.props.changeHandler } 
-                    val={this.props.state} 
                     options={this.props.states}
                 />
             </div> 
@@ -51,7 +48,6 @@ class Dropdowns extends Component{
                 <Select name={'neighborhood'} 
                     label='Квартал' 
                     changeFn={ this.props.changeHandler } 
-                    val={this.props.neighborhood}
                     options={this.props.neighborhoods}
                 />
             </div> 
@@ -63,8 +59,8 @@ class Dropdowns extends Component{
 }
 
 function mapStateToProps(appState){
-    console.log('Map State To Props Drop')
-    console.log(appState)
+    // console.log('Map State To Props Drop')
+    // console.log(appState)
     // return {}
     const { 
         constructionTypes, 

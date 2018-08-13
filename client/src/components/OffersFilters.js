@@ -47,7 +47,7 @@ class OffersFilter extends Component {
                 <div>
                     <button style={btnStyle} onClick={this.clickSearch} className='btn btn-lg btn-primary'>Търси</button>
                 </div>
-            </div>    
+                </div>    
         </section>
         )
     }
