@@ -27,8 +27,7 @@ export default {
 
     getDetails: (params) =>{
         return (dispatch) =>{
-            axios.get('/api/test-test',params).then((res)=>{
-                console.log('/api/test-test server res: ', res)
+            axios.get('/api/options',params).then((res)=>{
                 return dispatch({
                     type: types.GET_OFFER_OPTIONS, 
                     payload:res.data
@@ -88,11 +87,18 @@ export default {
               })
         }
     },
-    getOffers: (params)=>{
-        // console.log('ACTION PARAMS ',params)
+    getOffers: (page, queryStr)=>{
+        // console.log('get offers ',page, queryStr)
+        
+        if(queryStr){
+            queryStr = queryStr.indexOf('?') === -1 ? '?'+queryStr : queryStr   
+        }else{
+            queryStr = ''
+        }
+
         return (dispatch)=>{
-            axios.get('/api/get-offers/' + params.page).then((res)=>{
-                console.log('/api/get-offers', res)
+            axios.get(`/api/get-offers/${page}${queryStr}`).then((res)=>{
+                // console.log('/api/get-offers', res)
                 return dispatch({
                     type: types.GET_OFFERS, 
                     payload:res.data

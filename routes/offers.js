@@ -7,6 +7,8 @@ const PropertyType = mongoose.model('propertyTypes')
 const States = mongoose.model('states')
 const Neighborhood = mongoose.model('neighborhoods')
 
+const url = require('url')
+
 
 
 
@@ -61,7 +63,7 @@ module.exports = (app) =>{
         })
     })
 
-    app.get('/api/test-test', (req,res)=>{
+    app.get('/api/options', (req,res)=>{
 
         let sendData = req.body
         let returnObj = {}
@@ -163,19 +165,67 @@ module.exports = (app) =>{
 
     app.get('/api/get-offers/:page', (req,res)=>{
 
-        // var newData = {'neighborhoodId':'5b1930664bb5d800041f468b'};
+        const urlParts = url.parse(req.url, true)
+        const queryParams = urlParts.query
+        console.log(queryParams)
+        let searchObj = null
+
+        if(queryParams){
+            searchObj = {}
+            if(queryParams.constructionType) { 
+                searchObj.constructionTypeId = queryParams.constructionType 
+            }
+            if(queryParams.propertyType){
+                searchObj.propertyTypeId = queryParams.propertyType 
+            }
+            if(queryParams.state){
+                searchObj.state = queryParams.state 
+            }
+            if(queryParams.neighborhood){
+                searchObj.neighborhoodId = queryParams.neighborhood 
+            }
+        }
         
-        // Offer.update({}, newData, {multi: true}, function(err, doc){
-        //     if (err) return res.send(500, { error: err });
-        //     return res.send("succesfully saved");
-        // });
-        // return
+
         let page =  Number(req.params.page)
         console.log('page = ' + page)
         let offersPerPage = 7
 
         let skipVal = offersPerPage * (page - 1) < 0 ? 0 : offersPerPage * (page - 1)  
         console.log('skip value = ' + skipVal)
+
+        if(searchObj){
+            console.log('ima quuery string')
+            console.log(searchObj)
+                Offer.find(searchObj)
+                .skip(skipVal)
+                .limit(offersPerPage)
+                .populate("propertyTypeId")
+                .populate("constructionTypeId")
+                .populate("state")
+                .populate("neighborhoodId")
+                .then((offers)=>{
+
+                    Offer.count({}, function(err, countOffers) {
+                        countOffers = Number(countOffers)
+                        let lastPageNbr = countOffers / offersPerPage
+                        if(!Number.isInteger(lastPageNbr)){
+                            lastPageNbr = Math.floor(lastPageNbr) + 1
+                        }
+                        res.send({
+                            offers,
+                            page,
+                            countOffers,
+                            offersPerPage,
+                            lastPageNbr
+                        })
+                });
+
+                    // res.send({offers: offers,page:page})
+            })
+        return
+        }
+
         Offer.find()
             .skip(skipVal)
             .limit(offersPerPage)
@@ -191,8 +241,6 @@ module.exports = (app) =>{
                     if(!Number.isInteger(lastPageNbr)){
                         lastPageNbr = Math.floor(lastPageNbr) + 1
                     }
-
-
                     res.send({
                         offers,
                         page,

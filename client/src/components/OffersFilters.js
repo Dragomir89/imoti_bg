@@ -1,22 +1,30 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import  actions  from '../actions/myActions'
+import actions  from '../actions/myActions'
 import Dropdowns from './formComponents/Dropdowns'
+import qs from 'querystring'    
 
 class OffersFilter extends Component {
     constructor(props){
         super(props)
 
-        this.state = {
-            constructionType:'',
-            propertyType: '',
-            state: '',
-            neighborhood: ''
+        const values = this.props.selectedValues 
+
+        if(values){
+            const { constructionType, propertyType, neighborhood, state} = values
+            this.state = {constructionType, propertyType, neighborhood, state}
+        }else{
+            this.state = {
+                constructionType:'',
+                propertyType: '',
+                state: '',
+                neighborhood: ''
+            }
         }
 
         this.changeHandler = this.changeHandler.bind(this)
-        this.clickSearch = this.clickSearch.bind(this)
+        this.clickBtn = this.clickBtn.bind(this)
     }
 
     changeHandler(e){
@@ -27,27 +35,55 @@ class OffersFilter extends Component {
         this.props.getOptions()            
     }
 
-    clickSearch(e){
+    clickBtn(e){
         e.preventDefault()
+
+        if(e.target.name === 'search'){
+            
+            const { constructionType, propertyType, neighborhood, state } = this.state
+
+            let search = qs.stringify({constructionType, propertyType, neighborhood, state})
+            this.props.getSerchingParameters(search)
+        }else{
+            this.props.getSerchingParameters(false)
+            this.setState({
+                constructionType:'',
+                propertyType: '',
+                state: '',
+                neighborhood: ''
+            })
+        }
     }
 
 
-    render(){
+    render() {
         let btnStyle = {
-            borderRadius: '50%'
+            borderRadius: '5%',
+            width: '100%',
+            margin: '3px'
         }
         return(
         <section>
-            {/* <h3>Филтрирай: </h3> */}
-            
             <div className='row'>
                 <div className='col-md-10'>
-                    <Dropdowns changeHandler={this.changeHandler}/>
+                    <Dropdowns 
+                        defaultValues={this.state} 
+                        changeHandler={this.changeHandler}
+                    />
                 </div>
                 <div>
-                    <button style={btnStyle} onClick={this.clickSearch} className='btn btn-lg btn-primary'>Търси</button>
-                </div>
-                </div>    
+                    <div className='col-md-2'>
+                        <button style={btnStyle}
+                        name='search' 
+                        onClick={this.clickBtn} 
+                        className='btn btn-md btn-primary'>Търси</button>
+                        <button style={btnStyle}
+                        name='clear' 
+                        onClick={this.clickBtn} 
+                        className='btn btn-md btn-warning'>Изчисти</button>
+                    </div>  
+                </div>        
+            </div>    
         </section>
         )
     }
@@ -55,23 +91,13 @@ class OffersFilter extends Component {
 }
 
 
-function mapStateToPorops(state){
-    const {constructionTypes, constructionType , neighborhoods, neighborhood, propertyTypes, propertyType} = state.myReducer 
 
-    return{
-        constructionTypes,
-        constructionType,
-        neighborhoods,
-        neighborhood,
-        propertyTypes,
-        propertyType
-    }
-}
 
 function mapDispatchToProps(dispatch){
     return{
-        getOptions : ()=> dispatch(actions.getDetails()) 
+        getOptions : ()=> dispatch(actions.getDetails()),
+        getData: (params)=>{ dispatch(actions.getOffers(params)) }
     }
 }
 
-export default connect(mapStateToPorops,mapDispatchToProps)(OffersFilter)
+export default connect(()=>{return {}},mapDispatchToProps)(OffersFilter)

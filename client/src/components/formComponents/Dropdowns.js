@@ -8,7 +8,6 @@ class Dropdowns extends Component{
     
 
     componentDidMount(){
-        console.log(this.props)
         this.props.getOptions()  
     }
 
@@ -17,11 +16,15 @@ class Dropdowns extends Component{
         if(!this.props){
             return (<h2>Loading .... </h2>)
         }
-        
+
+        const defaultValues = this.props.defaultValues
+
         return(
         <div className='row'>
             <div className='col-md-3'>
-                <Select name='constructionType' 
+                <Select 
+                    defaultValue={defaultValues['constructionType']}
+                    name='constructionType' 
                     label='Строителство' 
                     changeFn={ this.props.changeHandler } 
                     options={this.props.constructionTypes}
@@ -29,14 +32,18 @@ class Dropdowns extends Component{
             </div>
             
             <div className='col-md-3'>
-                <Select name={'propertyType'} 
+                <Select 
+                    defaultValue={defaultValues['propertyType']}
+                    name={'propertyType'} 
                     label='Вид Имот' 
                     changeFn={ this.props.changeHandler } 
                     options={this.props.propertyTypes}
                 />
             </div>
             <div className='col-md-3'>
-                <Select name={'state'} 
+                <Select 
+                    defaultValue={defaultValues['state']}
+                    name={'state'} 
                     label='Състояние'
                     changeFn={ this.props.changeHandler } 
                     options={this.props.states}
@@ -45,7 +52,9 @@ class Dropdowns extends Component{
 
             <div className='col-md-3'>
             
-                <Select name={'neighborhood'} 
+                <Select 
+                    defaultValue={defaultValues['neighborhood']}
+                    name={'neighborhood'} 
                     label='Квартал' 
                     changeFn={ this.props.changeHandler } 
                     options={this.props.neighborhoods}

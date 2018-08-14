@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Select from './formComponents/Select'
 import Input from './formComponents/Input'
 import { connect } from 'react-redux'
 import myActions from '../actions/myActions'
@@ -79,7 +78,7 @@ class AddOffer extends Component{
                 <form>
                 <div className="row">
                     <div className="col-md-12">
-                        <Dropdowns changeHandler={this.handleChange}/>
+                        <Dropdowns defaultValues={this.state} changeHandler={this.handleChange}/>
                     </div>
                     
                     <div className="col-sm-4">

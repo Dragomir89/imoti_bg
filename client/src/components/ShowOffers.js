@@ -4,35 +4,43 @@ import { connect } from 'react-redux'
 import Tr from './tableComponents/Tr'
 import { Link } from 'react-router-dom'
 import OffersFilters from './OffersFilters'
+import qs from 'querystring'    
 
 class ShowOffers extends Component {
     constructor(props){
         super(props)
-        
-        this.state = {}
+            
+        this.state = {
+            filterValues: null
+        }
+        this.getSerchingParameters = this.getSerchingParameters.bind(this)
     }
 
     componentDidMount(){
+        let search = this.props.location.search
+        if(search){
+            search = search.substr(1)
+            search = qs.parse(search)
+
+            this.setState({filterValues: search})
+        }
         
         const page = this.props.match.params.page ? this.props.match.params.page : 1 
-        this.props.getData({page:page})
+        this.props.getData(page, this.props.location.search)  
     }
 
     componentDidUpdate(){
         if(!this.props.state){
             return
         }
-
         let paramsPage = Number(this.props.match.params.page)
         let statePage = Number(this.props.state.page)
 
         if(Number(paramsPage) !== Number(statePage)){
-            this.props.getData({page:paramsPage})
+            this.props.getData(paramsPage,this.props.location.search)
         }
-
     }
 
-    
     hasPage(page){
         
         const offersPerPage = 6
@@ -52,10 +60,17 @@ class ShowOffers extends Component {
         
     }
 
+    getSerchingParameters(search){
+        this.props.history.push({search})
+        this.props.getData(1, search)
+    }
+
     render(){
 
-        let countOffers = 0;
+        let countOffers = 0
         let offers = []
+        let querystring = this.props.location.search
+
         if(this.props.state){
             offers      = this.props.state.offers
             countOffers = this.props.state.countOffers
@@ -73,7 +88,12 @@ class ShowOffers extends Component {
             return (
                 <div className='row'>
                     <div className='col-md-3'><h3>Брой на оферти: {countOffers}</h3></div>
-                    <div className='col-md-9'><OffersFilters/></div>
+                    <div className='col-md-9'>
+                        <OffersFilters
+                            selectedValues={this.state.filterValues} 
+                            getSerchingParameters={this.getSerchingParameters}
+                        />
+                    </div>
                     <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -100,16 +120,14 @@ class ShowOffers extends Component {
                         <nav aria-label="Page navigation example">
                             <ul className="pagination">
                                 <li className="page-item">
-                                <Link className="page-link prefpage" to={'/show-offers/' + prevPage} aria-label="Previous">
+                                <Link className="page-link prefpage" to={'/show-offers/' + prevPage +  querystring} aria-label="Previous">
                                     <span aria-hidden="true" className='prefpage'>&laquo;</span>
                                     <span className="sr-only prefpage">Previous</span>
                                 </Link>
                                 </li>
-                                {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                                
                                 <li className="page-item">
-                                <Link  className="page-link nextpage" to={'/show-offers/' + nexPage  } aria-label="Next">
+                                <Link  className="page-link nextpage" to={'/show-offers/' + nexPage + querystring  } aria-label="Next">
                                     <span aria-hidden="true" className='nextpage'>&raquo;</span>
                                     <span className="sr-only nextpage">Next</span>
                                 </Link>
@@ -131,19 +149,18 @@ class ShowOffers extends Component {
 }
 
 
-
 function mapDispatchToProps(dispatch){
     return{
-        getData: (params)=>{
-            dispatch(myActions.getOffers(params))
+        getData: (params, querystring)=>{
+            dispatch(myActions.getOffers(params, querystring))
         }
     }
 }
+
 function mapStateToProps(state){
     return{
         state: state.showOffersReducer
     }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowOffers)

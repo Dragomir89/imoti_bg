@@ -4,7 +4,10 @@ const Select = (props)=>{
 
     const collection = props.options ? props.options : []
 
-    const defaultOption = (<option defaultValue value='-select-'>-- избери --</option>)
+    let defaultOption = (<option value=''>-- избери --</option>)
+    if(!props.defaultValue){
+        defaultOption = (<option selected value=''>-- избери --</option>)
+    }
 
     return(
         <div className="form-group">
@@ -15,6 +18,9 @@ const Select = (props)=>{
                 className="form-control form-control-sm">
                 {defaultOption}
                 {collection.map((e)=>{
+                    if(props.defaultValue && props.defaultValue === e._id){
+                        return(<option key={e._id} selected={true} value={e._id} >{e.value}</option>)
+                    }
                     return (<option key={e._id}  value={e._id} >{e.value}</option>)    
                 })}
             </select>
