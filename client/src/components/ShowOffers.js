@@ -61,7 +61,8 @@ class ShowOffers extends Component {
     }
 
     getSerchingParameters(search){
-        this.props.history.push({search})
+        const pathname = '/show-offers/1'
+        this.props.history.push({pathname,search})
         this.props.getData(1, search)
     }
 
