@@ -206,7 +206,7 @@ module.exports = (app) =>{
                 .populate("neighborhoodId")
                 .then((offers)=>{
 
-                    Offer.count({}, function(err, countOffers) {
+                    Offer.count(searchObj, function(err, countOffers) {
                         countOffers = Number(countOffers)
                         let lastPageNbr = countOffers / offersPerPage
                         if(!Number.isInteger(lastPageNbr)){
