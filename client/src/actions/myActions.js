@@ -70,16 +70,14 @@ export default {
 
                     res.data.error.message.indexOf('Number is required') ? 
                     toastr.error('Номера на офертата е задължителен !') : null
-                    toastr.error('Офертата не беше добавена !')
-
+                    toastr.error('Офертата не беше добавена !')    
                 }else {
                     toastr.success('Офертата беше добавена')
-                    return
                 }
 
                 return dispatch({
                     type: types.POST_OFFER_FORM, 
-                    payload:res.data
+                    payload:'success'
                 })
             }).catch(function (error) {
                 toastr.error('Възникна проблем с на сървъра')

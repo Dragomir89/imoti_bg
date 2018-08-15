@@ -2,15 +2,21 @@ import React, { Component } from 'react'
 import Input from './formComponents/Input'
 import { connect } from 'react-redux'
 import myActions from '../actions/myActions'
-// import { runInThisContext } from 'vm';
-// import { SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG } from 'constants';
 import Dropdowns from './formComponents/Dropdowns'
+
 
 class AddOffer extends Component{
     constructor(props){
         super(props)
         
-        this.state = {
+        this.state = this.defaultState()
+
+        this.handleChange = this.handleChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+    }
+
+    defaultState(){
+        return{
             propertyTypes:[],
             constructionTypes: [],
             states: [],
@@ -31,29 +37,20 @@ class AddOffer extends Component{
             floor: '-1',
             propertyOwnerName: ''
         }
-    
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleClick = this.handleClick.bind(this)
     }
-
     
     handleChange(event){
-        const name = event.target.name
-        const value = event.target.value
-        
-        this.setState({[name]: value})
+        this.setState({[event.target.name]: event.target.value})
     }
 
     handleClick(e){
         e.preventDefault()
         this.props.postForm(this.state)
-             
     }
 
     componentWillReceiveProps(nextProps){
-        const { constructionTypes, neighborhoods, propertyTypes, states} = nextProps.myReducer
-        this.setState({constructionTypes, neighborhoods, propertyTypes, states})
+        const success = nextProps.myReducer.success
+        if(success){ this.setState(this.defaultState()) }
     }
 
     componentDidMount(){
@@ -61,18 +58,6 @@ class AddOffer extends Component{
     }
 
     render() {
-
-        // if(this.props.myReducer){
-        //     if(this.props.myReducer.error){
-        //         return(
-        //             <div>
-        //                 <h1>{this.props.myReducer.error.message}</h1>
-        //                 <h2>Натисни F5, провери дали ти се е качила офертата и ако не работи ми звънни</h2>
-        //             </div>)
-        //     }
-        // }
-    
-
         return(
             <div>
                 <form>
@@ -177,7 +162,6 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
-    
     return{
         myReducer: state.myReducer
     }
