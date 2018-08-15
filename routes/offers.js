@@ -189,7 +189,7 @@ module.exports = (app) =>{
 
         let page =  Number(req.params.page)
         console.log('page = ' + page)
-        let offersPerPage = 7
+        let offersPerPage = 10
 
         let skipVal = offersPerPage * (page - 1) < 0 ? 0 : offersPerPage * (page - 1)  
         console.log('skip value = ' + skipVal)
