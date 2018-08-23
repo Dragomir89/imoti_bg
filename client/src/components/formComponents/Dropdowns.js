@@ -11,19 +11,18 @@ class Dropdowns extends Component{
         this.props.getOptions()  
     }
 
-    render(){
 
+    render(){
         if(!this.props){
             return (<h2>Loading .... </h2>)
         }
 
-        const defaultValues = this.props.defaultValues
 
         return(
         <div className='row'>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={defaultValues['constructionType']}
+                    defaultValue={this.props.constructionType}
                     name='constructionType' 
                     label='Строителство' 
                     changeFn={ this.props.changeHandler } 
@@ -33,7 +32,7 @@ class Dropdowns extends Component{
             
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={defaultValues['propertyType']}
+                    defaultValue={this.props.propertyType}
                     name={'propertyType'} 
                     label='Вид Имот' 
                     changeFn={ this.props.changeHandler } 
@@ -42,7 +41,7 @@ class Dropdowns extends Component{
             </div>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={defaultValues['state']}
+                    defaultValue={this.props.state}
                     name={'state'} 
                     label='Състояние'
                     changeFn={ this.props.changeHandler } 
@@ -53,7 +52,7 @@ class Dropdowns extends Component{
             <div className='col-md-3'>
             
                 <Select 
-                    defaultValue={defaultValues['neighborhood']}
+                    defaultValue={this.props.neighborhood}
                     name={'neighborhood'} 
                     label='Квартал' 
                     changeFn={ this.props.changeHandler } 
@@ -68,9 +67,7 @@ class Dropdowns extends Component{
 }
 
 function mapStateToProps(appState){
-    // console.log('Map State To Props Drop')
-    // console.log(appState)
-    // return {}
+
     const { 
         constructionTypes, 
         constructionType, 
@@ -79,7 +76,7 @@ function mapStateToProps(appState){
         propertyTypes, 
         propertyType, 
         states, 
-        state } = appState.myReducer
+        state } = appState.getOptionsReducer
     return{
         constructionTypes,
         constructionType,

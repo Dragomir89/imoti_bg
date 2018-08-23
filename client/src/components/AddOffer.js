@@ -17,14 +17,6 @@ class AddOffer extends Component{
 
     defaultState(){
         return{
-            propertyTypes:[],
-            constructionTypes: [],
-            states: [],
-            neighborhoods: [],
-            constructionType: '',
-            propertyType: '',
-            state: '',
-            neighborhood: '',
             address:'',
             area:'',
             description:'',
@@ -35,7 +27,8 @@ class AddOffer extends Component{
             phoneNumber3:'',
             price:'',
             floor: '-1',
-            propertyOwnerName: ''
+            propertyOwnerName: '',
+            successPost: false
         }
     }
     
@@ -49,8 +42,12 @@ class AddOffer extends Component{
     }
 
     componentWillReceiveProps(nextProps){
+ 
         const success = nextProps.myReducer.success
-        if(success){ this.setState(this.defaultState()) }
+        if(success){ 
+            this.setState(this.defaultState()) 
+            this.setState({successPost: success})
+        }
     }
 
     componentDidMount(){
@@ -58,12 +55,14 @@ class AddOffer extends Component{
     }
 
     render() {
+        // console.log('RENDER - ADD OFFER')
+        // console.log(this.state)
         return(
             <div>
                 <form>
                 <div className="row">
                     <div className="col-md-12">
-                        <Dropdowns defaultValues={this.state} changeHandler={this.handleChange}/>
+                        <Dropdowns changeHandler={this.handleChange} rerender={this.state.successPost}/>
                     </div>
                     
                     <div className="col-sm-4">
@@ -140,7 +139,7 @@ class AddOffer extends Component{
                     </div>
                 </div>
 
-                <button onClick={this.handleClick.bind(this)} className="btn btn-success">Запази</button>
+                <button onClick={this.handleClick} className="btn btn-success">Запази</button>
             </form>
             </div>
         )
@@ -162,6 +161,8 @@ function mapDispatchToProps(dispatch){
     }
 }
 function mapStateToProps(state){
+    // console.log('mapStateToProps   --  state')
+    // console.log(state)
     return{
         myReducer: state.myReducer
     }
