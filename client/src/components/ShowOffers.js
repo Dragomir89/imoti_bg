@@ -9,7 +9,7 @@ import qs from 'querystring'
 class ShowOffers extends Component {
     constructor(props){
         super(props)
-            
+
         this.state = {
             filterValues: null
         }
@@ -21,7 +21,6 @@ class ShowOffers extends Component {
         if(search){
             search = search.substr(1)
             search = qs.parse(search)
-
             this.setState({filterValues: search})
         }
         
@@ -86,59 +85,61 @@ class ShowOffers extends Component {
                 return (<Tr key={e._id} offer={e} />)
             })
 
-            return (
-                <div className='row'>
-                    <div className='col-md-3'><h3>Брой на оферти: {countOffers}</h3></div>
-                    <div className='col-md-9'>
-                        <OffersFilters
-                            selectedValues={this.state.filterValues} 
-                            getSerchingParameters={this.getSerchingParameters}
-                        />
-                    </div>
-                    <table className="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Вид Имот</th>
-                            <th>Състояние</th>
-                            <th>Вид Строителство</th>
-                            <th>Номер на оферта</th>
-                            <th>Квартал</th>
-                            <th>Площ</th>
-                            {/* <th>Главен телефон</th> */}
-                            <th>Цена</th>
-                            <th>Адрес</th>
-                            <th>Етаж</th>
-                            {/* <th>Собственик</th> */}
-                            {/* <th>Описание</th> */}
-                            {/* <th>Допълнителна информация</th> */}
-                            <th>Още</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { offers }
-                    </tbody>
-                    </table>
-                        <nav aria-label="Page navigation example">
-                            <ul className="pagination">
-                                <li className="page-item">
-                                <Link className="page-link prefpage" to={'/show-offers/' + prevPage +  querystring} aria-label="Previous">
-                                    <span aria-hidden="true" className='prefpage'>&laquo;</span>
-                                    <span className="sr-only prefpage">Previous</span>
-                                </Link>
-                                </li>
-                                
-                                <li className="page-item">
-                                <Link  className="page-link nextpage" to={'/show-offers/' + nexPage + querystring  } aria-label="Next">
-                                    <span aria-hidden="true" className='nextpage'>&raquo;</span>
-                                    <span className="sr-only nextpage">Next</span>
-                                </Link>
-                                </li>
-                            </ul>
-                    </nav>
-                </div>    
-            )
-        }
+                return (
+                    <div className='row'>
+                        <div className='col-md-3'><h3>Брой на оферти: {countOffers}</h3></div>
 
+                        <div className='col-md-9'>
+                            <OffersFilters
+                                selectedValues={this.state.filterValues} 
+                                getSerchingParameters={this.getSerchingParameters}
+                            />
+                            
+                        </div>
+
+                        <table className="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Вид Имот</th>
+                                <th>Състояние</th>
+                                <th>Вид Строителство</th>
+                                <th>Номер на оферта</th>
+                                <th>Квартал</th>
+                                <th>Площ</th>
+                                {/* <th>Главен телефон</th> */}
+                                <th>Цена</th>
+                                <th>Адрес</th>
+                                <th>Етаж</th>
+                                {/* <th>Собственик</th> */}
+                                {/* <th>Описание</th> */}
+                                {/* <th>Допълнителна информация</th> */}
+                                <th>Още</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { offers }
+                        </tbody>
+                        </table>
+                            <nav aria-label="Page navigation example">
+                                <ul className="pagination">
+                                    <li className="page-item">
+                                    <Link className="page-link prefpage" to={'/show-offers/' + prevPage +  querystring} aria-label="Previous">
+                                        <span aria-hidden="true" className='prefpage'>&laquo;</span>
+                                        <span className="sr-only prefpage">Previous</span>
+                                    </Link>
+                                    </li>
+                                    
+                                    <li className="page-item">
+                                    <Link  className="page-link nextpage" to={'/show-offers/' + nexPage + querystring  } aria-label="Next">
+                                        <span aria-hidden="true" className='nextpage'>&raquo;</span>
+                                        <span className="sr-only nextpage">Next</span>
+                                    </Link>
+                                    </li>
+                                </ul>
+                        </nav>
+                    </div>    
+                )
+        }
 
         return(
 

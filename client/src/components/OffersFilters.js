@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+import Select from './formComponents/Select'
 import actions  from '../actions/myActions'
 import Dropdowns from './formComponents/Dropdowns'
 import qs from 'querystring'    
@@ -19,7 +19,8 @@ class OffersFilter extends Component {
                 constructionType:'',
                 propertyType: '',
                 state: '',
-                neighborhood: ''
+                neighborhood: '',
+                countOffers: 10
             }
         }
 
@@ -40,9 +41,9 @@ class OffersFilter extends Component {
 
         if(e.target.name === 'search'){
             
-            const { constructionType, propertyType, neighborhood, state } = this.state
+            const { constructionType, propertyType, neighborhood, state, countOffers } = this.state
 
-            let search = qs.stringify({constructionType, propertyType, neighborhood, state})
+            let search = qs.stringify({constructionType, propertyType, neighborhood, state, countOffers})
             this.props.getSerchingParameters(search)
         }else{
             this.props.getSerchingParameters(false)
@@ -50,7 +51,8 @@ class OffersFilter extends Component {
                 constructionType:'',
                 propertyType: '',
                 state: '',
-                neighborhood: ''
+                neighborhood: '',
+                countOffers: 10
             })
         }
     }
@@ -65,11 +67,17 @@ class OffersFilter extends Component {
         return(
         <section>
             <div className='row'>
-                <div className='col-md-10'>
+                <div className='col-md-8'>
                     <Dropdowns 
                         defaultValues={this.state} 
                         changeHandler={this.changeHandler}
                     />
+                </div>
+                <div className='col-md-2'>
+                    <Select 
+                        label='Покажи'
+                        options={[{value: 10, _id:10},{value:15, _id:15}]} 
+                        defaultValue={10}/>
                 </div>
                 <div>
                     <div className='col-md-2'>
