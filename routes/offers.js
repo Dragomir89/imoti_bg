@@ -65,7 +65,6 @@ module.exports = (app) =>{
 
     app.get('/api/options', (req,res)=>{
 
-        let sendData = req.body
         let returnObj = {}
 
         var promise1 = ConstructionType.find({})
@@ -80,8 +79,8 @@ module.exports = (app) =>{
             returnObj.states = values[2]
             returnObj.neighborhoods = values[3]
 
-            console.log('SHOW RETURN OBJECT')
-            console.log(returnObj)
+            // console.log('SHOW RETURN OBJECT')
+            // console.log(returnObj)
             res.send(returnObj)
         });
         
@@ -167,7 +166,7 @@ module.exports = (app) =>{
 
         const urlParts = url.parse(req.url, true)
         const queryParams = urlParts.query
-        console.log(queryParams)
+        // console.log(queryParams)
         let searchObj = null
 
         if(queryParams){
@@ -195,8 +194,8 @@ module.exports = (app) =>{
         console.log('skip value = ' + skipVal)
 
         if(searchObj){
-            console.log('ima quuery string')
-            console.log(searchObj)
+            // console.log('ima quuery string')
+            // console.log(searchObj)
                 Offer.find(searchObj)
                 .skip(skipVal)
                 .limit(offersPerPage)
@@ -251,6 +250,55 @@ module.exports = (app) =>{
                });
 
                 // res.send({offers: offers,page:page})
+        })
+    })
+    
+    app.get('/api/offer/:id', (req,res)=>{
+
+        Offer.findById(req.params.id, (err,offer)=>{
+            if(err){
+                console.log('Error')
+                res.send(err)
+                return
+            }
+            res.send(offer)
+        })
+    })
+
+    app.put('/api/offer/:id', (req, res) => {
+        console.log('/api/offer (UPDATE): =============')
+        console.log(req.body)
+        // console.log(req.params)
+        const newOffer = {
+            area:         req.body.area,
+            description:  req.body.description,
+            phoneNumber:  req.body.phoneNumber,
+            // phoneNumbers: [{type: String, type: String, lowercase: true, trim: true}],
+            price:       Number(req.body.price),
+            address:     req.body.address,
+            info:        req.body.info,
+            propertyOwnerName: req.body.propertyOwnerName,
+            floor:       Number(req.body.floor),
+            constructionTypeId: req.body.constructionType,
+            propertyTypeId:     req.body.propertyType,
+            state:              req.body.state,
+            neighborhoodId:     req.body.neighborhood,
+            lastCall:           new Date(req.body.lastCall),
+            nextCall:           new Date(req.body.nextCall)   
+        }
+
+        Offer.update({_id:req.params.id}, newOffer, {multi: false}, function(err, newObj){
+            if(err){
+                console.log('ERROR')
+                console.log(err)
+                res.send(err)
+                return
+            }
+
+            console.log('updated obj')
+            console.log(newObj)
+
+            res.send(newObj)
         })
     })
 }

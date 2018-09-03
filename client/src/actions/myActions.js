@@ -4,9 +4,7 @@ import toastr from 'toastr'
 
 export default {
     addDetailsPost : (params) => {
-
-        //console.log('actions/myActions.js  params:', params)
-        
+    
         let options = { 
             method: 'post',
             url: '/api/add-details',
@@ -51,7 +49,6 @@ export default {
             })
         }
     },
-
     postOfferForm: (params)=>{
         return (dispatch) => {
             params.addedOn = new Date()
@@ -102,6 +99,37 @@ export default {
                     payload:res.data
                 })
             })
+        }
+    },
+    updateOffer:(params)=>{
+        console.log('request params')
+        console.log(params)
+        let options = { 
+            method: 'put',
+            url: '/api/offer/' + params._id,
+            data: params
+        }
+
+        return (dispatch)=>{
+      
+            axios(options).then((res)=>{
+                console.log(res)
+                toastr.success('Офертата беше променена')
+                return dispatch({
+                    type: types.UPDATE_OFFER, 
+                    payload:res.data
+                })    
+            })
+        }    
+    },
+    getOffer:(id)=>{
+        return (dispatch) =>{
+            axios.get('/api/offer/'+ id ).then((res)=>{
+                return dispatch({
+                    type: types.GET_OFFER, 
+                    payload:res.data
+                })
+            })   
         }
     }
 }

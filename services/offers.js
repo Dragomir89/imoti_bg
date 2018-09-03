@@ -12,8 +12,6 @@ function getAllOffers(params) {
 
 function addNewDetails(params){
 
-    console.log('addNewDetails Fn PARAMS: ')
-    console.log(params)
     
     if(params.constructionType){
         

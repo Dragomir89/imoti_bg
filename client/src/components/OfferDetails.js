@@ -1,54 +1,72 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import EditOfferForm from './EditOfferForm'
+import myActions from '../actions/myActions'
 
 class OfferDetails extends Component {
     constructor(props){
         super(props)
-        console.log('constructor')
+
         this.state = {
-            offer: {}
+            offer: {},
+            showEditForm: true
         }
     }
 
     componentDidMount(){
-        // Да се направи със заявка от сървъра !!!!!
         const paramId = this.props.match.params.id        
-        const offers = this.props.offers
-        let offer = offers.filter((e)=>{ if(e._id === paramId ){return e}})[0]
-        this.setState({offer})
+        this.props.getOffer(paramId)
+    }
+
+    showHideEditForm(e){
+        e.preventdefault()
+        const showEditForm = this.state.showEditForm ? false : true
+        this.setState({showEditForm})
     }
 
 
-    render(){
+
+    render() {
         
-        const offer = this.state.offer
+        const offer = this.props.offer
         
-        if(JSON.stringify(offer) === JSON.stringify({})){
+        if(JSON.stringify(offer) === JSON.stringify({})) {
             return ('No Offer')
         }
 
+        let editOfferForm = this.state.showEditForm ? <EditOfferForm {...this.props.offer} updateOffer={this.props.updateOffer}/> : null
+        
+
         return(
             <div>
-                <h2>Детайли</h2>
-                <p>Добавен на: {new Date(offer.addedOn).toLocaleDateString()}</p>
-                <p>Адрес: {offer.address}</p>
-                <p>Кв: {offer.area}</p>
-                <p>Вид Стоителство: {offer.constructionTypeId.value}</p>
-                <p>Етаж: {offer.floor}</p>
-                <p>Описание: {offer.description}</p>
-                <p>Допълнително инфо: {offer.info}</p>
-                <p>Квартал: {offer.neighborhoodId.value}</p>
-                <p>Номер На Оферта: {offer.number}</p>
-                <p>Телефони: </p>
-                <ul>
-                    {offer.phoneNumbers.map((e,i)=>{
-                        return(<li key={i}>{e}</li>)
-                    })}
-                </ul>
-                <p>Цена: {offer.price}</p>
-                <p>Собственик: {offer.propertyOwnerName}</p>
-                <p>Състояние: {offer.state.value}</p>
+                { editOfferForm }
             </div>
+
+            // <div>
+            //     <h2>Детайли</h2>
+            //     <p>Добавен на: {new Date(offer.addedOn).toLocaleDateString()}</p>
+            //     <p>Адрес: {offer.address}</p>
+            //     <p>Кв: {offer.area}</p>
+            //     <p>Вид Стоителство: {offer.constructionTypeId.value}</p>
+            //     <p>Етаж: {offer.floor}</p>
+            //     <p>Описание: {offer.description}</p>
+            //     <p>Допълнително инфо: {offer.info}</p>
+            //     <p>Квартал: {offer.neighborhoodId.value}</p>
+            //     <p>Номер На Оферта: {offer.number}</p>
+            //     <p>Телефони: </p>
+            //     <ul>
+            //         {offer.phoneNumbers.map((e,i)=>{
+            //             return(<li key={i}>{e}</li>)
+            //         })}
+            //     </ul>
+            //     <p>Цена: {offer.price}</p>
+            //     <p>Собственик: {offer.propertyOwnerName}</p>
+            //     <p>Състояние: {offer.state.value}</p>
+                
+            //     <button >Промени</button>
+                
+            
+            // </div>
             
 
         )
@@ -58,12 +76,23 @@ class OfferDetails extends Component {
 
 
 function mapStateToProps(state){
-    console.log( 'OfferDetails  mapStateToProps - >')
-    console.log(state.showOffersReducer)
+    // console.log('mapStateToProps - > Offer details')
+    // console.log(state.offerReducer)
     return{
-         offers: state.showOffersReducer.offers
+        offer: state.offerReducer
+    }
+}
+function mapDispatchToProps(dispatch){
+    return {
+        updateOffer: (params)=>{
+            dispatch(myActions.updateOffer(params))
+        },
+        getOffer:(id)=>{
+            dispatch(myActions.getOffer(id))
+        }
+        
     }
 }
 
 
-export default connect(mapStateToProps)(OfferDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(OfferDetails)

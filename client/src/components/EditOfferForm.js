@@ -1,70 +1,62 @@
 import React, { Component } from 'react'
-import Input from './formComponents/Input'
-import { connect } from 'react-redux'
-import myActions from '../actions/myActions'
 import Dropdowns from './formComponents/Dropdowns'
+import Input from './formComponents/Input'
+import DatePickerSelector from './formComponents/DatePickerSelector'
+import moment from 'moment'
 
-
-class AddOffer extends Component{
+class EditFormOffer extends Component {
     constructor(props){
         super(props)
-        
-        this.state = this.defaultState()
 
-        this.handleChange = this.handleChange.bind(this)
-        this.handleClick = this.handleClick.bind(this)
-    }
+        this.state = {
+            lastCall: moment(),
+            nextCall: moment(),
 
-    defaultState(){
-        return{
-            address:'',
-            area:'',
-            description:'',
-            info:'',
-            number:'',
-            phoneNumber:'',
-            phoneNumber2:'',
-            phoneNumber3:'',
-            price:'',
-            floor: '-1',
-            propertyOwnerName: '',
-            successPost: false
         }
+        this.setState(props)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
+        this.handleChangeNextCall = this.handleChangeNextCall.bind(this)
+
+        this.handleClick = this.handleClick.bind(this)
+
     }
-    
+
+    componentDidMount(){
+        // this shood be moved in the constructor !!!!
+        this.setState(this.props)
+    }
+
     handleChange(event){
         this.setState({[event.target.name]: event.target.value})
     }
 
-    handleClick(e){
+    handleChangeLastCall(lastCall){
+        this.setState({lastCall})
+    }
+
+    handleChangeNextCall(nextCall){
+        this.setState({nextCall})
+    }
+
+    handleClick(e) {
         e.preventDefault()
-        this.props.postForm(this.state)
+        this.props.updateOffer(this.state)
     }
 
-    componentWillReceiveProps(nextProps){
- 
-        const success = nextProps.myReducer.success
-        if(success){ 
-            this.setState(this.defaultState()) 
-            this.setState({successPost: success})
-        }
-    }
-
-    componentDidMount(){
-        this.props.getSomeData()
-    }
-
-    render() {
-        // console.log('RENDER - ADD OFFER')
-        // console.log(this.state)
+    render(){
         return(
             <div>
                 <form>
                 <div className="row">
                     <div className="col-md-12">
                         <Dropdowns 
-                            changeHandler={this.handleChange} 
-                            rerender={this.state.successPost}/>
+                            changeHandler={this.handleChange}
+                            neighborhood={this.props.neighborhood}
+                            constructionType={this.props.constructionType}
+                            propertyType={this.props.propertyType}
+                            state={this.props.state}
+                        />
                     </div>
                     
                     <div className="col-sm-4">
@@ -93,7 +85,6 @@ class AddOffer extends Component{
                             changeFn={this.handleChange}/>
                         
                     </div>
-                    
                     <div className="col-sm-4">
                         <Input name='price' 
                             label='Цена' 
@@ -120,7 +111,8 @@ class AddOffer extends Component{
                             changeFn={this.handleChange}/>
 
                     </div>
-                    <div className="col-sm-4">                        
+                    <div className="col-sm-4">   
+
                         <Input name='phoneNumber' 
                             label='Тлефон Главен' 
                             type='text'
@@ -130,43 +122,39 @@ class AddOffer extends Component{
                         <Input name='phoneNumber2' 
                             label='Тлефон 2' 
                             type='text'
-                            val={this.state.phoneNumber2}
+                            val={this.state.phoneNumbers ? this.state.phoneNumbers[1] : null}
                             changeFn={this.handleChange}/>
 
                         <Input name='phoneNumber3' 
                             label='Тлефон 3' 
                             type='text'
-                            val={this.state.phoneNumber3}
+                            val={this.state.phoneNumbers  ? this.state.phoneNumbers[2] : null}
                             changeFn={this.handleChange}/>
                     </div>
+                    <div className="col-sm-6">
+                        <DatePickerSelector 
+                            label='Последно обаждане'
+                            changeFn={this.handleChangeLastCall} 
+                            startDate={moment(this.state.lastCall)}/>
+                    </div>
+                    <div className="col-sm-6">
+                        <DatePickerSelector 
+                            label='Следващо обаждане'
+                            changeFn={this.handleChangeNextCall} 
+                            startDate={moment(this.state.nextCall)}/>
+                    </div>
+                    
                 </div>
-
-                <button onClick={this.handleClick} className="btn btn-success">Запази</button>
+                
+                <button 
+                    onClick={this.handleClick} 
+                    className="btn btn-success">Запази</button>
             </form>
             </div>
         )
+
     }
 }
 
 
-function mapDispatchToProps(dispatch){
-    return{
-        getSomeData:(params)=>{
-            dispatch(myActions.getDetails(params))
-        },
-        changeSelectData:(params)=>{
-            dispatch(myActions.chnageSelectDetailsOffer(params))
-        },
-        postForm:(params)=>{
-            dispatch(myActions.postOfferForm(params))
-        }
-    }
-}
-function mapStateToProps(state){
-    return{
-        myReducer: state.myReducer
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddOffer)
+export default EditFormOffer

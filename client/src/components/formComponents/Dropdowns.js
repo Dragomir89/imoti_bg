@@ -5,7 +5,6 @@ import Select from './Select'
 import actions from '../../actions/myActions'
 
 class Dropdowns extends Component{
-    
 
     componentDidMount(){
         this.props.getOptions()  
@@ -13,6 +12,7 @@ class Dropdowns extends Component{
 
 
     render(){
+
         if(!this.props){
             return (<h2>Loading .... </h2>)
         }
@@ -32,11 +32,11 @@ class Dropdowns extends Component{
             
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={this.props.propertyType}
+                    defaultValue={ this.props.propertyType }
                     name={'propertyType'} 
                     label='Вид Имот' 
                     changeFn={ this.props.changeHandler } 
-                    options={this.props.propertyTypes}
+                    options={ this.props.propertyTypes }
                 />
             </div>
             <div className='col-md-3'>
@@ -67,25 +67,25 @@ class Dropdowns extends Component{
 }
 
 function mapStateToProps(appState){
-
     const { 
         constructionTypes, 
-        constructionType, 
+        // constructionType, 
         neighborhoods, 
-        neighborhood, 
+        // neighborhood, 
         propertyTypes, 
-        propertyType, 
+        // propertyType, 
         states, 
-        state } = appState.getOptionsReducer
+        // state 
+    } = appState.getOptionsReducer
     return{
         constructionTypes,
-        constructionType,
+        // constructionType,
         neighborhoods,
-        neighborhood,
+        // neighborhood,
         propertyTypes,
-        propertyType,
+        // propertyType,
         states,
-        state
+        // state
     }
 }
 

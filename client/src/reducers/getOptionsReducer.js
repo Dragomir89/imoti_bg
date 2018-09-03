@@ -7,7 +7,7 @@ export default (state = {}, action) => {
     switch (action.type) {
 
         case types.GET_OFFER_OPTIONS:
-        console.log('GET_OFFER_OPTIONS action.type' )   
+        // console.log('GET_OFFER_OPTIONS action.type' )   
         let data = action.payload
         // console.log(data)
 

@@ -19,7 +19,9 @@ const offerSchema = new Schema({
     state:              { type: ObjectId, required: true, ref: 'states' },
     neighborhoodId:     { type: ObjectId, required: true, ref: 'neighborhoods' },
     addedOn:            { type: Date },
-    addedFrom:          { type: ObjectId, ref: 'users' }
+    addedFrom:          { type: ObjectId, ref: 'users' },
+    lastCall:           { type: Date },
+    nextCall:           { type: Date }   
 
 })
 
