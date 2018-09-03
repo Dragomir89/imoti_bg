@@ -77,7 +77,7 @@ export default {
                     payload:'success'
                 })
             }).catch(function (error) {
-                toastr.error('Възникна проблем с на сървъра')
+                toastr.error('Възникна проблем със сървъра')
                 console.log(error);
               })
         }

@@ -4,6 +4,8 @@ import Select from './formComponents/Select'
 import actions  from '../actions/myActions'
 import Dropdowns from './formComponents/Dropdowns'
 import qs from 'querystring'    
+import DatePickerSelector from './formComponents/DatePickerSelector'
+import moment from 'moment'
 
 class OffersFilter extends Component {
     constructor(props){
@@ -20,16 +22,21 @@ class OffersFilter extends Component {
                 propertyType: '',
                 state: '',
                 neighborhood: '',
-                countOffers: 10
+                countOffers: 10,
+                nextCall: moment()
             }
         }
-
+        this.changeHandlerDatePicker = this.changeHandlerDatePicker.bind(this)
         this.changeHandler = this.changeHandler.bind(this)
         this.clickBtn = this.clickBtn.bind(this)
     }
 
     changeHandler(e){
         this.setState({[e.target.name]: e.target.value})
+    }
+
+    changeHandlerDatePicker(date){
+        this.setState({'nextCall': date})
     }
 
     componentDidMount(){
@@ -39,11 +46,11 @@ class OffersFilter extends Component {
     clickBtn(e){
         e.preventDefault()
 
-        if(e.target.name === 'search'){
+        if(e.target.name === 'search') {
             
-            const { constructionType, propertyType, neighborhood, state, countOffers } = this.state
-
-            let search = qs.stringify({constructionType, propertyType, neighborhood, state, countOffers})
+            let { constructionType, propertyType, neighborhood, state, countOffers, nextCall } = this.state
+            nextCall = moment(this.state.nextCall).format('YYYY-MM-DD')
+            const search = qs.stringify({constructionType, propertyType, neighborhood, state, countOffers, nextCall})
             this.props.getSerchingParameters(search)
         }else{
             this.props.getSerchingParameters(false)
@@ -52,7 +59,8 @@ class OffersFilter extends Component {
                 propertyType: '',
                 state: '',
                 neighborhood: '',
-                countOffers: 10
+                countOffers: 10,
+                nextCall: moment()
             })
         }
     }
@@ -67,17 +75,29 @@ class OffersFilter extends Component {
         return(
         <section>
             <div className='row'>
-                <div className='col-md-8'>
-                    <Dropdowns 
-                        defaultValues={this.state} 
-                        changeHandler={this.changeHandler}
-                    />
-                </div>
-                <div className='col-md-2'>
-                    <Select 
-                        label='Покажи'
-                        options={[{value: 10, _id:10},{value:15, _id:15}]} 
-                        defaultValue={10}/>
+                <div className='col-md-10'>
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            <Dropdowns 
+                                defaultValues={this.state} 
+                                changeHandler={this.changeHandler}
+                            />
+                        </div>
+                    </div>    
+                    <div className='row'>
+                        <div className='col-md-2'>
+                            <Select 
+                                label='Покажи'
+                                options={[{value: 10, _id:10},{value:15, _id:15}]} 
+                                defaultValue={10}/>
+                        </div>
+                        <div className='col-md-3'>
+                            <DatePickerSelector 
+                                label='Следващо обаждане'
+                                changeFn={this.changeHandlerDatePicker} 
+                                startDate={this.state.nextCall}/>
+                        </div>        
+                    </div>    
                 </div>
                 <div>
                     <div className='col-md-2'>
@@ -90,8 +110,13 @@ class OffersFilter extends Component {
                         onClick={this.clickBtn} 
                         className='btn btn-md btn-warning'>Изчисти</button>
                     </div>  
-                </div>        
-            </div>    
+                </div>
+            </div>
+            
+            
+            
+                        
+            
         </section>
         )
     }

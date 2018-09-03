@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const offersCtrl = require('../services/offers') 
 const Offer = mongoose.model('offers')
-const User = mongoose.model('users')
+// const User = mongoose.model('users')
 const ConstructionType = mongoose.model('constructionTypes')
 const PropertyType = mongoose.model('propertyTypes')
 const States = mongoose.model('states')
@@ -34,9 +34,7 @@ module.exports = (app) =>{
 
 
     app.post('/api/add-details', (req,res)=>{
-        console.log("========================================================================")
-        console.log('add-details POST BODY: ')
-        console.log(req.body)
+        
         let data = req.body
         let promiseArr = []
 
@@ -78,9 +76,6 @@ module.exports = (app) =>{
             returnObj.propertyTypes = values[1]
             returnObj.states = values[2]
             returnObj.neighborhoods = values[3]
-
-            // console.log('SHOW RETURN OBJECT')
-            // console.log(returnObj)
             res.send(returnObj)
         });
         
@@ -122,7 +117,9 @@ module.exports = (app) =>{
             info: sendData.info,
             propertyOwnerName: sendData.propertyOwnerName,
             addedOn: sendData.addedOn,
-            addedFrom: userId
+            addedFrom: userId,
+            nextCall: new Date(),
+            lastCall: new Date()
         })
 
             newOffer.save().then((offer)=>{
@@ -162,14 +159,14 @@ module.exports = (app) =>{
         })
     })
 
-    app.get('/api/get-offers/:page', (req,res)=>{
+    app.get('/api/get-offers/:page', (req,res)=> {
 
         const urlParts = url.parse(req.url, true)
         const queryParams = urlParts.query
-        // console.log(queryParams)
+        console.log(queryParams)
         let searchObj = null
 
-        if(queryParams){
+        if(queryParams) {
             searchObj = {}
             if(queryParams.constructionType) { 
                 searchObj.constructionTypeId = queryParams.constructionType 
@@ -183,19 +180,40 @@ module.exports = (app) =>{
             if(queryParams.neighborhood){
                 searchObj.neighborhoodId = queryParams.neighborhood 
             }
+            if(queryParams.nextCall && queryParams.nextCall !== 'Invalid date'){
+                searchObj.nextCall = {"$gte": new Date(queryParams.nextCall)}
+            }
+            
         }
         
 
         let page =  Number(req.params.page)
-        console.log('page = ' + page)
         let offersPerPage = 10
 
         let skipVal = offersPerPage * (page - 1) < 0 ? 0 : offersPerPage * (page - 1)  
-        console.log('skip value = ' + skipVal)
+        //--------------
+        let updateOBJ = {
+            nextCall: new Date(),
+            lastCall: new Date(),
+        }
+        Offer.update({}, updateOBJ, {multi: true}, function(err, newObj){
+            if(err){
+                console.log('ERROR')
+                console.log(err)
+                res.send(err)
+                return
+            }
 
-        if(searchObj){
-            // console.log('ima quuery string')
-            // console.log(searchObj)
+            console.log('updated obj')
+            console.log(newObj)
+
+            res.send(newObj)
+        })
+
+
+        return
+        //--------------
+        if(searchObj) {
                 Offer.find(searchObj)
                 .skip(skipVal)
                 .limit(offersPerPage)
@@ -219,8 +237,6 @@ module.exports = (app) =>{
                             lastPageNbr
                         })
                 });
-
-                    // res.send({offers: offers,page:page})
             })
         return
         }
@@ -251,8 +267,8 @@ module.exports = (app) =>{
 
                 // res.send({offers: offers,page:page})
         })
+        
     })
-    
     app.get('/api/offer/:id', (req,res)=>{
 
         Offer.findById(req.params.id, (err,offer)=>{
@@ -287,18 +303,22 @@ module.exports = (app) =>{
             nextCall:           new Date(req.body.nextCall)   
         }
 
-        Offer.update({_id:req.params.id}, newOffer, {multi: false}, function(err, newObj){
-            if(err){
-                console.log('ERROR')
-                console.log(err)
-                res.send(err)
-                return
-            }
+        Offer.update(
+            {_id:req.params.id}, 
+            newOffer, 
+            {multi: false}, 
+            function(err, newObj){
+                if(err){
+                    console.log('ERROR')
+                    console.log(err)
+                    res.send(err)
+                    return
+                }
 
-            console.log('updated obj')
-            console.log(newObj)
+                console.log('updated obj')
+                console.log(newObj)
 
-            res.send(newObj)
+                res.send(newObj)
         })
     })
 }
