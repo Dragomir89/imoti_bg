@@ -192,26 +192,26 @@ module.exports = (app) =>{
 
         let skipVal = offersPerPage * (page - 1) < 0 ? 0 : offersPerPage * (page - 1)  
         //--------------
-        let updateOBJ = {
-            nextCall: new Date(),
-            lastCall: new Date(),
-        }
-        Offer.update({}, updateOBJ, {multi: true}, function(err, newObj){
-            if(err){
-                console.log('ERROR')
-                console.log(err)
-                res.send(err)
-                return
-            }
+        // let updateOBJ = {
+        //     nextCall: new Date(),
+        //     lastCall: new Date(),
+        // }
+        // Offer.update({}, updateOBJ, {multi: true}, function(err, newObj){
+        //     if(err){
+        //         console.log('ERROR')
+        //         console.log(err)
+        //         res.send(err)
+        //         return
+        //     }
 
-            console.log('updated obj')
-            console.log(newObj)
+        //     console.log('updated obj')
+        //     console.log(newObj)
 
-            res.send(newObj)
-        })
+        //     res.send(newObj)
+        // })
 
 
-        return
+        // return
         //--------------
         if(searchObj) {
                 Offer.find(searchObj)
