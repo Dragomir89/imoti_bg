@@ -7,13 +7,9 @@ import moment from 'moment'
 class EditFormOffer extends Component {
     constructor(props){
         super(props)
+       
+        this.state = { }
 
-        this.state = {
-            lastCall: moment(),
-            nextCall: moment(),
-
-        }
-        this.setState(props)
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
         this.handleChangeNextCall = this.handleChangeNextCall.bind(this)
