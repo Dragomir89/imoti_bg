@@ -11,6 +11,7 @@ require('./moduls/PropertyType')
 require('./moduls/State')
 require('./moduls/Offer')
 require('./moduls/Neighborhood')
+require('./moduls/PhoneNumber')
 
 
 require('./services/passport')
