@@ -161,30 +161,6 @@ module.exports = (app) =>{
 
     app.get('/api/get-offers/:page', (req,res)=> {
 
-        Offer.find().then((offers) => {
-            console.log(offers)
-            for (let i = 0; i < offers.length; i++) {
-            //    console.log(Array.isArray(offers[i].phoneNumbers))
-                for (let j = 0; j < offers[i].phoneNumbers.length; j++) {
-                //    console.log('test');
-                //    console.log(offers[i].phoneNumbers)
-                    let number = offers[i].phoneNumbers[j];
-                    // console.log(number)
-                    let phoneNumber = new PhoneNumbers({
-                        phoneNumber: number,
-                        offerId: offers[i]._id
-                    })
-                    phoneNumber.save().then((phone)=>{
-                //        console.log('SAVE OFFER')
-                        
-                //        console.log(phone)
-                    }).catch((err) =>{
-                        console.log(err)
-                    })
-                }
-            }
-        })
-
         const urlParts = url.parse(req.url, true)
         const queryParams = urlParts.query
         console.log(queryParams)
