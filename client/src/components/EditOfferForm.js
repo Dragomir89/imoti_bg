@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import Dropdowns from './formComponents/Dropdowns'
 import Input from './formComponents/Input'
 import DatePickerSelector from './formComponents/DatePickerSelector'
+import myActions from '../actions/myActions'
+import { connect } from 'react-redux'
 import moment from 'moment'
 
 class EditFormOffer extends Component {
     constructor(props){
         super(props)
-       
+
         this.state = { }
 
         this.handleChange = this.handleChange.bind(this)
@@ -18,9 +20,13 @@ class EditFormOffer extends Component {
 
     }
 
-    componentDidMount(){
-        // this shood be moved in the constructor !!!!
-        this.setState(this.props)
+    componentDidMount() {
+        const paramId = this.props.match.params.id 
+        this.props.getOffer(paramId)
+    }
+
+    componentWillReceiveProps(props){
+        this.setState({...props.offer})
     }
 
     handleChange(event){
@@ -40,21 +46,20 @@ class EditFormOffer extends Component {
         this.props.updateOffer(this.state)
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <form>
                 <div className="row">
                     <div className="col-md-12">
                         <Dropdowns 
                             changeHandler={this.handleChange}
-                            neighborhood={this.props.neighborhood}
-                            constructionType={this.props.constructionType}
-                            propertyType={this.props.propertyType}
-                            state={this.props.state}
+                            neighborhood={this.state.neighborhood}
+                            constructionType={this.state.constructionType}
+                            propertyType={this.state.propertyType}
+                            state={this.state.state}
                         />
                     </div>
-                    
                     <div className="col-sm-4">
                         <Input name='number' 
                             label='Номер На Оферта' 
@@ -153,4 +158,25 @@ class EditFormOffer extends Component {
 }
 
 
-export default EditFormOffer
+
+function mapStateToProps(state){
+    // console.log('mapStateToProps - > Offer details')
+    // console.log(state.offerReducer)
+    return {
+        offer: state.offerReducer
+    }
+}
+function mapDispatchToProps(dispatch){
+    return {
+        updateOffer: (params)=>{
+            dispatch(myActions.updateOffer(params))
+        },
+        getOffer:(id)=>{
+            dispatch(myActions.getOffer(id))
+        }
+        
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditFormOffer)
