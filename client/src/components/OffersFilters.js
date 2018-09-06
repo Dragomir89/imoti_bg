@@ -5,6 +5,7 @@ import actions  from '../actions/myActions'
 import Dropdowns from './formComponents/Dropdowns'
 import qs from 'querystring'    
 import DatePickerSelector from './formComponents/DatePickerSelector'
+import Input from './formComponents/Input'
 import moment from 'moment'
 
 class OffersFilter extends Component {
@@ -23,7 +24,8 @@ class OffersFilter extends Component {
                 state: '',
                 neighborhood: '',
                 countOffers: 10,
-                nextCall: moment()
+                nextCall: moment(),
+                phoneNumber: ''
             }
         }
         this.changeHandlerDatePicker = this.changeHandlerDatePicker.bind(this)
@@ -48,9 +50,9 @@ class OffersFilter extends Component {
 
         if(e.target.name === 'search') {
             
-            let { constructionType, propertyType, neighborhood, state, countOffers, nextCall } = this.state
+            let { constructionType, propertyType, neighborhood, state, countOffers, nextCall, phoneNumber } = this.state
             nextCall = moment(this.state.nextCall).format('YYYY-MM-DD')
-            const search = qs.stringify({constructionType, propertyType, neighborhood, state, countOffers, nextCall})
+            const search = qs.stringify({constructionType, propertyType, neighborhood, state, countOffers, nextCall, phoneNumber})
             this.props.getSerchingParameters(search)
         }else{
             this.props.getSerchingParameters(false)
@@ -97,6 +99,14 @@ class OffersFilter extends Component {
                                 changeFn={this.changeHandlerDatePicker} 
                                 startDate={this.state.nextCall}/>
                         </div>        
+                        <div className='col-md-3'>
+                            <Input 
+                                label='Телефон' 
+                                changeFn={this.changeHandler}
+                                val={this.state.phoneNumber}
+                                name='phoneNumber'    
+                            />
+                        </div>
                     </div>    
                 </div>
                 <div>

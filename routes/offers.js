@@ -126,7 +126,20 @@ module.exports = (app) =>{
                 console.log('SAVE OFFER')
                 
                 console.log(offer)
-                  
+                ////-----
+                let promisePhones = []
+                console.log(phoneNumbers)
+                phoneNumbers.forEach((phoneNumber)=>{
+                    console.log(phoneNumber)
+                    const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
+                    promisePhones.push(phone.save())
+                })
+
+                Promise.all(promisePhones).then((res)=>{
+                    console.log('zapazeni telefoni')
+                    console.log(res)
+                })
+                ////-----
 
                 var promise1 = ConstructionType.find({})
                 var promise2 = PropertyType.find({})
@@ -163,7 +176,8 @@ module.exports = (app) =>{
 
         const urlParts = url.parse(req.url, true)
         const queryParams = urlParts.query
-        console.log(queryParams)
+       // console.log('queryParams -->')
+        //console.log(queryParams)
         let searchObj = null
 
         if(queryParams) {
@@ -191,28 +205,43 @@ module.exports = (app) =>{
         let offersPerPage = 10
 
         let skipVal = offersPerPage * (page - 1) < 0 ? 0 : offersPerPage * (page - 1)  
-        //--------------
-        // let updateOBJ = {
-        //     nextCall: new Date(),
-        //     lastCall: new Date(),
-        // }
-        // Offer.update({}, updateOBJ, {multi: true}, function(err, newObj){
-        //     if(err){
-        //         console.log('ERROR')
-        //         console.log(err)
-        //         res.send(err)
-        //         return
-        //     }
 
-        //     console.log('updated obj')
-        //     console.log(newObj)
+        /////-----
+        const {phoneNumber} = queryParams
 
-        //     res.send(newObj)
-        // })
+        if(phoneNumber) { 
+            PhoneNumbers.find({phoneNumber}).then((numbers)=>{
+        
+                let promiseOffers = []
+                numbers.forEach((e)=>{
+                    promiseOffers.push(
+                        Offer.findById(e.offerId)
+                        .populate("propertyTypeId")
+                        .populate("constructionTypeId")
+                        .populate("state")
+                        .populate("neighborhoodId"))
+                })
+    
+                Promise.all(promiseOffers).then((offers)=>{
 
+                    countOffers= offers.length
+                    let lastPageNbr = countOffers / offersPerPage
+                    res.send({
+                        offers,
+                        page,
+                        countOffers,
+                        offersPerPage,
+                        lastPageNbr
+                    })
 
-        // return
-        //--------------
+                })
+            })
+            return
+        }
+        
+        /////-----
+        
+
         if(searchObj) {
                 Offer.find(searchObj)
                 .skip(skipVal)

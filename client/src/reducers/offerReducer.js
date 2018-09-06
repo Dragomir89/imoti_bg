@@ -8,8 +8,8 @@ export default (state = {}, action) => {
 
         case types.GET_OFFER:
             let data = action.payload
-            console.log('GET OFFER REDUCER')
-            console.log(data)
+            // console.log('GET OFFER REDUCER')
+            // console.log(data)
             const newObj = {
                 _id:data._id,
                 addedOn:data.addedOn,
