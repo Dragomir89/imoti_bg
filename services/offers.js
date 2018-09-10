@@ -151,10 +151,42 @@ function getAllOffers(queryParams, page, offersPerPage){
     }
     return new Promise(getRes)
 }
+//// repair phone table
+function addPhonesToOffer(offerId){
+
+    function getRes(resolve, reject){
+        Offer.findById(offerId).then((offer)=>{
+            const {phoneNumber} = offer
+            
+            PhoneNumbers.find({ phoneNumber, offerId: offer._id }).then((res)=>{
+                if(res.length > 0 ){
+                    resolve({msg: 'телефоните съществъват'})
+                    return
+                }
+                const {phoneNumbers} = offer
+                let promisePhones = []
+                
+                phoneNumbers.forEach((phoneNumber)=>{
+                    const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
+                    promisePhones.push(phone.save())
+                })
+                Promise.all(promisePhones).then((res)=>{
+                    console.log('zapazeni telefoni')
+                    console.log(res)
+                    resolve({msg: 'телефоните Бяха запазени'})
+                })
+            })
+        })
+    }
+
+    return new Promise(getRes)
+}
+//// repair phone table
 
 module.exports = {
     getOffer,
     getAllOffers,
     addNewDetails,
-    findOffersByPhone
+    findOffersByPhone,
+    addPhonesToOffer
 }

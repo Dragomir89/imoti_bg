@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import myActions from '../../actions/myActions';
 
 
 const Tr =(props)=>{
@@ -27,6 +28,7 @@ const Tr =(props)=>{
     // console.log(propertyTypeId)
     // console.log('Kvartal')
     // console.log(neighborhoodId)
+
     return(
         
         <tr>
@@ -45,6 +47,12 @@ const Tr =(props)=>{
             {/* <td>{description}</td> */}
             {/* <td>{info}</td> */}
             <td><Link to={'/offer-details/'+ _id}>Виж Детайли</Link></td>
+            {/* //// repair phone table */}
+            <td><button onClick={(_id)=>{ 
+                myActions.savePhones(props.offer._id) 
+                // console.log(props.offer)
+            }} >Запази телефони</button></td>
+            {/* //// repair phone table */}
         </tr>
     )
 }

@@ -3,6 +3,13 @@ import types from './types'
 import toastr from 'toastr'
 
 export default {
+    //// repair phone table
+    savePhones: (offerId) =>{
+        axios.get('/api/add-phones/'+ offerId).then((res)=>{
+            toastr.success(res.data.msg)    
+        })
+    },
+    //// repair phone table
     addDetailsPost : (params) => {
     
         let options = { 

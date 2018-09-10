@@ -13,7 +13,7 @@ const url = require('url')
 
 
 module.exports = (app) =>{
-    
+    // console.log(app)   
  
     app.post('/api/add-details', (req, res)=>{
         
@@ -206,4 +206,12 @@ module.exports = (app) =>{
                 res.send({error: err})
             })
     })
+    //// repair phone table
+    app.get('/api/add-phones/:id',(req, res)=>{
+        offersCtrl.addPhonesToOffer(req.params.id).then((msg)=>{
+            res.send(msg)
+
+        })
+    })
+    //// repair phone table
 }
