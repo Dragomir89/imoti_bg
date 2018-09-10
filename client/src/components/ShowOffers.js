@@ -17,6 +17,8 @@ class ShowOffers extends Component {
     }
 
     componentDidMount(){
+        const page = this.props.match.params.page ? this.props.match.params.page : 1 
+        
         let search = this.props.location.search
         if(search){
             search = search.substr(1)
@@ -24,7 +26,6 @@ class ShowOffers extends Component {
             this.setState({filterValues: search})
         }
         
-        const page = this.props.match.params.page ? this.props.match.params.page : 1 
         this.props.getData(page, this.props.location.search)  
     }
 
@@ -42,7 +43,7 @@ class ShowOffers extends Component {
 
     hasPage(page){
         
-        const offersPerPage = 6
+        const offersPerPage = 10
         const countOffers = this.props.state.countOffers
 
         const currentOffersCount = page * offersPerPage
@@ -79,7 +80,6 @@ class ShowOffers extends Component {
             this.props.state.lastPageNbr : nexPage
             let prevPage = this.props.state.page - 1
             prevPage    = prevPage < 1 ? 1 : prevPage 
-
 
             offers = offers.map((e)=>{
                 return (<Tr key={e._id} offer={e} />)

@@ -91,7 +91,7 @@ function findOffersByPhone(phoneNumber, page, offersPerPage){
             Promise.all(promiseOffers).then((offers)=>{
     
                 let countOffers= offers.length
-                const lastPageNbr = calcLastPageNbr(countOffers)
+                const lastPageNbr = calcLastPageNbr(countOffers, offersPerPage)
                 resolve({
                     offers,
                     page,
@@ -118,6 +118,8 @@ function calcLastPageNbr(countOffers, offersPerPage){
     if(!Number.isInteger(lastPageNbr)){
         lastPageNbr = Math.floor(lastPageNbr) + 1
     }
+    console.log(countOffers, offersPerPage)
+    console.log(lastPageNbr)
     return lastPageNbr
 }
 
@@ -138,7 +140,7 @@ function getAllOffers(queryParams, page, offersPerPage){
         .then((offers)=>{
 
             Offer.count(filters, function(err, countOffers) {
-                const lastPageNbr = calcLastPageNbr(countOffers)
+                const lastPageNbr = calcLastPageNbr(countOffers, offersPerPage)
                 resolve({
                     offers,
                     page,
