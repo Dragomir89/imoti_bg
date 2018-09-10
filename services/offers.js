@@ -165,7 +165,7 @@ function addPhonesToOffer(offerId){
                 }
                 const {phoneNumbers} = offer
                 let promisePhones = []
-                if(phoneNumbers && phoneNumbers.length === 0){
+                if(phoneNumbers && phoneNumbers.length !== 0){
                     
                     phoneNumbers.forEach((phoneNumber)=>{
                         const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
