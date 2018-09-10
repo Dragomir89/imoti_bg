@@ -61,7 +61,7 @@ export default {
             params.addedOn = new Date()
             let options = { 
                 method: 'post',
-                url: '/api/post-offer',
+                url: '/api/offer',
                 data: params
             }
   

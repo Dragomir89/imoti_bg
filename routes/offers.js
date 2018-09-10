@@ -128,89 +128,19 @@ module.exports = (app) =>{
         })
     })
 
-    app.post('/api/post-offer',(req, res)=>{
+    app.post('/api/offer',(req, res)=>{
         console.log('/api/post-offer')
-
         console.log(req.body)
-        let sendData = req.body
-        let userId = req.user ? req.user._id : null
-
-        let returnObj = {}
-        returnObj.success = true;
-
-        let phoneNumbers = [];
-
-        sendData.phoneNumber  ? phoneNumbers.push(sendData.phoneNumber)  : false
-        sendData.phoneNumber2 ? phoneNumbers.push(sendData.phoneNumber2) : false
-        sendData.phoneNumber3 ? phoneNumbers.push(sendData.phoneNumber3) : false
-
-        let newOffer = new Offer({
-            constructionTypeId: sendData.constructionType,
-            propertyTypeId: sendData.propertyType,
-            state: sendData.state,
-            neighborhoodId: sendData.neighborhood,
-
-            number: sendData.number,
-            
-            area: sendData.area,
-            description: sendData.description,
-            phoneNumber: sendData.phoneNumber,
-            phoneNumbers: phoneNumbers,
-            price: sendData.price,
-            address: sendData.address,
-            floor: sendData.floor,
-            info: sendData.info,
-            propertyOwnerName: sendData.propertyOwnerName,
-            addedOn: sendData.addedOn,
-            addedFrom: userId,
-            nextCall: new Date(),
-            lastCall: new Date()
+        // let userId = req.user ? req.user._id : null
+        offersCtrl.addOffer(req.body).then((returnObj)=>{
+            res.send(returnObj)
         })
-
-            newOffer.save().then((offer)=>{
-                console.log('SAVE OFFER')
-                
-                console.log(offer)
-                ////-----
-                let promisePhones = []
-                console.log(phoneNumbers)
-                phoneNumbers.forEach((phoneNumber)=>{
-                    console.log(phoneNumber)
-                    const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
-                    promisePhones.push(phone.save())
-                })
-
-                Promise.all(promisePhones).then((res)=>{
-                    console.log('zapazeni telefoni')
-                    console.log(res)
-                })
-                ////-----
-
-                var promise1 = ConstructionType.find({})
-                var promise2 = PropertyType.find({})
-                var promise3 = States.find({})
-                var promise4 = Neighborhood.find({})
-                
-        
-                Promise.all([promise1, promise2, promise3, promise4]).then(function(values) {
-                    returnObj.constructionTypes = values[0]
-                    returnObj.propertyTypes = values[1]
-                    returnObj.states = values[2]
-                    returnObj.neighborhoods = values[3]
-                    res.send(returnObj)
-                })
-                  
-            }).catch((err)=>{
-                console.log('SAVE ERROR ! => ')
-                console.log(err)
-                res.send({error: err})
-            })
     })
+
     //// repair phone table
     app.get('/api/add-phones/:id',(req, res)=>{
         offersCtrl.addPhonesToOffer(req.params.id).then((msg)=>{
             res.send(msg)
-
         })
     })
     //// repair phone table

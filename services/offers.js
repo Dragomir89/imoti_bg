@@ -159,6 +159,23 @@ function normalizePhoneNumber(phoneNumber){
     return phoneNumber.split(/\D+/).join("")
 }
 
+function saveArrayOfphones(phoneNumbers, offerId){
+    function getRes(resolve, reject){
+        let promisePhones = []
+        phoneNumbers.forEach((phoneNumber)=>{
+            phoneNumber = normalizePhoneNumber(phoneNumber)
+            const phone = new PhoneNumbers({offerId, phoneNumber})
+            promisePhones.push(phone.save())
+        })
+        Promise.all(promisePhones).then((res)=>{
+            console.log('zapazeni telefoni')
+            console.log(res)
+            resolve({msg: 'телефоните Бяха запазени', res})
+        })
+    }
+    return new Promise(getRes)
+}
+
 function addPhonesToOffer(offerId){
 
     function getRes(resolve, reject){
@@ -171,18 +188,11 @@ function addPhonesToOffer(offerId){
                     return
                 }
                 const {phoneNumbers} = offer
-                let promisePhones = []
+                // let promisePhones = []
                 if(phoneNumbers && phoneNumbers.length !== 0){
                     
-                    phoneNumbers.forEach((phoneNumber)=>{
-                        phoneNumber = normalizePhoneNumber(phoneNumber)
-                        const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
-                        promisePhones.push(phone.save())
-                    })
-                    Promise.all(promisePhones).then((res)=>{
-                        console.log('zapazeni telefoni')
-                        console.log(res)
-                        resolve({msg: 'телефоните Бяха запазени', res, phoneNumbers})
+                    saveArrayOfphones(phoneNumbers, offer._id).then((res)=>{
+                        resolve(res)
                     })
                 }else{
                     const phone = new PhoneNumbers({
@@ -203,10 +213,66 @@ function addPhonesToOffer(offerId){
 }
 //// repair phone table
 
+function addOffer(data){
+    console.log('/api/post-offer --- addOffer')
+      
+    // let userId = req.user ? req.user._id : null
+    let userId = null
+    function getRes(resolve, reject){
+        let phoneNumbers = [];
+
+        data.phoneNumber  ? phoneNumbers.push(data.phoneNumber)  : false
+        data.phoneNumber2 ? phoneNumbers.push(data.phoneNumber2) : false
+        data.phoneNumber3 ? phoneNumbers.push(data.phoneNumber3) : false
+
+        let newOffer = new Offer({
+            constructionTypeId: data.constructionType,
+            propertyTypeId: data.propertyType,
+            state: data.state,
+            neighborhoodId: data.neighborhood,
+            number: data.number,
+            area: data.area,
+            description: data.description,
+            phoneNumber: data.phoneNumber,
+            phoneNumbers: phoneNumbers,
+            price: data.price,
+            address: data.address,
+            floor: data.floor,
+            info: data.info,
+            propertyOwnerName: data.propertyOwnerName,
+            addedOn: data.addedOn,
+            addedFrom: userId,
+            nextCall: new Date(),
+            lastCall: new Date()
+        })
+
+        newOffer.save().then((offer)=>{
+            console.log('SAVED OFFER...')            
+            console.log(offer)
+
+            saveArrayOfphones(phoneNumbers, offer._id).then((phones)=>{
+                console.log('SAVED PHONES...')
+                console.log(phones)
+                resolve({phones, offer , success:true})
+            }).catch((err)=>{
+                reject({error: err})    
+            })
+                
+        }).catch((err)=>{
+            console.log('SAVE ERROR ! => ')
+            console.log(err)
+            reject({error: err})
+        })
+    }
+
+    return new Promise(getRes)
+}
+
 module.exports = {
     getOffer,
     getAllOffers,
     addNewDetails,
     findOffersByPhone,
-    addPhonesToOffer
+    addPhonesToOffer,
+    addOffer
 }
