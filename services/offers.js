@@ -154,7 +154,7 @@ function getAllOffers(queryParams, page, offersPerPage){
 //// repair phone table
 
 function normalizePhoneNumber(phoneNumber){
-    return phoneNumber.split(/[a-zA-Z]/).join('').split(/\s+/).join('')
+    return phoneNumber.split(/\D+/).join("")
 }
 
 function addPhonesToOffer(offerId){
