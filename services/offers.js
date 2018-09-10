@@ -165,16 +165,23 @@ function addPhonesToOffer(offerId){
                 }
                 const {phoneNumbers} = offer
                 let promisePhones = []
-                
-                phoneNumbers.forEach((phoneNumber)=>{
+                if(phoneNumbers.length === 0){
+                    phoneNumbers.forEach((phoneNumber)=>{
+                        const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
+                        promisePhones.push(phone.save())
+                    })
+                    Promise.all(promisePhones).then((res)=>{
+                        console.log('zapazeni telefoni')
+                        console.log(res)
+                        resolve({msg: 'телефоните Бяха запазени', res})
+                    })
+                }else{
                     const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
-                    promisePhones.push(phone.save())
-                })
-                Promise.all(promisePhones).then((res)=>{
-                    console.log('zapazeni telefoni')
-                    console.log(res)
-                    resolve({msg: 'телефоните Бяха запазени', res})
-                })
+                    phone.save().then((res)=>{
+                        resolve({msg: 'телефона беше запазен', res})
+                    })
+                }
+                
             })
         })
     }
