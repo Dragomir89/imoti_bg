@@ -173,7 +173,7 @@ function addPhonesToOffer(offerId){
                 Promise.all(promisePhones).then((res)=>{
                     console.log('zapazeni telefoni')
                     console.log(res)
-                    resolve({msg: 'телефоните Бяха запазени'})
+                    resolve({msg: 'телефоните Бяха запазени', res})
                 })
             })
         })
