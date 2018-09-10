@@ -74,7 +74,7 @@ function createFilters(queryParams) {
 }
 
 function findOffersByPhone(phoneNumber, page, offersPerPage){
-
+    phoneNumber = normalizePhoneNumber(phoneNumber)
     function getRes(resolve, reject){
         PhoneNumbers.find({phoneNumber}).then((numbers) => {
 
@@ -97,9 +97,7 @@ function findOffersByPhone(phoneNumber, page, offersPerPage){
                     page,
                     countOffers,
                     offersPerPage,
-                    lastPageNbr,
-                    numbers,
-                    phoneNumber
+                    lastPageNbr
                 })
             })
         })    
@@ -154,11 +152,16 @@ function getAllOffers(queryParams, page, offersPerPage){
     return new Promise(getRes)
 }
 //// repair phone table
+
+function normalizePhoneNumber(phoneNumber){
+    return phoneNumber.split(/[a-zA-Z]/).join('').split(/\s+/).join('')
+}
+
 function addPhonesToOffer(offerId){
 
     function getRes(resolve, reject){
         Offer.findById(offerId).then((offer)=>{
-            const {phoneNumber} = offer
+            const phoneNumber = normalizePhoneNumber(offer.phoneNumber)
             
             PhoneNumbers.find({ phoneNumber, offerId: offer._id }).then((res)=>{
                 if(res.length > 0 ){
@@ -170,6 +173,7 @@ function addPhonesToOffer(offerId){
                 if(phoneNumbers && phoneNumbers.length !== 0){
                     
                     phoneNumbers.forEach((phoneNumber)=>{
+                        phoneNumber = normalizePhoneNumber(phoneNumber)
                         const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
                         promisePhones.push(phone.save())
                     })
@@ -179,7 +183,11 @@ function addPhonesToOffer(offerId){
                         resolve({msg: 'телефоните Бяха запазени', res, phoneNumbers})
                     })
                 }else{
-                    const phone = new PhoneNumbers({offerId: offer._id, phoneNumber})
+                    const phone = new PhoneNumbers({
+                        offerId: offer._id, 
+                        phoneNumber:normalizePhoneNumber(phoneNumber)
+                    })
+
                     phone.save().then((res)=>{
                         resolve({msg: 'телефона беше запазен', res})
                     })
