@@ -123,6 +123,12 @@ class ShowOffers extends Component {
                             <nav aria-label="Page navigation example">
                                 <ul className="pagination">
                                     <li className="page-item">
+                                    <Link  className="page-link nextpage" to={'/show-offers/1' + querystring  } aria-label="Next">
+                                        <span aria-hidden="true" className='nextpage'>&laquo;&laquo;</span>
+                                        <span className="sr-only nextpage">Previous</span>
+                                    </Link>
+                                    </li>
+                                    <li className="page-item">
                                     <Link className="page-link prefpage" to={'/show-offers/' + prevPage +  querystring} aria-label="Previous">
                                         <span aria-hidden="true" className='prefpage'>&laquo;</span>
                                         <span className="sr-only prefpage">Previous</span>
@@ -132,6 +138,12 @@ class ShowOffers extends Component {
                                     <li className="page-item">
                                     <Link  className="page-link nextpage" to={'/show-offers/' + nexPage + querystring  } aria-label="Next">
                                         <span aria-hidden="true" className='nextpage'>&raquo;</span>
+                                        <span className="sr-only nextpage">Next</span>
+                                    </Link>
+                                    </li>
+                                    <li className="page-item">
+                                    <Link  className="page-link nextpage" to={'/show-offers/' +  this.props.state.lastPageNbr + querystring  } aria-label="Next">
+                                        <span aria-hidden="true" className='nextpage'>&raquo;&raquo;</span>
                                         <span className="sr-only nextpage">Next</span>
                                     </Link>
                                     </li>
