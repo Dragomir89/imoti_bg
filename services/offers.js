@@ -97,7 +97,9 @@ function findOffersByPhone(phoneNumber, page, offersPerPage){
                     page,
                     countOffers,
                     offersPerPage,
-                    lastPageNbr
+                    lastPageNbr,
+                    numbers,
+                    phoneNumber
                 })
             })
         })    
