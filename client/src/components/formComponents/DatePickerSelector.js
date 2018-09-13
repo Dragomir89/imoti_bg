@@ -19,7 +19,6 @@ class DatePickerSelector extends Component {
     // }
     
     render() {
-      // console.log(this.props)
       return(
         <div className="form-group">
           <label >{this.props.label}</label>

@@ -5,7 +5,7 @@ import Select from './Select'
 import actions from '../../actions/myActions'
 
 class Dropdowns extends Component{
-
+    
     componentDidMount(){
         this.props.getOptions()  
     }
@@ -17,12 +17,13 @@ class Dropdowns extends Component{
             return (<h2>Loading .... </h2>)
         }
 
+        const { constructionType, propertyType, state, neighborhood} = this.props.defaultValues
 
         return(
         <div className='row'>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={this.props.constructionType}
+                    defaultValue={ constructionType }
                     name='constructionType' 
                     label='Строителство' 
                     changeFn={ this.props.changeHandler } 
@@ -32,7 +33,7 @@ class Dropdowns extends Component{
             
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={ this.props.propertyType }
+                    defaultValue={ propertyType }
                     name={'propertyType'} 
                     label='Вид Имот' 
                     changeFn={ this.props.changeHandler } 
@@ -41,7 +42,7 @@ class Dropdowns extends Component{
             </div>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={this.props.state}
+                    defaultValue={ state }
                     name={'state'} 
                     label='Състояние'
                     changeFn={ this.props.changeHandler } 
@@ -52,7 +53,7 @@ class Dropdowns extends Component{
             <div className='col-md-3'>
             
                 <Select 
-                    defaultValue={this.props.neighborhood}
+                    defaultValue={ neighborhood }
                     name={'neighborhood'} 
                     label='Квартал' 
                     changeFn={ this.props.changeHandler } 
