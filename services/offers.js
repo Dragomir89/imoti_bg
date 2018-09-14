@@ -67,7 +67,7 @@ function createFilters(queryParams) {
             searchObj.neighborhoodId = queryParams.neighborhood 
         }
         if(queryParams.nextCall && queryParams.nextCall !== 'Invalid date'){
-            searchObj.nextCall = {"$gte": new Date(queryParams.nextCall)}
+            searchObj.nextCall = {"$lte": new Date(queryParams.nextCall)}
         }
     }
     return searchObj

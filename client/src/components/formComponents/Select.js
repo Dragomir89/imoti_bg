@@ -6,7 +6,8 @@ const Select = (props)=>{
 
     let defaultOption = (<option value=''>-- избери --</option>)
     if(!props.defaultValue){
-        defaultOption = (<option selected value=''>-- избери --</option>)
+        // defaultOption = (<option selected value=''>-- избери --</option>)
+        defaultOption = (<option defaultValue='' value=''>-- избери --</option>)
     }
 
     return(

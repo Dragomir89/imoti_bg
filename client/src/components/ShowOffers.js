@@ -51,7 +51,6 @@ class ShowOffers extends Component {
     render(){
 
         if(this.props.state) {
-
             return (
                 <div className='row'>
                     <div className='col-md-3'>

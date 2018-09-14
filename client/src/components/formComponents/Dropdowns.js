@@ -12,12 +12,11 @@ class Dropdowns extends Component{
 
 
     render(){
-
         if(!this.props){
             return (<h2>Loading .... </h2>)
         }
 
-        const { constructionType, propertyType, state, neighborhood} = this.props.defaultValues
+        const { constructionType, propertyType, state, neighborhood} = this.props.defaultValues || {} 
 
         return(
         <div className='row'>
@@ -70,23 +69,15 @@ class Dropdowns extends Component{
 function mapStateToProps(appState){
     const { 
         constructionTypes, 
-        // constructionType, 
         neighborhoods, 
-        // neighborhood, 
-        propertyTypes, 
-        // propertyType, 
+        propertyTypes,  
         states, 
-        // state 
     } = appState.getOptionsReducer
     return{
         constructionTypes,
-        // constructionType,
         neighborhoods,
-        // neighborhood,
         propertyTypes,
-        // propertyType,
-        states,
-        // state
+        states
     }
 }
 

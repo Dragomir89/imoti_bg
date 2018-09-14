@@ -1,167 +1,40 @@
 import React, { Component } from 'react'
-import Dropdowns from './formComponents/Dropdowns'
-import Input from './formComponents/Input'
-import DatePickerSelector from './formComponents/DatePickerSelector'
+import OfferForm from './OfferForm'
 import myActions from '../actions/myActions'
 import { connect } from 'react-redux'
-import moment from 'moment'
 
 class EditFormOffer extends Component {
-    constructor(props){
-        super(props)
-
-        this.state = { }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
-        this.handleChangeNextCall = this.handleChangeNextCall.bind(this)
-
-        this.handleClick = this.handleClick.bind(this)
-
-    }
 
     componentDidMount() {
-        const paramId = this.props.match.params.id 
+        const paramId = this.props.match.params.id
         this.props.getOffer(paramId)
     }
 
-    componentWillReceiveProps(props){
-        this.setState({...props.offer})
-    }
-
-    handleChange(event){
-        this.setState({[event.target.name]: event.target.value})
-    }
-
-    handleChangeLastCall(lastCall){
-        this.setState({lastCall})
-    }
-
-    handleChangeNextCall(nextCall){
-        this.setState({nextCall})
-    }
-
-    handleClick(e) {
-        e.preventDefault()
-        this.props.updateOffer(this.state)
-    }
 
     render() {
-        return (
-            <div>
-                <form>
-                <div className="row">
-                    <div className="col-md-12">
-                        <Dropdowns 
-                            changeHandler={this.handleChange}
-                            neighborhood={this.state.neighborhood}
-                            constructionType={this.state.constructionType}
-                            propertyType={this.state.propertyType}
-                            state={this.state.state}
-                        />
-                    </div>
-                    <div className="col-sm-4">
-                        <Input name='number' 
-                            label='Номер На Оферта' 
-                            type='number'
-                            val={this.state.number}
-                            changeFn={this.handleChange}/>
-
-                        <Input name='area' 
-                            label='Квадратура' 
-                            type='number'
-                            val={this.state.area}
-                            changeFn={this.handleChange}/>
-
-                        <Input name='description' 
-                            label='Описание' 
-                            type='text'
-                            val={this.state.description}
-                            changeFn={this.handleChange}/>
-                        
-                        <Input name='floor' 
-                            label='Етаж' 
-                            type='number'
-                            val={this.state.floor}
-                            changeFn={this.handleChange}/>
-                        
-                    </div>
-                    <div className="col-sm-4">
-                        <Input name='price' 
-                            label='Цена' 
-                            type='number'
-                            val={this.state.price}
-                            changeFn={this.handleChange}/>
+        
+        if(this.props.offer.state){
+            const {neighborhood, constructionType, propertyType, state} = this.props.offer
+            const defaultValues = {neighborhood, constructionType, propertyType, state}
             
-                        <Input name='address' 
-                            label='Адрес' 
-                            type='text'
-                            val={this.state.address}
-                            changeFn={this.handleChange}/>
-
-                        <Input name='info' 
-                            label='Долълнително Инфо' 
-                            type='text'
-                            val={this.state.info}
-                            changeFn={this.handleChange}/>
-
-                        <Input name='propertyOwnerName' 
-                            label='Име на Собственик' 
-                            type='text'
-                            val={this.state.propertyOwnerName}
-                            changeFn={this.handleChange}/>
-
-                    </div>
-                    <div className="col-sm-4">   
-
-                        <Input name='phoneNumber' 
-                            label='Тлефон Главен' 
-                            type='text'
-                            val={this.state.phoneNumber}
-                            changeFn={this.handleChange}/>
-                            
-                        <Input name='phoneNumber2' 
-                            label='Тлефон 2' 
-                            type='text'
-                            val={this.state.phoneNumbers ? this.state.phoneNumbers[1] : null}
-                            changeFn={this.handleChange}/>
-
-                        <Input name='phoneNumber3' 
-                            label='Тлефон 3' 
-                            type='text'
-                            val={this.state.phoneNumbers  ? this.state.phoneNumbers[2] : null}
-                            changeFn={this.handleChange}/>
-                    </div>
-                    <div className="col-sm-6">
-                        <DatePickerSelector 
-                            label='Последно обаждане'
-                            changeFn={this.handleChangeLastCall} 
-                            startDate={moment(this.state.lastCall)}/>
-                    </div>
-                    <div className="col-sm-6">
-                        <DatePickerSelector 
-                            label='Следващо обаждане'
-                            changeFn={this.handleChangeNextCall} 
-                            startDate={moment(this.state.nextCall)}/>
-                    </div>
-                    
-                </div>
+            return (
+                <OfferForm 
+                    dropdownsValues={defaultValues} 
+                    submitForm={this.props.updateOffer}
+                    {...this.props.offer}
+                />
                 
-                <button 
-                    onClick={this.handleClick} 
-                    className="btn btn-success">Запази</button>
-            </form>
-            </div>
-        )
-
+            )
+        }else{
+            return(<h1>Loading ...</h1>)
+        }
     }
 }
 
 
 
 function mapStateToProps(state){
-    // console.log('mapStateToProps - > Offer details')
-    // console.log(state.offerReducer)
+
     return {
         offer: state.offerReducer
     }
@@ -169,6 +42,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return {
         updateOffer: (params)=>{
+            console.log('Params', params)
             dispatch(myActions.updateOffer(params))
         },
         getOffer:(id)=>{
