@@ -242,8 +242,8 @@ function addOffer(data){
             propertyOwnerName: data.propertyOwnerName,
             addedOn: data.addedOn,
             addedFrom: userId,
-            nextCall: new Date(),
-            lastCall: new Date()
+            nextCall: data.nextCall,
+            lastCall: data.lastCall
         })
 
         newOffer.save().then((offer)=>{
