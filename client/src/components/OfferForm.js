@@ -18,7 +18,6 @@ class OfferForm extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
         this.handleChangeNextCall = this.handleChangeNextCall.bind(this)
-        this.handleClick = this.handleClick.bind(this)
     }
 
     componentWillReceiveProps(props){
@@ -42,10 +41,6 @@ class OfferForm extends Component {
         this.setState({nextCall})
     }
 
-    handleClick(e) {
-        e.preventDefault()
-        this.state.submitForm(this.state)
-    }
 
     render(){
         return(

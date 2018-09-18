@@ -17,9 +17,8 @@ class AddOffer extends Component{
 
     render() {
         return(
-            <OfferForm 
-                submitForm={this.props.postForm}
-                submitBtnFn={this.createOffer}
+            <OfferForm
+                submitForm={this.createOffer}
             />
         )
     }
