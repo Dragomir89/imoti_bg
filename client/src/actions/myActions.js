@@ -72,9 +72,10 @@ export default {
                 if(res.data.error){
                     toastr.error(res.data.error.message)    
 
-                    res.data.error.message.indexOf('Number is required') ? 
-                    toastr.error('Номера на офертата е задължителен !') : null
-                    toastr.error('Офертата не беше добавена !')    
+                    if(res.data.error.message.indexOf('Number is required')){
+                        toastr.error('Номера на офертата е задължителен !') 
+                    }
+                   toastr.error('Офертата не беше добавена !')    
                 }else {
                     toastr.success('Офертата беше добавена')
                 }
@@ -123,7 +124,7 @@ export default {
                 console.log(res)
                 toastr.success('Офертата беше променена')
                 return dispatch({
-                    type: types.UPDATE_OFFER, 
+                    type: types.GET_OFFER, 
                     payload:res.data
                 })    
             })

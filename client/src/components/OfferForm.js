@@ -7,14 +7,12 @@ import moment from 'moment'
 class OfferForm extends Component { 
     constructor(props){
         super(props)
-        console.log(props)
         this.state = {...props}
         
         if(props.phoneNumbers){
             let phoneNumber2 = props.phoneNumbers[1] ? props.phoneNumbers[1] : ''
             let phoneNumber3 = props.phoneNumbers[2] ? props.phoneNumbers[2] : ''
             this.state = {phoneNumber2, phoneNumber3}
-
         }
         
         this.handleChange = this.handleChange.bind(this)
@@ -24,7 +22,12 @@ class OfferForm extends Component {
     }
 
     componentWillReceiveProps(props){
-        this.setState({...props})
+        if(props.number){
+            this.setState({...props})
+            let phoneNumber2 = props.phoneNumbers[1] ? props.phoneNumbers[1] : ''
+            let phoneNumber3 = props.phoneNumbers[2] ? props.phoneNumbers[2] : ''
+            this.setState({phoneNumber2, phoneNumber3})
+        }
     }
 
     handleChange(event){
@@ -32,7 +35,6 @@ class OfferForm extends Component {
     }
 
     handleChangeLastCall(lastCall){
-        console.log(lastCall)
         this.setState({lastCall})
     }
 
@@ -144,7 +146,10 @@ class OfferForm extends Component {
                 </div>
                 
                 <button 
-                    onClick={this.handleClick} 
+                    onClick={(e)=>{
+                        e.preventDefault()
+                        this.props.submitForm(this.state)
+                    }} 
                     className="btn btn-success">Запази</button>
             </form>
             </div>

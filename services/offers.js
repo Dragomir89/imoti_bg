@@ -118,8 +118,8 @@ function calcLastPageNbr(countOffers, offersPerPage){
     if(!Number.isInteger(lastPageNbr)){
         lastPageNbr = Math.floor(lastPageNbr) + 1
     }
-    console.log(countOffers, offersPerPage)
-    console.log(lastPageNbr)
+    console.log('Namereni Oferti --> ' + countOffers)
+    console.log('lastPageNbr --> ' + lastPageNbr)
     return lastPageNbr
 }
 

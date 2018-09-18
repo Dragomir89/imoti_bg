@@ -5,11 +5,21 @@ import OfferForm from './OfferForm'
 
 
 class AddOffer extends Component{
+    constructor(props){
+        super(props)
+    
+        this.createOffer = this.createOffer.bind(this)
+    }
+
+    createOffer(offer){
+        this.props.postForm(offer)
+    }
 
     render() {
         return(
             <OfferForm 
                 submitForm={this.props.postForm}
+                submitBtnFn={this.createOffer}
             />
         )
     }

@@ -87,15 +87,51 @@ module.exports = (app) =>{
         offersCtrl.getOffer(req.params.id).then((offer)=>{ res.send(offer) })
     })
 
+    function updatePhones(arrPhones, offerId){
+        let phonesUpdateArr = []
+        function getRes(resolve, reject){
+
+            arrPhones.forEach((phoneObj)=>{
+                if(phoneObj.from === '' && phoneObj.to){
+                    console.log('CREATE')
+                    phonesUpdateArr.push(new PhoneNumbers({offerId, phoneNumber: phoneObj.to}).save())
+                }else if(phoneObj.from && phoneObj.to){
+                    console.log('UPDATE')
+                    const newPhoneNumber = {phoneNumber: phoneObj.to}
+                    phonesUpdateArr.push(PhoneNumbers.findOneAndUpdate(
+                        {phoneNumber: phoneObj.from, offerId },
+                        newPhoneNumber
+                    ))
+                }else if(phoneObj.from && phoneObj.to === ''){
+                    console.log('DELETE')
+                    PhoneNumbers.remove({phoneNumber: phoneObj.from, offerId})
+                }
+            })
+            Promise.all(phonesUpdateArr).then((res)=>{
+                console.log('PROMENENI telefoni')
+                console.log(res)
+                resolve({msg: 'Телефоните Бяха Променени', res})
+            })
+        }
+        return new Promise(getRes)
+    }
+
+
     app.put('/api/offer/:id', (req, res) => {
         console.log('/api/offer (UPDATE): =============')
         console.log(req.body)
-        // console.log(req.params)
-        const newOffer = {
+        
+        const {phoneNumber, phoneNumber2, phoneNumber3 } = req.body
+        let phoneArr = []
+        phoneArr.push(phoneNumber)
+        phoneNumber2 ? phoneArr.push(phoneNumber2) : false
+        phoneNumber3 ? phoneArr.push(phoneNumber3) : false
+
+        const updatedOffer = {
             area:         req.body.area,
             description:  req.body.description,
             phoneNumber:  req.body.phoneNumber,
-            // phoneNumbers: [{type: String, type: String, lowercase: true, trim: true}],
+            phoneNumbers: phoneArr,
             price:       Number(req.body.price),
             address:     req.body.address,
             info:        req.body.info,
@@ -109,22 +145,31 @@ module.exports = (app) =>{
             nextCall:           new Date(req.body.nextCall)   
         }
 
-        Offer.update(
-            {_id:req.params.id}, 
-            newOffer, 
-            {multi: false}, 
-            function(err, newObj){
-                if(err){
-                    console.log('ERROR')
-                    console.log(err)
-                    res.send(err)
-                    return
-                }
+        //////
+        
+        
 
-                console.log('updated obj')
-                console.log(newObj)
+        ////
+        Offer.findOneAndUpdate(
+            {_id:req.params.id}, updatedOffer).then((oldOffer)=>{
+            
+            console.log('THEN')
+            console.log(updatedOffer)
 
-                res.send(newObj)
+            if(req.body.changedPhones.length > 0){
+                console.log("changedPhones -- REQUEST")
+                console.log(req.body.changedPhones)
+                updatePhones(req.body.changedPhones, req.params.id).then((phonesRes)=>{
+                    console.log('phonesRes --- >')
+                    console.log(phonesRes)
+                    res.send(updatedOffer)
+                })
+                
+            }else{
+                console.log('There is not updated Phones !!!')
+                res.send(updatedOffer)
+            }
+            
         })
     })
 
