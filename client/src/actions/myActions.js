@@ -72,10 +72,10 @@ export default {
                 if(res.data.error){
                     toastr.error(res.data.error.message)    
 
-                    if(res.data.error.message.indexOf('Number is required')){
-                        toastr.error('Номера на офертата е задължителен !') 
-                    }
-                   toastr.error('Офертата не беше добавена !')    
+                    console.log(res.data.error)
+                    
+                    toastr.error(res.data.error.name)
+                    toastr.error('Офертата не беше добавена !')    
                 }else {
                     toastr.success('Офертата беше добавена')
                 }

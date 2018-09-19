@@ -225,26 +225,30 @@ function addOffer(data){
         data.phoneNumber2 ? phoneNumbers.push(data.phoneNumber2) : false
         data.phoneNumber3 ? phoneNumbers.push(data.phoneNumber3) : false
 
+        const {number,area, phoneNumber, addedOn, description, price, address, info, propertyOwnerName,
+            floor, constructionTypeId, propertyTypeId, state, neighborhoodId, nextCall, lastCall} = data
+
         let newOffer = new Offer({
-            constructionTypeId: data.constructionType,
-            propertyTypeId: data.propertyType,
-            state: data.state,
-            neighborhoodId: data.neighborhood,
-            number: data.number,
-            area: data.area,
-            description: data.description,
-            phoneNumber: data.phoneNumber,
-            phoneNumbers: phoneNumbers,
-            price: data.price,
-            address: data.address,
-            floor: data.floor,
-            info: data.info,
-            propertyOwnerName: data.propertyOwnerName,
-            addedOn: data.addedOn,
+            constructionTypeId,
+            propertyTypeId,
+            state,
+            neighborhoodId,
+            number,
+            area,
+            description,
+            phoneNumber,
+            phoneNumbers,
+            price,
+            address,
+            floor,
+            info,
+            propertyOwnerName,
+            addedOn,
             addedFrom: userId,
-            nextCall: data.nextCall,
-            lastCall: data.lastCall
+            nextCall,
+            lastCall
         })
+        console.log(newOffer)
 
         newOffer.save().then((offer)=>{
             console.log('SAVED OFFER...')            

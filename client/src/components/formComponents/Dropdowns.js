@@ -16,14 +16,14 @@ class Dropdowns extends Component{
             return (<h2>Loading .... </h2>)
         }
 
-        const { constructionType, propertyType, state, neighborhood} = this.props.defaultValues || {} 
+        const { constructionTypeId, propertyTypeId, stateId, neighborhoodId} = this.props.defaultValues || {} 
 
         return(
         <div className='row'>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={ constructionType }
-                    name='constructionType' 
+                    defaultValue={ constructionTypeId }
+                    name='constructionTypeId' 
                     label='Строителство' 
                     changeFn={ this.props.changeHandler } 
                     options={this.props.constructionTypes}
@@ -32,8 +32,8 @@ class Dropdowns extends Component{
             
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={ propertyType }
-                    name={'propertyType'} 
+                    defaultValue={ propertyTypeId }
+                    name={'propertyTypeId'} 
                     label='Вид Имот' 
                     changeFn={ this.props.changeHandler } 
                     options={ this.props.propertyTypes }
@@ -41,7 +41,7 @@ class Dropdowns extends Component{
             </div>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={ state }
+                    defaultValue={ stateId }
                     name={'state'} 
                     label='Състояние'
                     changeFn={ this.props.changeHandler } 
@@ -52,8 +52,8 @@ class Dropdowns extends Component{
             <div className='col-md-3'>
             
                 <Select 
-                    defaultValue={ neighborhood }
-                    name={'neighborhood'} 
+                    defaultValue={ neighborhoodId }
+                    name={'neighborhoodId'} 
                     label='Квартал' 
                     changeFn={ this.props.changeHandler } 
                     options={this.props.neighborhoods}

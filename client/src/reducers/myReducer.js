@@ -15,19 +15,34 @@ export default (state = {}, action) => {
 
        
         case types.POST_OFFER_FORM:
-            console.log('POST_OFFER_FORM payload:')
-            console.log(action.payload)
+        
             let res = action.payload
             if(res.error){
                 return res
             }
 
-            return {
-                success:true
-            }
+           
+            const emptyOffer = {
+                    number:'',
+                    address:"",
+                    area:'',
+                    constructionType:"",
+                    description:"",
+                    floor:'',
+                    info:"",
+                    neighborhood:"",
+                    phoneNumber:"",
+                    phoneNumbers:[],
+                    price:'',
+                    propertyOwnerName:"",
+                    propertyType:"",
+                    state:""
+                }
+                
+            return emptyOffer
         
         default:
-            return state;
+            return state
     }
 }
 

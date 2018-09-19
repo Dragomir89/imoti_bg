@@ -1,36 +1,32 @@
 import types from '../actions/types'
 // import myActions from '../actions/myActions'
 
-
+function getPhoneNumbers(phoneNumbers){
+    return{
+        phoneNumber2 : phoneNumbers[1] ? phoneNumbers[1] : '',
+        phoneNumber3 : phoneNumbers[2] ? phoneNumbers[2] : ''
+    }
+}  
+function getDropdowsDefaultValues(offer){
+    const {neighborhoodId, constructionTypeId, propertyTypeId, state} = offer
+    return {
+        dropdownsValues: {neighborhoodId, constructionTypeId, propertyTypeId, stateId: state}
+    }
+}
 export default (state = {}, action) => {
     
     switch (action.type) {
 
         case types.GET_OFFER:
-            let data = action.payload
-            // console.log('GET OFFER REDUCER')
-            // console.log(data)
-            const newObj = {
-                _id:data._id,
-                addedOn:data.addedOn,
-                address:data.address,
-                area:data.area,
-                constructionType: data.constructionTypeId,
-                description: data.description,
-                floor: data.floor,
-                info: data.info,
-                lastCall: data.lastCall,
-                neighborhood:data.neighborhoodId,
-                nextCall:data.nextCall,
-                number:data.number,
-                phoneNumber:data.phoneNumber,
-                phoneNumbers: data.phoneNumbers,
-                price:data.price,
-                propertyOwnerName:data.propertyOwnerName,
-                propertyType : data.propertyTypeId,
-                state:data.state
+            
+            console.log('GET OFFER REDUCER')
+            console.log(action.payload)
+            return {
+                ...action.payload,
+                ...getDropdowsDefaultValues(action.payload), 
+                ...getPhoneNumbers(action.payload.phoneNumbers)
             }
-            return newObj
+
 
         default: return state
 

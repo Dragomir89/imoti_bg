@@ -7,25 +7,17 @@ import moment from 'moment'
 class OfferForm extends Component { 
     constructor(props){
         super(props)
-        this.state = {...props}
-        
-        if(props.phoneNumbers){
-            let phoneNumber2 = props.phoneNumbers[1] ? props.phoneNumbers[1] : ''
-            let phoneNumber3 = props.phoneNumbers[2] ? props.phoneNumbers[2] : ''
-            this.state = {phoneNumber2, phoneNumber3}
-        }
-        
+
+        this.state = { ...props }
+
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
         this.handleChangeNextCall = this.handleChangeNextCall.bind(this)
     }
 
     componentWillReceiveProps(props){
-        if(props.number){
+        if(props) {
             this.setState({...props})
-            let phoneNumber2 = props.phoneNumbers[1] ? props.phoneNumbers[1] : ''
-            let phoneNumber3 = props.phoneNumbers[2] ? props.phoneNumbers[2] : ''
-            this.setState({phoneNumber2, phoneNumber3})
         }
     }
 

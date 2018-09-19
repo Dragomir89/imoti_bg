@@ -19,6 +19,7 @@ class AddOffer extends Component{
         return(
             <OfferForm
                 submitForm={this.createOffer}
+                {...this.props.myReducer}
             />
         )
     }

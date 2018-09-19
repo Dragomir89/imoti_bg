@@ -122,27 +122,33 @@ module.exports = (app) =>{
         console.log(req.body)
         
         const {phoneNumber, phoneNumber2, phoneNumber3 } = req.body
-        let phoneArr = []
-        phoneArr.push(phoneNumber)
-        phoneNumber2 ? phoneArr.push(phoneNumber2) : false
-        phoneNumber3 ? phoneArr.push(phoneNumber3) : false
+        let phoneNumbers = []
+        phoneNumbers.push(phoneNumber)
+        phoneNumber2 ? phoneNumbers.push(phoneNumber2) : false
+        phoneNumber3 ? phoneNumbers.push(phoneNumber3) : false
+
+        const {area, description, price, address, info, propertyOwnerName,
+            floor, constructionTypeId, propertyTypeId, state, neighborhoodId} = req.body
+        
+        const lastCall = new Date(req.body.lastCall)
+        const nextCall = new Date(req.body.nextCall)
 
         const updatedOffer = {
-            area:         req.body.area,
-            description:  req.body.description,
-            phoneNumber:  req.body.phoneNumber,
-            phoneNumbers: phoneArr,
-            price:       Number(req.body.price),
-            address:     req.body.address,
-            info:        req.body.info,
-            propertyOwnerName: req.body.propertyOwnerName,
-            floor:       Number(req.body.floor),
-            constructionTypeId: req.body.constructionType,
-            propertyTypeId:     req.body.propertyType,
-            state:              req.body.state,
-            neighborhoodId:     req.body.neighborhood,
-            lastCall:           new Date(req.body.lastCall),
-            nextCall:           new Date(req.body.nextCall)   
+            area,
+            description,
+            phoneNumber,
+            phoneNumbers,
+            price,
+            address,
+            info,
+            propertyOwnerName,
+            floor,
+            constructionTypeId,
+            propertyTypeId,
+            state,
+            neighborhoodId,
+            lastCall,
+            nextCall   
         }
 
         //////
@@ -179,6 +185,8 @@ module.exports = (app) =>{
         // let userId = req.user ? req.user._id : null
         offersCtrl.addOffer(req.body).then((returnObj)=>{
             res.send(returnObj)
+        }).catch((error)=>{
+            res.send(error)
         })
     })
 

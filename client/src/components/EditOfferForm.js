@@ -45,12 +45,9 @@ class EditFormOffer extends Component {
     render() {
         
         if(this.props.offer.state) {
-            const {neighborhood, constructionType, propertyType, state} = this.props.offer
-            const defaultValues = {neighborhood, constructionType, propertyType, state}
-            
+
             return (
                 <OfferForm 
-                    dropdownsValues={defaultValues} 
                     submitForm={this.submitBtn}
                     {...this.props.offer}
                 />
