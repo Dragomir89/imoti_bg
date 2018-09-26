@@ -5,15 +5,13 @@ import types from '../actions/types'
 export default (state = {}, action) => {
     
     switch (action.type) {
-        
-    
+       
         case types.CHANGE_OFFER_OPTIONS:
 
             let newObj = JSON.stringify(action.payload)
             newObj = JSON.parse(newObj)
             return newObj
 
-       
         case types.POST_OFFER_FORM:
         
             let res = action.payload
@@ -24,19 +22,21 @@ export default (state = {}, action) => {
            
             const emptyOffer = {
                     number:'',
-                    address:"",
+                    address:'',
                     area:'',
-                    constructionType:"",
+                    constructionType:'',
                     description:"",
                     floor:'',
-                    info:"",
-                    neighborhood:"",
-                    phoneNumber:"",
+                    info:'',
+                    neighborhood:'',
+                    phoneNumber:'',
+                    phoneNumber2: '',
+                    phoneNumber3: '',
                     phoneNumbers:[],
                     price:'',
-                    propertyOwnerName:"",
-                    propertyType:"",
-                    state:""
+                    propertyOwnerName:'',
+                    propertyType:'',
+                    state:''
                 }
                 
             return emptyOffer

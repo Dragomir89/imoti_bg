@@ -54,17 +54,17 @@ function createFilters(queryParams) {
     let searchObj = null
     if(queryParams) {
         searchObj = {}
-        if(queryParams.constructionType) { 
-            searchObj.constructionTypeId = queryParams.constructionType 
+        if(queryParams.constructionTypeId) { 
+            searchObj.constructionTypeId = queryParams.constructionTypeId
         }
-        if(queryParams.propertyType){
-            searchObj.propertyTypeId = queryParams.propertyType 
+        if(queryParams.propertyTypeId){
+            searchObj.propertyTypeId = queryParams.propertyTypeId 
         }
         if(queryParams.state){
             searchObj.state = queryParams.state 
         }
-        if(queryParams.neighborhood){
-            searchObj.neighborhoodId = queryParams.neighborhood 
+        if(queryParams.neighborhoodId){
+            searchObj.neighborhoodId = queryParams.neighborhoodId 
         }
         if(queryParams.nextCall && queryParams.nextCall !== 'Invalid date'){
             searchObj.nextCall = {"$lte": new Date(queryParams.nextCall)}

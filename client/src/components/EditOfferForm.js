@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import OfferForm from './OfferForm'
 import myActions from '../actions/myActions'
 import { connect } from 'react-redux'
-// import { start } from 'repl';
 
 class EditFormOffer extends Component {
     constructor(props){

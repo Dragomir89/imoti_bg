@@ -19,7 +19,7 @@ class AddOffer extends Component{
         return(
             <OfferForm
                 submitForm={this.createOffer}
-                {...this.props.myReducer}
+                {...this.props.addOfferReducer}
             />
         )
     }
@@ -41,7 +41,7 @@ function mapDispatchToProps(dispatch){
 }
 function mapStateToProps(state){
     return{
-        myReducer: state.myReducer
+        addOfferReducer: state.addOfferReducer
     }
 }
 

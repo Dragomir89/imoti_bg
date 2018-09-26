@@ -19,10 +19,10 @@ class OffersFilter extends Component {
             this.state = {constructionType, propertyType, neighborhood, state}
         }else{
             this.state = {
-                constructionType:'',
-                propertyType: '',
+                constructionTypeId:'',
+                propertyTypeId: '',
                 state: '',
-                neighborhood: '',
+                neighborhoodId: '',
                 countOffers: 10,
                 nextCall: moment(),
                 phoneNumber: ''
@@ -49,18 +49,18 @@ class OffersFilter extends Component {
         e.preventDefault()
 
         if(e.target.name === 'search') {
-            
-            let { constructionType, propertyType, neighborhood, state, countOffers, nextCall, phoneNumber } = this.state
+            console.log(this.state)
+            let { constructionTypeId, propertyTypeId, neighborhoodId, state, countOffers, nextCall, phoneNumber } = this.state
             nextCall = moment(this.state.nextCall).format('YYYY-MM-DD')
-            const search = qs.stringify({constructionType, propertyType, neighborhood, state, countOffers, nextCall, phoneNumber})
+            const search = qs.stringify({constructionTypeId, propertyTypeId, neighborhoodId, state, countOffers, nextCall, phoneNumber})
             this.props.getSerchingParameters(search)
         }else{
             this.props.getSerchingParameters(false)
             this.setState({
-                constructionType:'',
-                propertyType: '',
+                constructionTypeId:'',
+                propertyTypeId: '',
                 state: '',
-                neighborhood: '',
+                neighborhoodId: '',
                 countOffers: 10,
                 nextCall: moment()
             })

@@ -23,11 +23,6 @@ const Tr =(props)=>{
         _id
     } = props.offer
 
-    
-    // console.log('Vid imot')
-    // console.log(propertyTypeId)
-    // console.log('Kvartal')
-    // console.log(neighborhoodId)
 
     return(
         
@@ -37,7 +32,6 @@ const Tr =(props)=>{
             <td>{constructionTypeId.value}</td>
             <td>{number}</td>
             <td>{neighborhoodId.value}</td>
-            
             <td>{area}</td>
             {/* <td>{phoneNumber}</td> */}
             <td>{price}</td>
@@ -52,6 +46,7 @@ const Tr =(props)=>{
                 myActions.savePhones(props.offer._id) 
                 // console.log(props.offer)
             }} >Запази телефони</button></td>
+            
             {/* //// repair phone table */}
         </tr>
     )

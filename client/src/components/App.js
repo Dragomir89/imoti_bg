@@ -26,19 +26,10 @@ class App extends Component {
 
 
     componentDidMount(){
-    //     this.unlisten = browserHistory.listen( location =>  {
-    //         console.log('route changes');
-
-    //    });
-
-
-        // console.log('App.js props', this.props)
         this.props.fetchUser()
     }
 
     render(){
-        // console.log('APP COMPONENT STATE!')
-        // console.log(this.props)
         return(
             <div>
                 <BrowserRouter>
@@ -58,12 +49,6 @@ class App extends Component {
     }
 }
 
-//export default connect(null, actions)(App)
-
-
-// function mapDispatchToProps(dispatch){
-//     return null
-// }
 function mapStateToProps(state){
     return{
         state: state

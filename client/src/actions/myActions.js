@@ -9,7 +9,6 @@ export default {
             toastr.success(res.data.msg)    
         })
     },
-    //// repair phone table
     addDetailsPost : (params) => {
     
         let options = { 
