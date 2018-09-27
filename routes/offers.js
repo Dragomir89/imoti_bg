@@ -176,6 +176,8 @@ module.exports = (app) =>{
                 res.send(updatedOffer)
             }
             
+        }).catch((e)=>{
+            res.send(e)
         })
     })
 
