@@ -36,7 +36,9 @@ class EditFormOffer extends Component {
         if(updatedOffer.phoneNumber3 !== this.state.phoneNumber3)
             changedPhones.push({from:this.state.phoneNumber3, to:updatedOffer.phoneNumber3})
         
-            updatedOffer.changedPhones = changedPhones
+        updatedOffer.changedPhones = changedPhones
+        updatedOffer.nextCall = updatedOffer.nextCall ? updatedOffer.nextCall : new Date()
+        updatedOffer.lastCall = updatedOffer.lastCall ? updatedOffer.lastCall : new Date()
         this.props.updateOffer(updatedOffer)
     }
 
