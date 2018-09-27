@@ -19,12 +19,10 @@ export default (state = {}, action) => {
 
         case types.GET_OFFER:
             
-            console.log('GET OFFER REDUCER')
-            console.log(action.payload)
             return {
                 ...action.payload,
                 ...getDropdowsDefaultValues(action.payload), 
-                ...getPhoneNumbers(action.payload.phoneNumbers)
+                ...getPhoneNumbers(action.payload.phoneNumbers = [])
             }
 
 

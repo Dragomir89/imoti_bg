@@ -12,6 +12,8 @@ class AddOffer extends Component{
     }
 
     createOffer(offer){
+        offer.lastCall = offer.lastCall ? offer.lastCall : new Date()
+        offer.nextCall = offer.nextCall ? offer.nextCall : new Date()
         this.props.postForm(offer)
     }
 

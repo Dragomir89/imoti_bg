@@ -21,6 +21,11 @@ export default {
             
             axios(options).then((res)=>{
                 console.log('/api/add-details server res: ', res)
+                if(res.data.error){
+                    toastr.error('Има проблем на сървъра !')
+                    return
+                }
+                
                 return dispatch({
                     type: types.ADD_DETAILS, 
                     payload:res.data
@@ -121,6 +126,11 @@ export default {
       
             axios(options).then((res)=>{
                 console.log(res)
+                if(res.data.error){
+                    toastr.error('Възникна проблем на сървъра !')    
+                    toastr.error('Офертата не беше променеа !')    
+                    return
+                }
                 toastr.success('Офертата беше променена')
                 return dispatch({
                     type: types.GET_OFFER, 

@@ -24,18 +24,18 @@ export default (state = {}, action) => {
                     number:'',
                     address:'',
                     area:'',
-                    constructionType:'',
-                    description:"",
+                    constructionTypeId:'',
+                    description:'',
                     floor:'',
                     info:'',
-                    neighborhood:'',
+                    neighborhoodId:'',
                     phoneNumber:'',
                     phoneNumber2: '',
                     phoneNumber3: '',
                     phoneNumbers:[],
                     price:'',
                     propertyOwnerName:'',
-                    propertyType:'',
+                    propertyTypeId:'',
                     state:''
                 }
                 

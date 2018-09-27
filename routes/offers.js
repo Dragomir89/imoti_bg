@@ -40,6 +40,8 @@ module.exports = (app) =>{
             console.log("RESPONSE: ")
             console.log(values)
             res.send(values)
+        }).catch((error)=>{
+            res.send({error})
         })
     })
 
@@ -77,14 +79,16 @@ module.exports = (app) =>{
 
         phoneNumber ?        
         offersCtrl.findOffersByPhone(phoneNumber, page, offersPerPage)
-        .then((resObj)=>{ res.send(resObj) })
+        .then((resObj)=>{ res.send(resObj) }).catch((error)=>{ res.send({error}) })
         :
         offersCtrl.getAllOffers(queryParams, page, offersPerPage)
-        .then((resObj)=>{ res.send(resObj) })        
+        .then((resObj)=>{ res.send(resObj) }).catch((error)=>{ res.send({error}) })        
     })
 
     app.get('/api/offer/:id', (req, res)=>{
-        offersCtrl.getOffer(req.params.id).then((offer)=>{ res.send(offer) })
+        offersCtrl.getOffer(req.params.id)
+        .then((offer)=>{ res.send(offer) })
+        .catch((error)=>{ res.send({error}) })
     })
 
     function updatePhones(arrPhones, offerId){
@@ -130,8 +134,8 @@ module.exports = (app) =>{
         const {area, description, price, address, info, propertyOwnerName,
             floor, constructionTypeId, propertyTypeId, state, neighborhoodId} = req.body
         
-        const lastCall = new Date(req.body.lastCall)
-        const nextCall = new Date(req.body.nextCall)
+        const lastCall = new Date(req.body.lastCall) === 'Invalid Date'? new Date() : new Date(req.body.lastCall)
+        const nextCall = new Date(req.body.nextCall) === 'Invalid Date'? new Date() : new Date(req.body.nextCall)
 
         const updatedOffer = {
             area,
@@ -176,8 +180,8 @@ module.exports = (app) =>{
                 res.send(updatedOffer)
             }
             
-        }).catch((e)=>{
-            res.send(e)
+        }).catch((error)=>{
+            res.send({error})
         })
     })
 
@@ -188,7 +192,7 @@ module.exports = (app) =>{
         offersCtrl.addOffer(req.body).then((returnObj)=>{
             res.send(returnObj)
         }).catch((error)=>{
-            res.send(error)
+            res.send({error})
         })
     })
 
@@ -196,6 +200,8 @@ module.exports = (app) =>{
     app.get('/api/add-phones/:id',(req, res)=>{
         offersCtrl.addPhonesToOffer(req.params.id).then((msg)=>{
             res.send(msg)
+        }).catch((error)=>{
+            res.send({error})
         })
     })
     //// repair phone table

@@ -215,7 +215,7 @@ function addPhonesToOffer(offerId){
 
 function addOffer(data){
     console.log('/api/post-offer --- addOffer')
-      
+    console.log(data)
     // let userId = req.user ? req.user._id : null
     let userId = null
     function getRes(resolve, reject){
