@@ -35,7 +35,7 @@ app.use(passport.session())
 require('./routes/authRoutes')(app)
 require('./routes/offers')(app)
 
-if(process.env.NODE_ENV === 'production'){
+if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development'){
     app.use(express.static('client/build')) 
 
     const path = require('path')
