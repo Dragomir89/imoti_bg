@@ -3,17 +3,22 @@ import myActions from '../actions/myActions'
 import { connect } from 'react-redux'
 import OffersFilters from './OffersFilters'
 import TableOffers from './tableComponents/TableOffers'
-import Pagination from './tableComponents/Pagination'
+// import Pagination from './tableComponents/Pagination'
 import qs from 'querystring'    
+import Pagination from 'react-js-pagination'
+
 
 class ShowOffers extends Component {
     constructor(props){
         super(props)
 
         this.state = {
-            filterValues: null
+            filterValues: null,
+            activePage: 1,
+            searchQyery: ''
         }
         this.getSerchingParameters = this.getSerchingParameters.bind(this)
+        this.handlePageChange = this.handlePageChange.bind(this)
     }
 
     componentDidMount(){
@@ -46,6 +51,13 @@ class ShowOffers extends Component {
         const pathname = '/show-offers/1'
         this.props.history.push({pathname,search})
         this.props.getData(1, search)
+        this.setState({searchQyery: search})
+    }
+
+    handlePageChange(pageNumber) {
+        this.setState({activePage: pageNumber})
+        const pathname = '/show-offers/' + pageNumber
+        this.props.history.push({pathname, search: this.state.searchQyery})
     }
 
     render(){
@@ -63,12 +75,21 @@ class ShowOffers extends Component {
                         />    
                     </div>
                     <TableOffers offers={this.props.state.offers} />
-                    <Pagination 
+                    
+                    <Pagination
+                        activePage={this.state.activePage}
+                        itemsCountPerPage={10}
+                        totalItemsCount={this.props.state.countOffers}
+                        pageRangeDisplayed={7}
+                        onChange={this.handlePageChange}
+                    />
+                    
+                    {/* <Pagination 
                         currentPage={this.props.state.page}
                         baseUrl='/show-offers/'
                         querystring={this.props.location.search}
                         lastPage={this.props.state.lastPageNbr}
-                    />
+                    /> */}
                 
                 </div>    
             )
