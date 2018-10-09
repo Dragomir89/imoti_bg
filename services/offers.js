@@ -87,9 +87,9 @@ function findOffersByPhone(phoneNumber, page, offersPerPage){
                     .populate("state")
                     .populate("neighborhoodId"))
             })
-    
+
             Promise.all(promiseOffers).then((offers)=>{
-    
+
                 let countOffers= offers.length
                 const lastPageNbr = calcLastPageNbr(countOffers, offersPerPage)
                 resolve({

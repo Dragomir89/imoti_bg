@@ -122,7 +122,10 @@ module.exports = (app) =>{
 
 
     app.put('/api/offer/:id', (req, res) => {
-        console.log('/api/offer (UPDATE): =============')
+        console.log('/api/offer: =============')
+        console.log('============== UPDATE =================')
+        console.log('===============================')
+        
         console.log(req.body)
         
         const {phoneNumber, phoneNumber2, phoneNumber3 } = req.body
@@ -155,11 +158,7 @@ module.exports = (app) =>{
             nextCall   
         }
 
-        //////
-        
-        
 
-        ////
         Offer.findOneAndUpdate(
             {_id:req.params.id}, updatedOffer).then((oldOffer)=>{
             
@@ -187,8 +186,13 @@ module.exports = (app) =>{
 
     app.post('/api/offer',(req, res)=>{
         console.log('/api/post-offer')
+        console.log('======== REQIEST BODY =========')
+        console.log('=================')
         console.log(req.body)
+        console.log('=================')
+        console.log('=================')
         // let userId = req.user ? req.user._id : null
+
         offersCtrl.addOffer(req.body).then((returnObj)=>{
             res.send(returnObj)
         }).catch((error)=>{
