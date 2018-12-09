@@ -42,10 +42,10 @@ const Tr =(props)=>{
             {/* <td>{info}</td> */}
             <td><Link to={'/offer-details/'+ _id}>Виж Детайли</Link></td>
             {/* //// repair phone table */}
-            <td><button onClick={(_id)=>{ 
+            {/* <td><button onClick={(_id)=>{ 
                 myActions.savePhones(props.offer._id) 
                 // console.log(props.offer)
-            }} >Запази телефони</button></td>
+            }} >Запази телефони</button></td> */}
             
             {/* //// repair phone table */}
         </tr>

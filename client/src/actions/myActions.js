@@ -70,14 +70,12 @@ export default {
             }
   
             axios(options).then((res)=>{
-                console.log('/api/post-offer server res: ', res)
+                console.log('/api/post-offer server res: ')
                 console.log(res.data)
                 
                 if(res.data.error){
                     toastr.error(res.data.error.message)    
-
                     console.log(res.data.error)
-                    
                     toastr.error(res.data.error.name)
                     toastr.error('Офертата не беше добавена !')    
                 }else {
@@ -90,8 +88,8 @@ export default {
                 })
             }).catch(function (error) {
                 toastr.error('Възникна проблем със сървъра')
-                console.log(error);
-              })
+                console.log(error)
+            })
         }
     },
     getOffers: (page, queryStr)=>{

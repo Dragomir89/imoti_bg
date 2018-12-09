@@ -9,7 +9,6 @@ class OfferForm extends Component {
         super(props)
 
         this.state = { ...props }
-
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
         this.handleChangeNextCall = this.handleChangeNextCall.bind(this)
