@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Dropdowns from './formComponents/Dropdowns'
 import Input from './formComponents/Input'
+import TextArea from './formComponents/TextArea'
 import DatePickerSelector from './formComponents/DatePickerSelector'
 import moment from 'moment'
 
@@ -83,11 +84,17 @@ class OfferForm extends Component {
                             val={this.state.address}
                             changeFn={this.handleChange}/>
 
-                        <Input name='info' 
+                        <TextArea name='info' 
                             label='Долълнително Инфо' 
                             type='text'
                             val={this.state.info}
                             changeFn={this.handleChange}/>
+                        
+                        {/* <Input name='info' 
+                            label='Долълнително Инфо' 
+                            type='text'
+                            val={this.state.info}
+                            changeFn={this.handleChange}/> */}
 
                         <Input name='propertyOwnerName' 
                             label='Име на Собственик' 
