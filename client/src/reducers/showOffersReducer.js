@@ -6,16 +6,26 @@ export default function(state = null, action){
     switch (action.type) {
 
         case types.GET_OFFERS:
-            // console.log('action.type GET_OFFERS')
-            // console.log('action.payload: ', action.payload)
-            let newObj1 = JSON.stringify(action.payload)
-            newObj1 = JSON.parse(newObj1)
+
+            let offersInfo = JSON.stringify(action.payload)
+            offersInfo = JSON.parse(offersInfo)
+            console.log(offersInfo.offers)
+            offersInfo.offers = offersInfo.offers.map((e)=>{
+                e.floor = e.floor + ' ет.'
+                e.price = e.price + ' евро'
+                e.area = e.area + ' кв.'
+                return e
+            })
+
+            console.log(
+                offersInfo.offers
+            )
             return {
-                offers: newObj1.offers, 
-                page: newObj1.page, 
-                countOffers: newObj1.countOffers, 
-                offersPerPage:newObj1.offersPerPage,
-                lastPageNbr: newObj1.lastPageNbr
+                offers: offersInfo.offers, 
+                page: offersInfo.page, 
+                countOffers: offersInfo.countOffers, 
+                offersPerPage:offersInfo.offersPerPage,
+                lastPageNbr: offersInfo.lastPageNbr
             }
         
         default:

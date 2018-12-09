@@ -8,6 +8,7 @@ import DatePickerSelector from './formComponents/DatePickerSelector'
 import Input from './formComponents/Input'
 import moment from 'moment'
 
+
 class OffersFilter extends Component {
     constructor(props){
         super(props)
@@ -110,15 +111,16 @@ class OffersFilter extends Component {
                     </div>    
                 </div>
                 <div>
-                    <div className='col-md-2'>
-                        <button style={btnStyle}
+                    <div className='col-md-2 '>
+                        <button 
+                        // style={btnStyle}
                         name='search' 
                         onClick={this.clickBtn} 
-                        className='btn btn-md btn-primary'>Търси</button>
+                        className='border-radius-1 width-100 button btn-background-2'>Търси</button>
                         <button style={btnStyle}
                         name='clear' 
                         onClick={this.clickBtn} 
-                        className='btn btn-md btn-warning'>Изчисти</button>
+                        className='border-radius-1 width-100 button btn-background-5'>Изчисти</button>
                     </div>  
                 </div>
             </div>
