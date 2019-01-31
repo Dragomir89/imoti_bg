@@ -17,7 +17,6 @@ class EditFormOffer extends Component {
             let phoneNumber2 = props.offer.phoneNumbers[1] ? props.offer.phoneNumbers[1] : ''
             let phoneNumber3 = props.offer.phoneNumbers[2] ? props.offer.phoneNumbers[2] : ''
             this.setState( {phoneNumber,phoneNumber2, phoneNumber3} )
-        
         }
     }
 
@@ -26,8 +25,8 @@ class EditFormOffer extends Component {
         this.props.getOffer(paramId)
     }
 
-    submitBtn(updatedOffer){
-        const changedPhones=[]
+    setChangetPhones(updatedOffer) {
+        let changedPhones = []
 
         if(updatedOffer.phoneNumber !== this.state.phoneNumber )
             changedPhones.push({from:this.state.phoneNumber, to:updatedOffer.phoneNumber}) 
@@ -36,12 +35,16 @@ class EditFormOffer extends Component {
         if(updatedOffer.phoneNumber3 !== this.state.phoneNumber3)
             changedPhones.push({from:this.state.phoneNumber3, to:updatedOffer.phoneNumber3})
         
-        updatedOffer.changedPhones = changedPhones
+        return changedPhones
+    }   
+
+    submitBtn(updatedOffer) {
+        
+        updatedOffer.changedPhones = this.setChangetPhones(updatedOffer)
         updatedOffer.nextCall = updatedOffer.nextCall ? updatedOffer.nextCall : new Date()
         updatedOffer.lastCall = updatedOffer.lastCall ? updatedOffer.lastCall : new Date()
         this.props.updateOffer(updatedOffer)
     }
-
 
     render() {
         

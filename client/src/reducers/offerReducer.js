@@ -18,11 +18,10 @@ export default (state = {}, action) => {
     switch (action.type) {
 
         case types.GET_OFFER:
-            
             return {
                 ...action.payload,
                 ...getDropdowsDefaultValues(action.payload), 
-                ...getPhoneNumbers(action.payload.phoneNumbers = [])
+                ...getPhoneNumbers(action.payload.phoneNumbers)
             }
 
 

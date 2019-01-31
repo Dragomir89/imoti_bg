@@ -4,8 +4,8 @@ const ObjectId = mongoose.Schema.ObjectId;
 
 const phoneSchema = new Schema({
    
-    phoneNumber: {type: String, required: true},
-    offerId:     { type: ObjectId, required: true, ref: 'offers' }
+    phoneNumber: {  type: String, required: true },
+    offerId:     {  type: ObjectId, required: true, ref: 'offers' }
    
 })
   

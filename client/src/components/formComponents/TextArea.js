@@ -1,13 +1,13 @@
 import React from 'react'
 
 
-const Input = (props)=>{
+const TextArea = (props)=>{
 
     return(
         <div className="form-group">
             <label 
                 htmlFor={props.name}>{props.label}</label>
-                <input 
+                <textarea 
                     onChange={props.changeFn}
                     value={props.val || ''}
                     type={props.type} 
@@ -20,4 +20,4 @@ const Input = (props)=>{
 
 }
 
-export default Input
+export default TextArea

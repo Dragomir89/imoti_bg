@@ -7,7 +7,6 @@ import OfferForm from './OfferForm'
 class AddOffer extends Component{
     constructor(props){
         super(props)
-    
         this.createOffer = this.createOffer.bind(this)
     }
 
@@ -41,7 +40,7 @@ function mapDispatchToProps(dispatch){
         }
     }
 }
-function mapStateToProps(state){
+function mapStateToProps(state){    
     return{
         addOfferReducer: state.addOfferReducer
     }
