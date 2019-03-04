@@ -9,7 +9,7 @@ export default function(state = null, action){
 
             let offersInfo = JSON.stringify(action.payload)
             offersInfo = JSON.parse(offersInfo)
-            console.log(offersInfo.offers)
+            // console.log(offersInfo.offers)
             offersInfo.offers = offersInfo.offers.map((e)=>{
                 e.floor = e.floor + ' ет.'
                 e.price = e.price + ' евро'
@@ -17,9 +17,9 @@ export default function(state = null, action){
                 return e
             })
 
-            console.log(
-                offersInfo.offers
-            )
+            // console.log(
+            //     offersInfo.offers
+            // )
             return {
                 offers: offersInfo.offers, 
                 page: offersInfo.page, 
