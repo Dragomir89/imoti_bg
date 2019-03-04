@@ -22,12 +22,14 @@ class ShowOffers extends Component {
     }
 
     componentDidMount () {
+        console.log('component did mount !')
         const page = this.props.match.params.page ? this.props.match.params.page : 1
         let search = this.props.location.search
 
         if (search) {
             search = search.substr(1)
             search = qs.parse(search)
+            console.log(search)
             this.setState({ filterValues: search })
         }
 
@@ -86,13 +88,6 @@ class ShowOffers extends Component {
                         pageRangeDisplayed={7}
                         onChange={this.handlePageChange}
                     />
-
-                    {/* <Pagination 
-                        currentPage={this.props.state.page}
-                        baseUrl='/show-offers/'
-                        querystring={this.props.location.search}
-                        lastPage={this.props.state.lastPageNbr}
-                    /> */}
 
                 </div>
             )

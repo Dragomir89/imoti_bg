@@ -14,10 +14,10 @@ class OffersFilter extends Component {
         super(props)
 
         const values = this.props.selectedValues 
-
         if(values){
-            const { constructionType, propertyType, neighborhood, state} = values
-            this.state = {constructionType, propertyType, neighborhood, state}
+            const { constructionTypeId, propertyTypeId, neighborhoodId, state} = values
+            this.state = { constructionTypeId, propertyTypeId, neighborhoodId, state}
+            
         }else{
             this.state = {
                 constructionTypeId:'',
