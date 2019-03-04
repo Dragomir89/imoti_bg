@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import myActions from '../actions/myActions'
 import { connect } from 'react-redux'
@@ -13,7 +14,7 @@ class ShowOffers extends Component {
         super(props)
 
         this.state = {
-            filterValues: null,
+            filterValues: this.getFilters(),
             activePage: 1,
             searchQyery: ''
         }
@@ -21,22 +22,41 @@ class ShowOffers extends Component {
         this.handlePageChange = this.handlePageChange.bind(this)
     }
 
-    componentDidMount () {
-        console.log('component did mount !')
-        const page = this.props.match.params.page ? this.props.match.params.page : 1
+    getFilters() {
+        console.log('get filters')
+       
         let search = this.props.location.search
-
+        console.log(search)
         if (search) {
             search = search.substr(1)
             search = qs.parse(search)
-            console.log(search)
-            this.setState({ filterValues: search })
+            
+            return search            
         }
+        return null
+    }
 
+    componentDidMount () {
+        console.log('component did mount !')
+        const page = this.props.match.params.page ? this.props.match.params.page : 1
+        // let search = this.props.location.search
+        // console.log('search')
+        // console.log(search)
+        // if (search) {
+        //     search = search.substr(1)
+        //     search = qs.parse(search)
+        //     console.log(search);
+        //     this.setState({ filterValues: search })
+        //     console.log(this.state)
+            
+        // }
+        console.log('filter values')
+        console.log(this.state)
         this.props.getData(page, this.props.location.search)
     }
 
     componentDidUpdate () {
+        console.log('componentDidUpdate')
         if (!this.props.state) {
             return
         }
@@ -68,6 +88,8 @@ class ShowOffers extends Component {
     render () {
 
         if (this.props.state) {
+            console.log('render ------------------------')
+            console.log(this.state);
             return (
                 <div className='row'>
                     <div className='col-md-3'>
