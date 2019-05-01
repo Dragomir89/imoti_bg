@@ -20,11 +20,6 @@ const app = express()
 app.use(bodyParser())
 mongoose.connect(keys.mongoURI,()=>{
     console.log('mongo work ')
-    
-    Offer.update({},{isDeleted: false},{multi: true}).then((res)=>{
-        console.log('all updated')
-        console.log(res);
-    });
 })
 const cookieExpiredTime = 30 * 24 * 60 * 60 * 1000
 const cookieSicret = keys.cookieKey
