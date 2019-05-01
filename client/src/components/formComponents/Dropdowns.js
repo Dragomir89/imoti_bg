@@ -6,6 +6,10 @@ import actions from '../../actions/myActions'
 
 class Dropdowns extends Component{
     
+    constructor(props) {
+        super(props)
+    }
+
     componentDidMount(){
         this.props.getOptions()  
     }
@@ -16,7 +20,7 @@ class Dropdowns extends Component{
             return (<h2>Loading .... </h2>)
         }
 
-        const { constructionTypeId, propertyTypeId, stateId, neighborhoodId} = this.props.defaultValues || {} 
+        const { constructionTypeId, propertyTypeId, state, neighborhoodId} = this.props.defaultValues || {} 
 
         return(
         <div className='row'>
@@ -41,7 +45,7 @@ class Dropdowns extends Component{
             </div>
             <div className='col-md-3'>
                 <Select 
-                    defaultValue={ stateId }
+                    defaultValue={ state }
                     name={'state'} 
                     label='Състояние'
                     changeFn={ this.props.changeHandler } 

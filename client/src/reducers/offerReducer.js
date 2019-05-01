@@ -10,7 +10,7 @@ function getPhoneNumbers(phoneNumbers){
 function getDropdowsDefaultValues(offer){
     const {neighborhoodId, constructionTypeId, propertyTypeId, state} = offer
     return {
-        dropdownsValues: {neighborhoodId, constructionTypeId, propertyTypeId, stateId: state}
+        dropdownsValues: {neighborhoodId, constructionTypeId, propertyTypeId, state}
     }
 }
 export default (state = {}, action) => {
