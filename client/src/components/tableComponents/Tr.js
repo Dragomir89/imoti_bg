@@ -4,7 +4,7 @@ import myActions from '../../actions/myActions';
 
 
 const Tr =(props)=>{
-
+    
     const {
         address, 
         area, 
