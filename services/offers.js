@@ -126,6 +126,7 @@ function calcLastPageNbr(countOffers, offersPerPage){
 function getAllOffers(queryParams, page, offersPerPage){
     console.log('getAllOffers')
     const filters = createFilters(queryParams)
+    filters.isDeleted = false
     const skipVal = calculatePaginationDetails(page, offersPerPage)
 
     function getRes(resolve, reject){
@@ -188,7 +189,7 @@ function addPhonesToOffer(offerId){
                     return
                 }
                 const {phoneNumbers} = offer
-                // let promisePhones = []
+
                 if(phoneNumbers && phoneNumbers.length !== 0){
                     
                     saveArrayOfphones(phoneNumbers, offer._id).then((res)=>{
@@ -216,7 +217,7 @@ function addPhonesToOffer(offerId){
 function addOffer(data){
     console.log('/api/post-offer --- addOffer')
     console.log(data)
-    // let userId = req.user ? req.user._id : null
+    
     let userId = null
     function getRes(resolve, reject){
         let phoneNumbers = [];

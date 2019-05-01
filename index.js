@@ -20,6 +20,11 @@ const app = express()
 app.use(bodyParser())
 mongoose.connect(keys.mongoURI,()=>{
     console.log('mongo work ')
+    
+    Offer.update({},{isDeleted: false},{multi: true}).then((res)=>{
+        console.log('all updated')
+        console.log(res);
+    });
 })
 const cookieExpiredTime = 30 * 24 * 60 * 60 * 1000
 const cookieSicret = keys.cookieKey
@@ -36,7 +41,11 @@ app.use(passport.session())
 require('./routes/authRoutes')(app)
 require('./routes/offers')(app)
 
+const Offer = mongoose.model('offers')
 if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development'){
+
+
+
     app.use(express.static('client/build')) 
 
     const path = require('path')

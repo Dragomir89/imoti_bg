@@ -21,8 +21,9 @@ const offerSchema = new Schema({
     addedOn:            { type: Date },
     addedFrom:          { type: ObjectId, ref: 'users' },
     lastCall:           { type: Date },
-    nextCall:           { type: Date }   
-
+    nextCall:           { type: Date },   
+    isDeleted:          { type: Boolean, default: false },
+    deletedOn:          { type: Date, default: null }           
 })
 
 // offerSchema.post('save', function(error, doc, next) {

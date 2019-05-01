@@ -8,7 +8,6 @@ import moment from 'moment'
 class OfferForm extends Component { 
     constructor(props){
         super(props)
-
         this.state = { ...props }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeLastCall = this.handleChangeLastCall.bind(this)
@@ -33,6 +32,19 @@ class OfferForm extends Component {
         this.setState({nextCall})
     }
 
+    showDeleteBtn() {
+        
+        if(!this.props.isDeleted && this.props.deleteOffer) {
+            return (
+            <button onClick={(e)=>{
+                    e.preventDefault()
+                    this.props.deleteOffer(this.state)
+                }} 
+                className="btn btn-danger" style={{position: 'absolute', right: '0'}}>Изтрий</button>
+            )
+        }
+        return null
+    }
 
     render(){
         return(
@@ -138,12 +150,18 @@ class OfferForm extends Component {
                     
                 </div>
                 
-                <button 
+                <div style={{position: 'relative'}}>
+                    <button 
                     onClick={(e)=>{
                         e.preventDefault()
                         this.props.submitForm(this.state)
                     }} 
-                    className="btn btn-success">Запази</button>
+                    className="btn btn-success" style={{marginRight: '50px'}}>Запази</button>
+                    
+                    {this.showDeleteBtn()}`
+                </div>
+                
+                
             </form>
             </div>
         )
