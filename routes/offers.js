@@ -13,7 +13,7 @@ const url = require('url')
 
 
 module.exports = (app) =>{
-    // console.log(app)   
+
     app.get('/api/delete/:id', (req, res) => {
     
         const offerId = req.params.id
@@ -89,9 +89,6 @@ module.exports = (app) =>{
         const offersPerPage = 10
         const page =  Number(req.params.page)
         const { phoneNumber } = queryParams
-
-        console.log(queryParams)
-
 
         phoneNumber ?        
         offersCtrl.findOffersByPhone(phoneNumber, page, offersPerPage)
