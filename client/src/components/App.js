@@ -13,7 +13,11 @@ import EditFormOffer from './EditOfferForm'
 
 
 const HomePage = ()=>{
-    return(<h1>HOME PAGE</h1>)
+    return(
+        <div className="home-wrapper">
+            <h1 className="home-title">LC Brokers</h1>
+        </div>
+    )
 }
 
 class App extends Component {

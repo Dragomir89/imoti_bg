@@ -1,6 +1,7 @@
 import axios from 'axios'
 import types from './types'
 import toastr from 'toastr'
+import history from '../history'
 
 export default {
     //// repair phone table
@@ -140,10 +141,22 @@ export default {
     getOffer:(id)=>{
         return (dispatch) =>{
             axios.get('/api/offer/'+ id ).then((res)=>{
+             
                 return dispatch({
                     type: types.GET_OFFER, 
                     payload:res.data
                 })
+            })   
+        }
+    },
+    deleteOffer:(id)=>{
+        return (dispatch) =>{
+            axios.get('/api/delete/'+ id ).then((res)=>{
+                toastr.error('Офертата беше изтрита ')
+                console.log('server responce')
+                console.log(res.data)
+                history.goBack()
+                return
             })   
         }
     }

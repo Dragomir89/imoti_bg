@@ -9,6 +9,7 @@ class EditFormOffer extends Component {
 
         this.state={}
         this.submitBtn = this.submitBtn.bind(this)
+        this.deleteOffer = this.deleteOffer.bind(this)
     }
 
     componentWillReceiveProps(props){
@@ -46,6 +47,12 @@ class EditFormOffer extends Component {
         this.props.updateOffer(updatedOffer)
     }
 
+    deleteOffer(offer) {
+        console.log('deleted offer')
+        console.log(offer)
+        this.props.deleteOffer(offer._id)
+    }
+
     render() {
         
         if(this.props.offer.state) {
@@ -53,6 +60,7 @@ class EditFormOffer extends Component {
             return (
                 <OfferForm 
                     submitForm={this.submitBtn}
+                    deleteOffer={this.deleteOffer}
                     {...this.props.offer}
                 />
             )
@@ -71,11 +79,16 @@ function mapStateToProps(state){
 }
 function mapDispatchToProps(dispatch){
     return {
-        updateOffer: (params)=>{
+        updateOffer: (params) => {
             dispatch(myActions.updateOffer(params))
         },
-        getOffer:(id)=>{
+        
+        getOffer: (id) => {
             dispatch(myActions.getOffer(id))
+        },
+
+        deleteOffer: (id) => {
+            dispatch(myActions.deleteOffer(id))
         }
         
     }
