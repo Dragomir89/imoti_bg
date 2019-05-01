@@ -14,7 +14,23 @@ const url = require('url')
 
 module.exports = (app) =>{
     // console.log(app)   
- 
+    app.get('/api/delete/:id', (req, res) => {
+    
+        const offerId = req.params.id
+        console.log('deleted offer Id ---> ' + offerId)
+        const updatedOffer = {
+            deletedOn: new Date(),
+            isDeleted: true
+        }
+
+        Offer.findOneAndUpdate( {_id: offerId}, updatedOffer)
+        .then((oldOffer)=>{
+            console.log("Deleted offer is: ")
+            console.log(oldOffer)
+            res.send({deletedOffer: oldOffer})
+        })        
+    })
+
     app.post('/api/add-details', (req, res)=>{
         
         let data = req.body
@@ -186,12 +202,6 @@ module.exports = (app) =>{
 
     app.post('/api/offer',(req, res)=>{
         console.log('/api/post-offer')
-        console.log('======== REQIEST BODY =========')
-        console.log('=================')
-        console.log(req.body)
-        console.log('=================')
-        console.log('=================')
-        // let userId = req.user ? req.user._id : null
 
         offersCtrl.addOffer(req.body).then((returnObj)=>{
             res.send(returnObj)

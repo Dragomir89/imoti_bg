@@ -34,7 +34,7 @@ class Header extends Component{
                 <Link 
                   className="navbar-brand" 
                   to={this.props.auth ? '/' : '/'}
-                >Imoti-BG</Link>
+                >LC Brokers</Link>
               </div>
               <ul className="nav navbar-nav">
               {/* className="active" */}
