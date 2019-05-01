@@ -51,9 +51,8 @@ function getOffer(id) {
 }
 
 function createFilters(queryParams) {
-    let searchObj = null
+    let searchObj = {isDeleted: false}
     if(queryParams) {
-        searchObj = {}
         if(queryParams.constructionTypeId) { 
             searchObj.constructionTypeId = queryParams.constructionTypeId
         }
@@ -81,7 +80,7 @@ function findOffersByPhone(phoneNumber, page, offersPerPage){
             let promiseOffers = []
             numbers.forEach((e)=>{
                 promiseOffers.push(
-                    Offer.findById(e.offerId)
+                    Offer.findOne({_id:e.offerId, isDeleted: false})
                     .populate("propertyTypeId")
                     .populate("constructionTypeId")
                     .populate("state")
@@ -89,6 +88,8 @@ function findOffersByPhone(phoneNumber, page, offersPerPage){
             })
 
             Promise.all(promiseOffers).then((offers)=>{
+                
+                offers = offers.filter( e => e) //// filtering of null values 
 
                 let countOffers= offers.length
                 const lastPageNbr = calcLastPageNbr(countOffers, offersPerPage)
@@ -118,19 +119,16 @@ function calcLastPageNbr(countOffers, offersPerPage){
     if(!Number.isInteger(lastPageNbr)){
         lastPageNbr = Math.floor(lastPageNbr) + 1
     }
-    console.log('Namereni Oferti --> ' + countOffers)
-    console.log('lastPageNbr --> ' + lastPageNbr)
+
     return lastPageNbr
 }
 
 function getAllOffers(queryParams, page, offersPerPage){
-    console.log('getAllOffers')
     const filters = createFilters(queryParams)
-    filters.isDeleted = false
     const skipVal = calculatePaginationDetails(page, offersPerPage)
 
     function getRes(resolve, reject){
-        
+
         Offer.find(filters)
         .skip(skipVal)  
         .limit(offersPerPage)
@@ -139,7 +137,7 @@ function getAllOffers(queryParams, page, offersPerPage){
         .populate("state")
         .populate("neighborhoodId")
         .then((offers)=>{
-
+            
             Offer.count(filters, function(err, countOffers) {
                 const lastPageNbr = calcLastPageNbr(countOffers, offersPerPage)
                 resolve({
@@ -169,8 +167,6 @@ function saveArrayOfphones(phoneNumbers, offerId){
             promisePhones.push(phone.save())
         })
         Promise.all(promisePhones).then((res)=>{
-            console.log('zapazeni telefoni')
-            console.log(res)
             resolve({msg: 'телефоните Бяха запазени', res})
         })
     }
@@ -249,15 +245,9 @@ function addOffer(data){
             nextCall,
             lastCall
         })
-        console.log(newOffer)
 
         newOffer.save().then((offer)=>{
-            console.log('SAVED OFFER...')            
-            console.log(offer)
-
             saveArrayOfphones(phoneNumbers, offer._id).then((phones)=>{
-                console.log('SAVED PHONES...')
-                console.log(phones)
                 resolve({phones, offer , success:true})
             }).catch((err)=>{
                 reject({error: err})    
